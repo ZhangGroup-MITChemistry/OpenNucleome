@@ -4,7 +4,7 @@ This example is the HFF nucleus with nuclear landmarks (lamina, speckle, nucleol
 
 The model has 60642 chromosome beads, 300 nucleolus beads, 600 speckle beads, and 8000 lamina beads.
 
-We implemented the adaptive learning rate optimization (adam) to coarsely optimize the ideal (intra) potential, the compt-compt potential, and the inter potential with Hi-C data; chr-lamina and chr-speckle potential with sequencing data (DamID and TSA-Seq). All the optimization scripts are under the folder "/OpenNucleome/examples".
+We implemented the adaptive learning rate optimization (adam) to coarsely optimize the ideal (intra) potential, the compt-compt potential, and the inter potential with Hi-C data; chr-lamina and chr-speckle potential with sequencing data (DamID and TSA-Seq). All the optimization scripts are under the folder "/OpenNucleome/analysis_code".
 
 To run the simulation:
 ```
