@@ -1,5 +1,3 @@
-# OpenNucleome
-
 ## HFF model with nuclear landmarks at 100KB resolution
 
 This example is the HFF nucleus with nuclear landmarks (lamina, speckle, nucleolus) at 100KB resolution.
@@ -15,6 +13,8 @@ chmod 777 run.sh
 ./run.sh
 ```
 
+human.pdb: the initial structure
+
 ## Files about the chr-nuclear landmarks
 DamID_8900.txt: chr-lamina potential parameters
 
@@ -29,4 +29,3 @@ ideal_chromosome.txt: intra-chromosome potential parameters
 eij_compartment_uniform.txt: compt-compt potential parameters
 
 inter_chromosome.txt: inter-chromosome potential parameters
-
