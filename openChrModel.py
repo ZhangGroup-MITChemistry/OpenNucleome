@@ -206,7 +206,7 @@ class openChrModel:
 
         self.chrSystem.addForce(softCore)
 
-    def addIdealPotential(self, ICFile, sigmatanhIC = 11.349, rctanhIC = 0.646, dendIC = 1000, cutOffIC = 4.0):
+    def addIdealPotential(self, ICFile, sigmatanhIC = 6.218, rctanhIC = 0.702, dendIC = 1000, cutOffIC = 4.0):
         '''
         Adds the Intra-chromosome Ideal Chromosome potential using custom values for interactions between beads separated by a genomic distance :math:`d`. 
         The parameters :sigmatanhIC and rctanhIC are part of the probability of crosslink function :math:`f(r_{i,j}) = \frac{1}{2}\left( 1 + tanh\left[sigmatanhIC(rctanhIC - r_{i,j}\right] \right)`, 
@@ -253,7 +253,7 @@ class openChrModel:
 
         self.chrSystem.addForce(IC)
 
-    def addType2TypePotential(self, TypesTable, sigmatanhLP = 11.349, rctanhLP = 0.646, crossLPcutOff = 4.0):
+    def addType2TypePotential(self, TypesTable, sigmatanhLP = 6.218, rctanhLP = 0.702, crossLPcutOff = 4.0):
         """
         Adds the type-to-type potential using custom values for interactions between the chromatin types. 
         The parameters :sigmatanhLP and rctanhLP are part of the probability of crosslink function :math:`f(r_{i,j}) = \frac{1}{2}\left( 1 + tanh\left[sigmatanhLP(rctanhLP - r_{i,j}\right] \right)`, where :math:`r_{i,j}` is the spatial distance between loci (beads) *i* and *j*.
@@ -273,9 +273,9 @@ class openChrModel:
         +---+-------+-------+-------+-------+
 
         sigmatanhLP (float, required):
-          Parameter in the probability of crosslink function. (Default value = 11.349).
+          Parameter in the probability of crosslink function. (Default value = 6.218).
         rctanhLP (float, required):
-          Parameter in the probability of crosslink function. (Default value = 0.646).
+          Parameter in the probability of crosslink function. (Default value = 0.702).
         TypesTable (file, required):
           A txt file containing the type-to-type interactions. (Default value: :code:`None`).
         """
@@ -422,7 +422,7 @@ class openChrModel:
 
         self.chrSystem.addForce(LJNuc)
 
-    def addSpeLJ(self, epsSpe = 8.0, sigmaSpe = 0.5, cutOffSpe = 2.0, XiSpe = 0.95, cutOffYukawa = 6.0):
+    def addSpeLJ(self, epsSpe = 8.0, sigmaSpe = 0.5, cutOffSpe = 2.0, XiSpe = 0.85, cutOffYukawa = 6.0):
         """
         add nonbonded rescaled LJpotential between Spe-Spe
         epsSpe: float, epsilon of LJ, default: 8.0
@@ -598,7 +598,7 @@ class openChrModel:
 
         self.chrSystem.addForce(DamID_energy)
 
-    def addinter_chrom(self, InterFile, sigmatanh_inter = 11.349, rctanh_inter = 0.646, cutOff_inter = 4.0):
+    def addinter_chrom(self, InterFile, sigmatanh_inter = 6.218, rctanh_inter = 0.702, cutOff_inter = 4.0):
         inter_energy = ("mapid(m1,m2) * (f * step(rctanh_inter - r) + g * step(r - rctanh_inter) - 0.5*(rctanh_inter/cutOff_inter)^4) * step(cutOff_inter - r);"
                         "f = 0.5*(1. + tanh(sigmatanh_inter*(rctanh_inter - r)));"
                         "g = 0.5*(rctanh_inter / r) ^ 4;")

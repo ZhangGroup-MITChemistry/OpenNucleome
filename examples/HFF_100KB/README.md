@@ -15,6 +15,18 @@ chmod 777 run.sh
 
 human.pdb: the initial structure
 
+parameter.py: put all the potential parameter files into this folder
+
+simulation.py: run the molecular dynamics simulation
+
+openChrModel.py: the source code
+
+coor_transformation.py: convert the position used in OpenMM to reduced unit
+
+final_frame.py: extract the last frame of the simulation to restart the next iteration
+
+/potential: folder that contains all the potential parameter files
+
 ## Files about the chr-nuclear landmarks
 DamID_8900.txt: chr-lamina potential parameters
 
