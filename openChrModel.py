@@ -12,7 +12,28 @@ import mdtraj as md
 import mdtraj.reporters
 
 class openChrModel:
+    '''
+    The openChrModel class performes the whole genome dynamics based on the compartment annotations sequence of chromosomes. The simulations can be performed using customed values for the type-to-type, Ideal Chromosome parameters, and Inter Chromosome parameters.
+    '''
     def __init__(self, temperature = 1.0, gamma = 0.1, timestep = 0.01, mass_scale=1.0):
+        '''
+        Initialize the whole genome model.
+
+        Parameters
+        ----------
+        temperature (float, required) : 
+            Temperature in reduced units. (Default value = 1.0).
+
+        gamma (float, required) :
+            Friction/Damping constant in units of reciprocal time (:math:`1/\tau`). (Default value = 0.1)
+
+        timestep (float, required):
+            Simulation time step in units of :math:`\tau`. (Default value = 0.01)
+
+        mass_scale (float, required):
+            Mass scale used in units of :math:`\mu`. (Default value = 1.0).
+
+        '''
         self.temperature = temperature / 0.008314 # temperature in reduced unit
         self.gamma = gamma # fiction coefficient (1/time)
         self.timestep = timestep  # timestep in reduced unit (time)
@@ -21,9 +42,14 @@ class openChrModel:
         self.chrMass = 10.0 * u.amu * mass_scale
 
     def createSystem(self, PDBFile):
-        """
-        PDBFile: the path to the chromosome PDB file
-        """
+        '''
+        Create the system with initial configurations.
+
+        Parameters
+        ----------
+
+        PDBFile: the path to the chromosome PDB file, including lamina, speckles, and nucleoli.
+        '''
         chrPDBpath = PDBFile
         self.chrPDB = mmapp.PDBFile(chrPDBpath)
 
@@ -39,7 +65,7 @@ class openChrModel:
         self.Ntotal = len(self.chrPositions) #total number of chr beads
         self.compartType = [] #compartment type information
         self.molType = [] #mol type information
-        self.beadGroups = [[] for _ in range(7)] # group the indexes of atoms by their types; if you do not want to add some nuclear landmarks, then use the different value. compartment A: 1, compartment B: 2, regions around the centromeres: 3, centromeres: 4, nucleoli: 5, speckles: 6, lamina: 7
+        self.beadGroups = [[] for _ in range(8)] # group the indexes of atoms by their types; if you do not want to add some nuclear landmarks, then use the different value. compartment A: 1, compartment B: 2, regions around the centromeres: 3, centromeres: 4, nucleoli: 5, dP-speckles: 6, P-speckles: 7, lamina: 8
         self.chrGroups = [[] for _ in range(46)] # represent the 46 chromosomes of human
         prevResID = -1
         self.chrResidues = [] #(start, end) index of the atoms for each residue
@@ -51,7 +77,7 @@ class openChrModel:
             self.molType.append(int(a.residue.index))
 
             #add atom into the system with mass = chrMass
-            m = 1. if self.compartType[-1] != 6 else 0. # set mass of Lamina beads to zero to freeze them
+            m = 1. if self.compartType[-1] != 7 else 0. # set mass of Lamina beads to zero to freeze them
             self.chrSystem.addParticle(self.chrMass * m)
 
             #find the start and end index in each residue, self.chrResidue will be (start, end, residue) for each residue after self.constructTopology
@@ -68,7 +94,7 @@ class openChrModel:
         self.N_chr = 0
         self.N_chr_nuc = 0
         self.N_chr_nuc_spec = 0
-        for i in range(6):
+        for i in range(7):
             if i<=3:
                 self.N_chr += len(self.beadGroups[i])
                 self.N_chr_nuc += len(self.beadGroups[i])
@@ -86,14 +112,24 @@ class openChrModel:
         self.constructTopology()
 
     def generateElement(self):
-        name2Element = ['ASP', 'GLU', 'HIS', 'LYS', 'ARG', 'ASN', 'GLN']
+        '''
+        Generate elements for each coarse-grained bead. 
+        
+        This function is called automatically when creating a system.
+        '''
+
+        name2Element = ['ASP', 'GLU', 'HIS', 'LYS', 'ARG', 'ASN', 'GLN', 'PRO']
         self.Elements = []
-        for i in range(7):
-            m = 1. if i!= 6 else 0.
-#           self.Elements.append(mmapp.element.Element.getBySymbol(name2Element[i]))
+        for i in range(8):
+            m = 1. if i!= 7 else 0.
             self.Elements.append(mmapp.Element(1000+i, name2Element[i], name2Element[i], self.chrMass * m))
 
     def constructTopology(self):
+        '''
+        Construct the topology for the system.
+
+        This function is called automatically when creating a system.
+        '''
         # Construct topology, add chain, residues, atoms, bonds
         self.chrTopo = mmapp.topology.Topology()
         chrChain = self.chrTopo.addChain('0')
