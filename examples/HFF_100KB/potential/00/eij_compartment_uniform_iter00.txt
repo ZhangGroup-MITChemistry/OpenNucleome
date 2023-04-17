@@ -1,10 +1,10 @@
-pair_coeff         1    1  tanhlr/cut/domainab        0.000000    -0.038762    -0.038762 ${rctanh}  ${sigmatanh}
-pair_coeff         1    2  tanhlr/cut/domainab        0.000000     0.028136     0.028136 ${rctanh}  ${sigmatanh}
-pair_coeff         1    3  tanhlr/cut/domainab        0.000000    -0.003272    -0.003272 ${rctanh}  ${sigmatanh}
+pair_coeff         1    1  tanhlr/cut/domainab        0.000000    -0.092593    -0.092593 ${rctanh}  ${sigmatanh}
+pair_coeff         1    2  tanhlr/cut/domainab        0.000000     0.052632     0.052632 ${rctanh}  ${sigmatanh}
+pair_coeff         1    3  tanhlr/cut/domainab        0.000000    -0.016974    -0.016974 ${rctanh}  ${sigmatanh}
 pair_coeff         1    4  tanhlr/cut/domainab        0.000000     0.000000     0.000000 ${rctanh}  ${sigmatanh}
-pair_coeff         2    2  tanhlr/cut/domainab        0.000000    -0.045713    -0.045713 ${rctanh}  ${sigmatanh}
-pair_coeff         2    3  tanhlr/cut/domainab        0.000000    -0.023134    -0.023134 ${rctanh}  ${sigmatanh}
+pair_coeff         2    2  tanhlr/cut/domainab        0.000000    -0.008239    -0.008239 ${rctanh}  ${sigmatanh}
+pair_coeff         2    3  tanhlr/cut/domainab        0.000000    -0.005967    -0.005967 ${rctanh}  ${sigmatanh}
 pair_coeff         2    4  tanhlr/cut/domainab        0.000000     0.000000     0.000000 ${rctanh}  ${sigmatanh}
-pair_coeff         3    3  tanhlr/cut/domainab        0.000000     0.010559     0.010559 ${rctanh}  ${sigmatanh}
+pair_coeff         3    3  tanhlr/cut/domainab        0.000000     0.018253     0.018253 ${rctanh}  ${sigmatanh}
 pair_coeff         3    4  tanhlr/cut/domainab        0.000000     0.000000     0.000000 ${rctanh}  ${sigmatanh}
 pair_coeff         4    4  tanhlr/cut/domainab        0.000000     0.000000     0.000000 ${rctanh}  ${sigmatanh}
