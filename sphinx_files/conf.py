@@ -27,6 +27,10 @@ author = 'Zhuohan Lao'
 import sys
 import os
 sys.path.append(os.path.abspath('..'))
+from OpenNucleome import __version__
+
+version = __version__
+release = version
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom

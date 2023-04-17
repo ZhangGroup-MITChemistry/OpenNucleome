@@ -265,7 +265,7 @@ class openChrModel:
 
     def addIdealPotential(self, ICFile, rctanhIC = 0.54, dendIC = 1000, cutOffIC = 2.0):
         '''
-        Add the Intra-chromosome Ideal Chromosome potential using custom values for interactions between beads separated by a genomic distance :math:`d`. 
+        Add the Intra-chromosomal ideal potential using custom values for interactions between beads separated by a genomic distance :math:`d`. 
 
         The parameter rctanhIC is part of the probability of crosslink function :math:`f(r_{i,j}) = \frac{1}{2}\left(1+tanh\left[(rctanhIC - r_{i,j})^{-5}+5(rctanhIC - r_{i,j})\right] \right)+\frac{1}{2}\left(1-tanh\left[(rctanhIC - r_{i,j})^{-5}+5(rctanhIC - r_{i,j})\right] \right)\left(\frac{rctanhIC}{r_{i,j}}\right)^4`, 
 
