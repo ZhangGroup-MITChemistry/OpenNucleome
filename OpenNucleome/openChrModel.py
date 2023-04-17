@@ -15,10 +15,10 @@ class openChrModel:
     '''
     The openChrModel class performes the whole genome dynamics based on the compartment annotations sequence of chromosomes.
     
-    The simulations can be performed using customed values for the type-to-type, Ideal Chromosome parameters, and Inter Chromosome parameters.
+    The simulations can be performed using customed values for the type-to-type, intra-chromosomal, and inter-chromosomal parameters.
     '''
     def __init__(self, temperature = 1.0, gamma = 0.1, timestep = 0.01, mass_scale=1.0):
-        '''
+        r'''
         Initialize the whole genome model.
 
         Parameters
@@ -150,7 +150,7 @@ class openChrModel:
             self.Allbonds.append((b.atom1, b.atom2))
 
     # The diameter of 100KB bead is 0.5; 1.0 for 1MB bead. For example, I set sigmaFene as 1.0, so currently, these parameters are for 1MB bead.
-    def addFeneBond(self, kfb = 30.0, r0 = 1.5, epsFene = 1.0, sigmaFene = 1.0, cutFene = 2.**(1./6.)):
+    def addFeneBond(self, kfb = 30.0, r0 = 1.5, epsFene = 1.0, sigmaFene = 1.0, cutFene = 1.12):
         '''
         Internal function that inits FENE bond force. The default parameters value is for the 1MB resolution.
         '''
@@ -209,15 +209,15 @@ class openChrModel:
         angle.setUsesPeriodicBoundaryConditions(False) #avoid periodic boundary
         self.chrSystem.addForce(angle)
 
-    def addSoftCore(self, epsSC = 1.0, sigmaSC = 0.5, cutOffSC = 0.5*(2.**(1./6.)), EcutSC = 4.0):
-        '''
+    def addSoftCore(self, epsSC = 1.0, sigmaSC = 0.5, cutOffSC = 0.56, EcutSC = 4.0):
+        r'''
         We plug the tanh potential into the WCA potential to represent the excluded volume effect;
 
         The softcore potential will only be applied to the chromosomes (type 1, 2, 3, 4).
 
         Here, we use step function to select the atoms.
 
-        When r < r_0SC, use tanh potential; r_0SC < r < cutOffSC, use WCA potential, r_0SC ~ 0.485
+        When :math:`r < r_{sc}`, use tanh potential; :math:`r_{sc} < r < r_{cutoff}`, use WCA potential, where :math:`r_{sc} \approx 0.485`.
 
         Parameters
         ----------
@@ -264,10 +264,10 @@ class openChrModel:
         self.chrSystem.addForce(softCore)
 
     def addIdealPotential(self, ICFile, rctanhIC = 0.54, dendIC = 1000, cutOffIC = 2.0):
-        '''
+        r'''
         Add the Intra-chromosomal ideal potential using custom values for interactions between beads separated by a genomic distance :math:`d`. 
 
-        The parameter rctanhIC is part of the probability of crosslink function :math:`f(r_{i,j}) = \frac{1}{2}\left(1+tanh\left[(rctanhIC - r_{i,j})^{-5}+5(rctanhIC - r_{i,j})\right] \right)+\frac{1}{2}\left(1-tanh\left[(rctanhIC - r_{i,j})^{-5}+5(rctanhIC - r_{i,j})\right] \right)\left(\frac{rctanhIC}{r_{i,j}}\right)^4`, 
+        The parameter rctanhIC is part of the probability of crosslink function :math:`f(r_{i,j})=\frac{1}{2}\left(1+\text{tanh}\left[(r_c - r_{i,j})^{-5}+5(r_c - r_{i,j})\right] \right)+\frac{1}{2}\left(1-\text{tanh}\left[(r_c - r_{i,j})^{-5}+5(r_c - r_{i,j})\right] \right)\left(\frac{r_c}{r_{i,j}}\right)^4`, 
 
         where :math:`r_{i,j}` is the spatial distance between loci (beads) *i* and *j*.
 
@@ -280,7 +280,7 @@ class openChrModel:
             Cutoff of genomic separation (Default value = 1000 for the 100KB model).
 
         rctanhIC (float, required) : 
-            A good estimation of the bond length during the simulation (Default value = 0.54 for the 100KB model).
+            :math:`r_c` in the equation, a good estimation of the bond length during the simulation (Default value = 0.54 for the 100KB model).
 
         cutOffIC (float, required) : 
             Cutoff of Ideal potential (Default value = 2.0 for the 100KB model).
@@ -321,10 +321,12 @@ class openChrModel:
         self.chrSystem.addForce(IC)
 
     def addType2TypePotential(self, TypesTable, rctanhLP = 0.54, crossLPcutOff = 2.0):
-        '''
+        r'''
         Add the type-to-type potential using custom values for interactions between the chromatin types. 
 
-        The parameter rctanhLP is part of the probability of crosslink function :math:`f(r_{i,j}) = \frac{1}{2}\left(1+tanh\left[(rctanhLP - r_{i,j})^{-5}+5(rctanhLP - r_{i,j})\right] \right)+\frac{1}{2}\left(1-tanh\left[(rctanhLP - r_{i,j})^{-5}+5(rctanhLP - r_{i,j})\right] \right)\frac{rctanhLP}{r_{i,j}}^4`,
+        The parameter rctanhLP is part of the probability of crosslink function :math:`f(r_{i,j})=\frac{1}{2}\left(1+\text{tanh}\left[(r_c - r_{i,j})^{-5}+5(r_c - r_{i,j})\right] \right)+\frac{1}{2}\left(1-\text{tanh}\left[(r_c - r_{i,j})^{-5}+5(r_c - r_{i,j})\right] \right)\left(\frac{r_c}{r_{i,j}}\right)^4`,
+
+        where :math:`r_{i,j}` is the spatial distance between loci (beads) *i* and *j*.
 
         Parameters
         ----------
@@ -332,7 +334,7 @@ class openChrModel:
             The path to the type-to-type potential scaling factor txt file.
 
         rctanhLP (float, required) : 
-            A good estimation of the bond length during the simulation (Default value = 0.54 for the 100KB model).
+            :math:`r_c` in the equation, a good estimation of the bond length during the simulation (Default value = 0.54 for the 100KB model).
         
         crossLPcutOff (float, required) :
             Cutoff of Type-Type potential (Default value = 2.0 for the 100KB model).
@@ -376,7 +378,7 @@ class openChrModel:
 
         self.chrSystem.addForce(crossLP)   
 
-    def addparticle_hw(self, eps_p_hw = 1.0, sigma_p_hw = 0.75, cutoff_p_hw = 0.75*(2.**(1./6.))):
+    def addparticle_hw(self, eps_p_hw = 1.0, sigma_p_hw = 0.75, cutoff_p_hw = 0.84):
         '''
         Add nonbonded hard-wall potential between (chromosomes, speckles, nucleoli) and lamina
 
@@ -478,7 +480,7 @@ class openChrModel:
 
         self.chrSystem.addForce(LJNuc)
 
-    def addSpeLJ(self, epsSpe = 3.0, sigmaSpe66 = 0.5, cutOffSpe = 1.5, eps67 = 1., eps77 = 1., sigmaSpe67_77 = 0.5, cutOff67_77 = 0.5*2.**(1./6.)):
+    def addSpeLJ(self, epsSpe = 3.0, sigmaSpe66 = 0.5, cutOffSpe = 1.5, eps67 = 1., eps77 = 1., sigmaSpe67_77 = 0.5, cutOff67_77 = 0.56):
         """
         Add nonbonded rescaled LJpotential between Speckles-Speckles
 
@@ -580,10 +582,10 @@ class openChrModel:
         self.chrSystem.addForce(NAD_energy)
 
     def addTSA(self, tsaTable, sigmatanhtsa = 4., rctanhtsa = 0.75, cutOfftsa = 2.0):
-        '''
+        r'''
         Add nonbonded potential using custom values for interactions between chromosomes and Speckles
 
-        The parameters are part of the probability of function :math:`g(r_{i,j}) = \frac{1}{2}\left(1 + tanh\left[sigmatanhtsa(rctanhtsa - r_{i,j}\right] \right)`, where :math:`r_{i,j}` is the spatial distance between loci (beads) *i* and *j*.
+        The parameters are part of the probability of function :math:`g(r_{i,j}) = \frac{1}{2}\left(1 + \text{tanh}\left[\sigma(r_c - r_{i,j})\right] \right)`, where :math:`r_{i,j}` is the spatial distance between loci (beads) *i* and *j*.
 
         Parameters
         ----------
@@ -630,10 +632,10 @@ class openChrModel:
         self.chrSystem.addForce(tsa_energy)
 
     def add_p_DamID(self, DamIDTable, sigmatanh_p_damid = 4., rctanh_p_damid = 0.75, cutOff_p_damid = 2.0):
-        '''
+        r'''
         Add nonbonded potential using custom values for interactions between chromosomes and Lamina
 
-        The parameters are part of the probability of function :math:`g(r_{i,j}) = \frac{1}{2}\left(1 + tanh\left[sigmatanh_p_damid(rctanh_p_damid - r_{i,j}\right] \right)`, where :math:`r_{i,j}` is the spatial distance between loci (beads) *i* and *j*.
+        The parameters are part of the probability of function :math:`g(r_{i,j}) = \frac{1}{2}\left(1 + \text{tanh}\left[\sigma(r_c - r_{i,j})\right] \right)`, where :math:`r_{i,j}` is the spatial distance between loci (beads) *i* and *j*.
 
         Parameters
         ----------
@@ -680,10 +682,10 @@ class openChrModel:
         self.chrSystem.addForce(p_dam_energy)
 
     def addinter_chrom(self, InterFile, rc_tanh_inter=0.54, cutOff_inter = 2.0):
-        '''
+        r'''
         Add the Inter-chromosome Chromosome potential using custom values for interactions between beads separated by a genomic distance :math:`d`.
 
-        The parameter rc_tanh_inter is part of the probability of crosslink function :math:`f(r_{i,j}) = \frac{1}{2}\left(1+tanh\left[(rctanhIC - r_{i,j})^{-5}+5(rctanhIC - r_{i,j})\right] \right)+\frac{1}{2}\left(1-tanh\left[(rctanhIC - r_{i,j})^{-5}+5(rctanhIC - r_{i,j})\right] \right)\frac{rctanhIC}{r_{i,j}}^4`,
+        The parameter rc_tanh_inter is part of the probability of crosslink function :math:`f(r_{i,j})=\frac{1}{2}\left(1+\text{tanh}\left[(r_c - r_{i,j})^{-5}+5(r_c - r_{i,j})\right] \right)+\frac{1}{2}\left(1-\text{tanh}\left[(r_c - r_{i,j})^{-5}+5(r_c - r_{i,j})\right] \right)\left(\frac{r_c}{r_{i,j}}\right)^4`,
 
         where :math:`r_{i,j}` is the spatial distance between loci (beads) *i* and *j*.
 
@@ -693,7 +695,7 @@ class openChrModel:
             The path to the inter-chromosomal potential scaling factor txt file.
 
         rc_tanh_inter (float, required) :
-            A good estimation of the bond length during the simulation (Default value = 0.54 for the 100KB model).
+            :math:`r_c` in the equation, a good estimation of the bond length during the simulation (Default value = 0.54 for the 100KB model).
 
         cutOff_inter (float, required) :
             Cutoff of inter-chromosomal potential (Default value = 2.0 for the 100KB model).

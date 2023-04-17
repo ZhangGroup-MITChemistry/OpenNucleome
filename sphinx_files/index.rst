@@ -6,7 +6,7 @@
 Welcome to OpenNucleome's documentation!
 ========================================
 
-OpenABC supports OpenMM GPU-accelerated simulations of the three-dimensional architecture of genomes. It is flexible and allows adding the potential for chromosomes-chromosomes and chromosomes-nuclear bodies with custom values. The package dramatically simplifies the simulation setup: users only need a few lines of python code to carry out the genome simulations starting from initial configurations of 46 chromosomes, nucleoli, speckles, and lamina, which form the cell nuclei. The package is integrated with OpenMM, a GPU-accelerated MD simulation engine enabling efficient simulations. We provide tutorials in Jupyter notebooks to demonstrate the various capabilities. We anticipate OpenNucleome to significantly facilitate for simulating the three-dimensinoal architecture of genomes.
+OpenNucleome supports OpenMM GPU-accelerated simulations of the three-dimensional architecture of genomes. It is flexible and allows adding the potential for chromosomes-chromosomes and chromosomes-nuclear bodies with custom values. The package dramatically simplifies the simulation setup: users only need a few lines of python code to carry out the genome simulations starting from initial configurations of 46 chromosomes, nucleoli, speckles, and lamina, which form the cell nuclei. The package is integrated with OpenMM, a GPU-accelerated MD simulation engine enabling efficient simulations. We provide tutorials in Jupyter notebooks to demonstrate the various capabilities. We anticipate OpenNucleome to significantly facilitate for simulating the three-dimensinoal architecture of genomes.
 
 Environment
 ===========
