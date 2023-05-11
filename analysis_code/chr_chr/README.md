@@ -15,7 +15,7 @@ gfortran -o calculate_contact_prob calculate_contact_prob.f90
 python adam.py 1 1
 ```
 
-calculate_contact_prob.f90: Calculate the contact prob after getting the trajectory (DUMP_FILE.dcd); 501 represents the first frame chosen for analysis; -1 represents the last frame in the trajectory; ./contact_prob/ represents that the contact_prob results will be in the current folder; counter.txt will log numbers of contact for every CV.
+calculate_contact_prob.f90: Calculate the contact prob after getting the trajectory (DUMP_FILE.dcd); 501 represents the first frame chosen for analysis; -1 represents the last frame in the trajectory; ./contact_prob/ represents that the contact_prob results will be in this folder; 1 represents the index of replica, and counter.txt will log numbers of contact for every collective variable.
 
 adam.py: The first 1 represents the 1st iteration, and the second 1 represents the number of replica.
 
