@@ -29,3 +29,7 @@ The user can either download the package from github, or use pip install:
 ```
 pip install openNucleome
 ```
+
+## Workflow for creating the whole nucleus model and efficiency across different platforms
+
+<img src="./images/workflow.png" width="2000px"><img>
