@@ -1,7 +1,7 @@
 Manual
 ===================================
 
-OpenNucleome.openChrModel
+openNucleome
 -------------------------
-.. automodule:: OpenNucleome.openChrModel
+.. automodule:: openNucleome.open_chr_model
     :members:
