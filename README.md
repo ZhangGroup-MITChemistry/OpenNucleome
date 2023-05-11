@@ -1,3 +1,31 @@
-# openNucleome
+## openNucleome
 
 openNucleome supports OpenMM GPU-accelerated simulations of the three-dimensional architecture of genomes. It is flexible and allows adding the potential for chromosomes-chromosomes and chromosomes-nuclear bodies with custom values. The package dramatically simplifies the simulation setup: users only need a few lines of python code to carry out the genome simulations starting from initial configurations of 46 chromosomes, nucleoli, speckles, and lamina, which form a cell nucleus. The package is integrated with OpenMM, a GPU-accelerated MD simulation engine enabling efficient simulations. We provide tutorials to demonstrate the various capabilities. We anticipate openNucleome to significantly facilitate for simulating the three-dimensinoal architecture of genomes.
+
+## Manual
+
+The output html manual file is docs/index.html. 
+
+The manual is also shown in: https://zhuohan1999.github.io/OpenNucleome/
+
+Instructions for class methods and functions are also included as comments in the source code. 
+
+## Environment
+
+We recommend using openmm 7.5.1 for using openNucleome, as openNucleome is built based on openmm 7.5.1. 
+
+Install openmm 7.5.1 with the following command: 
+
+```
+conda install -c conda-forge openmm=7.5.1
+```
+
+Other required packages: numpy, mdanalysis, mdtraj.
+
+## Installation
+
+The user can either download the package from github, or use pip install:
+
+```
+pip install openNucleome
+```
