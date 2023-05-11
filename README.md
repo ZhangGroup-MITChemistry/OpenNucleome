@@ -33,3 +33,7 @@ pip install openNucleome
 ## Workflow for creating the whole nucleus model and efficiency across different platforms
 
 <img src="./images/workflow.png" width="2000px"><img>
+
+## Examples
+
+We provide an example in examples/HFF_100KB, and we also show how to calculate the contact probabilities and compare with experiments to obtain optimized potential parameters in ./analysis_code.
