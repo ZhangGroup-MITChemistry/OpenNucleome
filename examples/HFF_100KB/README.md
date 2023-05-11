@@ -10,6 +10,7 @@ To run the simulation:
 ```
 python simulation.py
 ```
+alpha.txt: all the parameters for the Chromosomes-Chromosomes
 
 human.pdb: the initial structure
 

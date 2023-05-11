@@ -20,7 +20,7 @@ Program main
     character*4       :: dummyc
 
     ! parameters for contact map
-    double precision, parameter :: r_cut=0.702, sigma=6.218
+    double precision, parameter :: r_cut=0.540
 
     integer           :: nIdeal, nCV, ndomain, intra, maxLoop, nAtomSum,    &
                         icm, jcm, tadI, tadJ, chrSta, chrEnd, natom_chr, imol, jmol, nChrom, ceil1, ceil2
@@ -95,15 +95,13 @@ Program main
     print*
     close(10)
 
-    !Kartik comment 
-    !overrides number of atoms to include only chromatin
     natom     = 57520 !exclude the sex chromosome
     natom_chr = 57520 !exclude the sex chromosome
     nIdeal = 2489
     ncompt = 3
-    nChrom = 22 ! 19 is 20-1, exclude the sex chromosome in the mouse cell nuclei
+    nChrom = 22 ! 22 is 23-1, exclude the sex chromosome in the mouse cell nuclei
     
-    nCV = nIdeal+ncompt*(ncompt+1)/2  + nChrom*(nChrom-1)/2   
+    nCV = nIdeal+ncompt*(ncompt+1)/2  + nChrom*(nChrom-1)/2 
 
     allocate(interTAD_intra_chrom_index_map(ncompt,ncompt))
     cvInd = nIdeal
@@ -129,7 +127,7 @@ Program main
     allocate(compt(natom_chr))
     !open(unit=10, file=trim(comptFileName))
     open(unit=10, & 
-    file='compartment_genome_100KB_diploid_HFF.txt')
+    file='mol_info/compartment_genome_100KB_diploid_HFF.txt')
     do ib = 1, natom_chr
         read(10,*) compt(ib)
     enddo
@@ -140,7 +138,7 @@ Program main
     allocate(mol_index(natom))
     !open(unit=10, file=trim(molFileName))
     open(unit=10, &
-    file='mol_index_cell_type-HFF.txt')
+    file='mol_info/mol_index_cell_type-HFF.txt')
     do ib = 1, natom
         read(10,*) mol_index(ib)
     enddo
@@ -151,7 +149,7 @@ Program main
     allocate(domain(natom_chr))
     !open(unit=10, file=trim(domainFileName))
     open(unit=10, &
-    file='tad_index_genome_100KB_diploid_cell_type-HFF.txt')
+    file='mol_info/tad_index_genome_100KB_diploid_cell_type-HFF.txt')
     do ib = 1, natom_chr
         read(10,*) gpos, domain(ib)
     enddo
@@ -195,12 +193,10 @@ Program main
                 r2 = dx**2 + dy**2 + dz**2
                 rij = sqrt(r2)
 
-                ! Start to calculate the contact probabilities between chr loci and chr loci
-
                 if (rij <= r_cut) then
-                    pij = 0.5*( 1.0+tanh(sigma*(r_cut-rij)) )
+                    pij = 1.0
                 else
-                    pij = 0.5*r_cut4 / r2 / r2
+                    pij = r_cut4 / r2 / r2
                 endif
 
                 imol = mol_index(ib)
@@ -212,6 +208,7 @@ Program main
 
                 if (imol .eq. jmol) then
                     jmi = jb - ib
+                    !Changed for male cell
                     if (imol < 47) then
                         cvRaw(jmi, ifr) = cvRaw(jmi, ifr) + pij
                         counter(jmi) = counter(jmi) + 1
@@ -221,8 +218,6 @@ Program main
                 elseif (ceil1 .ne. ceil2) then
                     cvRaw(inter_chrom_index_map(ceil1,ceil2),ifr) = cvRaw(inter_chrom_index_map(ceil1,ceil2),ifr) + pij
                     counter(inter_chrom_index_map(ceil1,ceil2)) = counter(inter_chrom_index_map(ceil1,ceil2)) + 1
-!                else
-!                    cycle
                 endif
 
             enddo
@@ -237,7 +232,6 @@ Program main
 
     enddo
     print *, "finished fine"
-
 
     cvRaw_avg = sum(cvRaw(:,first_frame:nframes),2) 
 

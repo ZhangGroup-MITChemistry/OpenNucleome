@@ -17,14 +17,14 @@ N_chr_beads         = 60642
 
 first_frame                 = 500
 N_nucleolus_particles       = 300
-N_speckles_particles        = 600
+N_speckles_particles        = 1600
 N_lamina_particles          = 8000
 radius_nucleus              = 13.0
 
 """Info files"""
-gLength             = np.loadtxt("gLengthFile.txt",dtype=int)
-maternalIdx         = np.loadtxt("maternalIdxFile.txt",dtype=int)
-paternalIdx         = np.loadtxt("paternalIdxFile.txt",dtype=int)
+gLength             = np.loadtxt("mol_info/gLengthFile.txt",dtype=int)
+maternalIdx         = np.loadtxt("mol_info/maternalIdxFile.txt",dtype=int)
+paternalIdx         = np.loadtxt("mol_info/paternalIdxFile.txt",dtype=int)
 """"""
 
 def process_traj_win(win_num):
@@ -88,10 +88,10 @@ def process_traj_win(win_num):
             print("Window %d Frame %d done"%(win_num,frame_number))
             print(n_clusters_,n_noise_) #This will report speckles
 
-    np.save("exp_tsa_seq_iter%d_win%d"%(iter_num,win_num),exp_tsa_seq)
-    np.save("exp_damid_iter%d_win%d"%(iter_num,win_num),exp_damid)
-    np.save("exp_tsa_seq_all_frames_iter%d_win%d"%(iter_num,win_num),exp_tsa_seq_all_frames)
-    np.save("exp_damid_all_frames_iter%d_win%d"%(iter_num,win_num),exp_damid_all_frames)
+    np.save("contact_prob/exp_tsa_seq_iter%d_win%d"%(iter_num,win_num),exp_tsa_seq)
+    np.save("contact_prob/exp_damid_iter%d_win%d"%(iter_num,win_num),exp_damid)
+    np.save("contact_prob/exp_tsa_seq_all_frames_iter%d_win%d"%(iter_num,win_num),exp_tsa_seq_all_frames)
+    np.save("contact_prob/exp_damid_all_frames_iter%d_win%d"%(iter_num,win_num),exp_damid_all_frames)
     
     damid_all_frames_haploid = np.zeros((N_frame,int(N_chr_beads/2)))
     tsaseq_all_frames_haploid = np.zeros((N_frame,int(N_chr_beads/2)))
@@ -99,8 +99,8 @@ def process_traj_win(win_num):
         damid_all_frames_haploid[:,gLength[i]:gLength[i+1]] = 0.5*(exp_damid_all_frames[:,maternalIdx[i][0]-1:maternalIdx[i][1]]+exp_damid_all_frames[:,paternalIdx[i][0]-1:paternalIdx[i][1]])
         tsaseq_all_frames_haploid[:,gLength[i]:gLength[i+1]] = 0.5*(exp_tsa_seq_all_frames[:,maternalIdx[i][0]-1:maternalIdx[i][1]]+exp_tsa_seq_all_frames[:,paternalIdx[i][0]-1:paternalIdx[i][1]])
 
-    np.save("cvInd.txt_%d"%win_num,np.sum(damid_all_frames_haploid,axis=0))
-    np.save("cvInd_tsa.txt_%d"%win_num,np.sum(tsaseq_all_frames_haploid,axis=0))
+    np.save("contact_prob/cvInd.txt_%d"%win_num,np.sum(damid_all_frames_haploid,axis=0))
+    np.save("contact_prob/cvInd_tsa.txt_%d"%win_num,np.sum(tsaseq_all_frames_haploid,axis=0))
 
 win_to_run = int(sys.argv[2])
 process_traj_win(win_to_run)

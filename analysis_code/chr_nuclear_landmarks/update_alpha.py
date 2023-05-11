@@ -20,9 +20,9 @@ first_frames            = 500
 old_iter                = run_number-1
 
 """Info files"""
-gLength             = np.loadtxt("gLengthFile.txt",dtype=int)
-maternalIdx         = np.loadtxt("maternalIdxFile.txt",dtype=int)
-paternalIdx         = np.loadtxt("paternalIdxFile.txt",dtype=int)
+gLength             = np.loadtxt("mol_info/gLengthFile.txt",dtype=int)
+maternalIdx         = np.loadtxt("mol_info/maternalIdxFile.txt",dtype=int)
+paternalIdx         = np.loadtxt("mol_info/paternalIdxFile.txt",dtype=int)
 damid_data_low_res  = np.loadtxt("DamID-OE.txt",usecols=[1])
 tsa_data_low_res    = np.loadtxt("TSA-Seq-OE.txt",usecols=[1])
 """End Info Files"""
@@ -37,13 +37,13 @@ cvInd       = np.zeros((ncv, ), dtype=float)
 cvInd_tsa   = np.zeros((ncv, ), dtype=float)
 irun    = 0
 for replica in range(1,N_replicas+1,1):
-    cvInd       += np.load("cvInd.txt_%d.npy"%replica)
-    cvInd_tsa   += np.load("cvInd_tsa.txt_%d.npy"%replica)
+    cvInd       += np.load("contact_prob/cvInd.txt_%d.npy"%replica)
+    cvInd_tsa   += np.load("contact_prob/cvInd_tsa.txt_%d.npy"%replica)
     irun    += n_frames[replica-1]
 cvInd       /= irun
 cvInd_tsa   /= irun
-np.savetxt('cvInd_iter%02d.txt'%(run_number), cvInd, fmt='%14.7e')
-np.savetxt('cvInd_tsa_iter%02d.txt'%(run_number), cvInd_tsa, fmt='%14.7e')
+np.savetxt('contact_prob/cvInd_iter%02d.txt'%(run_number), cvInd, fmt='%14.7e')
+np.savetxt('contact_prob/cvInd_tsa_iter%02d.txt'%(run_number), cvInd_tsa, fmt='%14.7e')
 
 ### Experimental constraint portion 
 # Speckles and Lamina
@@ -71,7 +71,7 @@ beta1_dam                   = 0.9
 beta2_dam                   = 0.999
 epsilon_dam                 = 1e-8
 eta_dam                     = 0.01
-t_dam                       = int(np.loadtxt('t_dam.txt'%))
+t_dam                       = int(np.loadtxt('iter_num/%02d/t_dam.txt'%(run_number-1)))
 
 grad_dam        = -cvInd + expt
 # START TO DO THE ADAM TRAINING
@@ -102,7 +102,7 @@ v_db_corr_dam   = v_db_dam/(1-beta2_dam**t_dam)
 dalpha1_dam     = m_dw_corr_dam/(np.sqrt(v_dw_corr_dam)+epsilon_dam)
 dalpha2_dam     = m_db_corr_dam/(np.sqrt(v_db_corr_dam)+epsilon_dam)
 
-damid = np.loadtxt("../../examples/HFF_100KB/potential/%02d/DamID.txt"%(old_iter))
+damid = np.loadtxt("../../examples/HFF_100KB/chr_lam_param.txt")[:60642]
 
 for i in update_chr_list:
     damid[maternalIdx[i][0]-1:maternalIdx[i][1]] -= eta_dam*dalpha1_dam[gLength[i]:gLength[i+1]]
@@ -146,7 +146,7 @@ v_db_corr_tsa   = v_db_tsa/(1-beta2_tsa**t_tsa)
 dalpha1_tsa     = m_dw_corr_tsa/(np.sqrt(v_dw_corr_tsa)+epsilon_tsa)
 dalpha2_tsa     = m_db_corr_tsa/(np.sqrt(v_db_corr_tsa)+epsilon_tsa)
 
-tsaseq = np.loadtxt("../../examples/HFF_100KB/potential/%02d/TSA.txt"%(old_iter))
+tsaseq = np.loadtxt("../../examples/HFF_100KB/chr_spec_param.txt")[:60642]
 
 for i in update_chr_list:
     tsaseq[maternalIdx[i][0]-1:maternalIdx[i][1]] -= eta_tsa*dalpha1_tsa[gLength[i]:gLength[i+1]]
@@ -159,8 +159,5 @@ zero_signal_tsa     = (tsa_data_low_res[:]      == 0.0)
 damid[zero_signal_damid]  = 0.0 
 tsaseq[zero_signal_tsa]    = 0.0
 
-subprocess.call(["mkdir -p ../../examples/HFF_100KB/potential/%02d/"%(run_number)],shell=True,stdout=subprocess.PIPE)
-np.savetxt("../../examples/HFF_100KB/potential/%02d/DamID.txt"%(run_number),damid,fmt='%.6f')
-np.savetxt("../../examples/HFF_100KB/potential/%02d/TSA.txt"%(run_number),tsaseq,fmt='%.6f')
-np.savetxt("../../examples/HFF_100KB/potential/%02d/TSA_8900.txt"%(run_number),np.append(tsaseq,[0]*8900).reshape((-1,1)),fmt='%.6f')
-np.savetxt("../../examples/HFF_100KB/potential/%02d/DamID_8900.txt"%(run_number),np.append(damid,[0]*8900).reshape((-1,1)),fmt='%.6f')
+np.savetxt("new_potential/chr_spec_param.txt",np.append(tsaseq,[0]*9900).reshape((-1,1)),fmt='%.6f')
+np.savetxt("new_potential/chr_lam_param.txt",np.append(damid,[0]*9900).reshape((-1,1)),fmt='%.6f')

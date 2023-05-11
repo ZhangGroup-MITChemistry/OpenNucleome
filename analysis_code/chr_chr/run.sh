@@ -1,6 +1,11 @@
 #!/bin/bash
 
-gfortran -o calculate_contact_prob calculate_contact_prob.f90
-calculate_contact_prob ../../examples/HFF_100KB/DUMP_FILE.dcd 500 -1 ./ 1 counter.txt
+# All the parameters in this file can be changed
 
-python adam_training.py 1 1 
+gfortran -o calculate_contact_prob calculate_contact_prob.f90
+
+# Calculate the contact prob after getting the trajectory (DUMP_FILE.dcd); 501 represents the first frame chosen for analysis; -1 represents the last frame in the trajectory; ./ represents that the contact_prob results will be in the current folder; counter.txt will log numbers of contact for every CV.
+./calculate_contact_prob ../../examples/HFF_100KB/DUMP_FILE.dcd 501 -1 ./contact_prob/ 1 counter.txt
+
+# The first 1 represents 1st iteration, and the second 1 represents the number of replica is 1.
+python adam.py 1 1 

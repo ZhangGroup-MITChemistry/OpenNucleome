@@ -54,7 +54,7 @@ class OpenChrModel:
             The path to the chromosome PDB file, including nucleoli, speckles, and lamina.
         '''
         chr_PDB_path = PDB_file
-        self.chr_PDB = mmapp.PDB_file(chr_PDB_path)
+        self.chr_PDB = mmapp.PDBFile(chr_PDB_path)
 
         self.chr_system = mm.System()
         self.chr_positions = []
@@ -363,9 +363,9 @@ class OpenChrModel:
         with open(types_file, "r") as fin:
             for line in fin.readlines():
                 line = line.split()
-                i = int(line[1]) - 1
-                j = int(line[2]) - 1
-                tab[i, j] = tab[j, i] = float(line[1])
+                i = int(line[0]) - 1
+                j = int(line[1]) - 1
+                tab[i, j] = tab[j, i] = float(line[2])
 
         tab = list(np.ravel(tab))
         diff_types_size = 8

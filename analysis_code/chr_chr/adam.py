@@ -7,8 +7,6 @@ import copy
 run_number                  = int(sys.argv[1]) 
 N_replicas                  = int(sys.argv[2])
 
-write_potential_path        = "../../examples/HFF_100KB/potential"
-
 nAtom  = 60642
 nIdeal = 2490-1
 ncompt = 3
@@ -40,13 +38,14 @@ cvInd   = np.zeros((ncv, ), dtype=float)
 irun    = 0
 for replica in range(1,N_replicas+1,1):
     #If simulation didn't complete
-    if os.path.exists("cvInd.txt_replica_%d"%replica):
-        cvInd   += np.loadtxt("cvInd.txt_replica_%d"%replica)
-        irun    += np.loadtxt("nframes.txt_replica_%d"%replica)
+    if os.path.exists("contact_prob/cvInd.txt_replica_%d"%replica):
+        cvInd   += np.loadtxt("contact_prob/cvInd.txt_replica_%d"%replica)
+        irun    += np.loadtxt("contact_prob/nframes.txt_replica_%d"%replica)
 cvInd /= irun
-np.savetxt('cvInd_iter%02d.txt'%(run_number), cvInd, fmt='%14.7e')
+np.savetxt('contact_prob/cvInd_iter%02d.txt'%(run_number), cvInd, fmt='%14.7e')
 
 expt        = np.loadtxt("expt_constraints_HFF_100KB.txt")
+expt        = cvInd[0]/expt[0]*expt
 
 grad        = -cvInd + expt
 ## START TO DO THE ADAM TRAINING
@@ -61,7 +60,7 @@ v_dw        = beta2*v_dw + (1-beta2)*(grad**2)
 # *** biases *** #
 v_db        = beta2*v_db + (1-beta2)*grad
 
-subprocess.call(["mkdir -p %s/%02d"%(write_potential_path,run_number)],shell=True,stdout=subprocess.PIPE)
+subprocess.call(["mkdir -p iter_num/%02d"%(run_number)],shell=True,stdout=subprocess.PIPE)
 np.savetxt('iter_num/%02d/mdw.txt'%(run_number), m_dw.reshape((-1,1)), fmt='%15.12e')
 np.savetxt('iter_num/%02d/vdw.txt'%(run_number), v_dw.reshape((-1,1)), fmt='%15.12e')
 np.savetxt('iter_num/%02d/mdb.txt'%(run_number), m_db.reshape((-1,1)), fmt='%15.12e')
@@ -81,4 +80,4 @@ eigen_value_best        = 0
 
 np.savetxt("iter_num/%02d/dalpha.iter%02d.cutEig%d_noIdeal.txt"%(run_number-1,run_number,eigen_value_best),dalpha1.reshape((-1,1)),fmt='%15.12e')
 
-subprocess.call(["python update.py ../../ %d %d %.4f %.4f %.4f %d"%(run_number,eigen_value_best,eta1,eta2,eta3,chop_ideals)],shell=True,stdout=subprocess.PIPE)
+subprocess.call(["python update_alpha_chr_chr.py ../../ %d %d %.4f %.4f %.4f %d"%(run_number,eigen_value_best,eta1,eta2,eta3,chop_ideals)],shell=True,stdout=subprocess.PIPE)
