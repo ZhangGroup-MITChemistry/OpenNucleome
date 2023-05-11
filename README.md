@@ -6,7 +6,7 @@ openNucleome supports OpenMM GPU-accelerated simulations of the three-dimensiona
 
 The output html manual file is docs/index.html. 
 
-The manual is also shown in: https://zhuohan1999.github.io/OpenNucleome/
+The manual is also shown in: 
 
 Instructions for class methods and functions are also included as comments in the source code. 
 
