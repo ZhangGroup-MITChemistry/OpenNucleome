@@ -44,7 +44,11 @@
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Manual</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#module-openNucleome.open_chr_model">openNucleome</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-openNucleome.chromosome">Chromosome</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-openNucleome.speckle">Speckle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-openNucleome.nucleolus">Nucleolus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-openNucleome.lamina">Lamina</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-openNucleome.whole_nucleus_model">WholeNucleus</a></li>
 </ul>
 </li>
 </ul>
@@ -75,64 +79,15 @@
              
   <div class="section" id="manual">
 <h1>Manual<a class="headerlink" href="#manual" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-openNucleome.open_chr_model">
-<span id="opennucleome"></span><h2>openNucleome<a class="headerlink" href="#module-openNucleome.open_chr_model" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-openNucleome.chromosome">
+<span id="chromosome"></span><h2>Chromosome<a class="headerlink" href="#module-openNucleome.chromosome" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
-<dt id="openNucleome.open_chr_model.OpenChrModel">
-<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">OpenChrModel</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.005</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass_scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.open_chr_model.OpenChrModel" title="Permalink to this definition">¶</a></dt>
-<dd><p>The OpenChrModel class performes the whole nucleus dynamics based on the compartment annotations sequence of chromosomes.</p>
-<p>The simulations can be performed using customed values for the type-to-type, intra, inter-chromosomal, chromosomes-nucleoli, and chromosomes-speckles parameters.</p>
-<p>In our model, each component has specific type. Compartment A: 1, Compartment B: 2, Pericentromeres: 3, Centromeres: 4, Nucleoli: 5, dP Speckles: 6, P Speckles: 7, Lamina: 8</p>
+<dt id="openNucleome.chromosome.Chromosome">
+<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">Chromosome</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N_bead</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bond_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compart_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chr_groups</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bead_groups</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mol_type</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.chromosome.Chromosome" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Chromosome class stores all the useful potentials amoung chromatin beads used in the whole nucleus model.</p>
 <dl class="py method">
-<dt id="openNucleome.open_chr_model.OpenChrModel.add_LJ_nuc">
-<code class="sig-name descname"><span class="pre">add_LJ_nuc</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epsilon_nuc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_nuc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff_nuc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.5</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.open_chr_model.OpenChrModel.add_LJ_nuc" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add nonbonded rescaled LJpotential between Nucleoli-Nucleoli.</p>
-<dl class="simple">
-<dt>epsilon_nuc (float, required) :</dt><dd><p>energy units (Default value = 3.0).</p>
-</dd>
-<dt>sigma_nuc (float, required) :</dt><dd><p>distance units (Default value = 0.5).</p>
-</dd>
-<dt>cutoff_nuc (float, required)<span class="classifier"></span></dt><dd><p>The cutoff, distance units (Default value = 1.5).</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="openNucleome.open_chr_model.OpenChrModel.add_LJ_plain">
-<code class="sig-name descname"><span class="pre">add_LJ_plain</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epsilon_LJ_plain</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_LJ_plain</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff_LJ_plain</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.56</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.open_chr_model.OpenChrModel.add_LJ_plain" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add nonbonded plain LJpotential between Nucleoli and Speckles</p>
-<dl class="simple">
-<dt>epsilon_LJ_plain (float, required) :</dt><dd><p>energy units (Default value = 1.0).</p>
-</dd>
-<dt>sigma_LJ_plain (float, required) :</dt><dd><p>distance units (Default value = 0.5).</p>
-</dd>
-<dt>cutoff_LJ_plain (float, required) :</dt><dd><p>The cutoff, distance units (Default value = 0.5*1.12).</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="openNucleome.open_chr_model.OpenChrModel.add_LJ_spec">
-<code class="sig-name descname"><span class="pre">add_LJ_spec</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epsilon_dP_dP</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_spec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff_dP_dP</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon_P</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff_P</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.56</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.open_chr_model.OpenChrModel.add_LJ_spec" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add nonbonded rescaled LJpotential between Speckles-Speckles</p>
-<p>Notice that the system has two different speckles dP (type 6) and P (type 7).</p>
-<dl class="simple">
-<dt>epsilon_dP_dP (float, required)<span class="classifier"></span></dt><dd><p>Epsilon of LJ between (dP,dP), energy units (Default value = 3.0).</p>
-</dd>
-<dt>sigma_spec (float, required)<span class="classifier"></span></dt><dd><p>Sigma of LJ between speckles and speckles, distance units (Default value = 0.5).</p>
-</dd>
-<dt>cutoff_dP_dP (float, required)<span class="classifier"></span></dt><dd><p>Cutoff of LJ between (dP,dP), distance units (Default value = 1.5).</p>
-</dd>
-<dt>epsilon_P (float, required) :</dt><dd><p>Epsilon of LJ between (dP,P) and (P,P), energy units (Default value = 1.0).</p>
-</dd>
-<dt>cutoff_P (float, required) :</dt><dd><p>Cutoff of LJ between (dP,P) and (P,P), distance units (Default value = 0.5*1.12).</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="openNucleome.open_chr_model.OpenChrModel.add_angle_force">
-<code class="sig-name descname"><span class="pre">add_angle_force</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ka</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.open_chr_model.OpenChrModel.add_angle_force" title="Permalink to this definition">¶</a></dt>
+<dt id="openNucleome.chromosome.Chromosome.add_angle_force">
+<code class="sig-name descname"><span class="pre">add_angle_force</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ka</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.chromosome.Chromosome.add_angle_force" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add an angular potential between bonds connecting beads.</p>
 <dl class="simple">
 <dt>ka (float, required) :</dt><dd><p>angle coefficients, default = 2.0</p>
@@ -141,85 +96,32 @@
 </dd></dl>
 
 <dl class="py method">
-<dt id="openNucleome.open_chr_model.OpenChrModel.add_chr_lam">
-<code class="sig-name descname"><span class="pre">add_chr_lam</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chr_lam_param</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_tanh_chr_lam</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rc_tanh_chr_lam</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.75</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff_chr_lam</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.open_chr_model.OpenChrModel.add_chr_lam" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add nonbonded potential using custom values for interactions between chromosomes and lamina</p>
-<p>The parameters are part of the probability of function <span class="math notranslate nohighlight">\(g(r_{i,j}) = \frac{1}{2}\left(1 + \text{tanh}\left[\sigma(r_c - r_{i,j})\right] \right)\)</span>, where <span class="math notranslate nohighlight">\(r_{i,j}\)</span> is the spatial distance between loci (beads) <em>i</em> and <em>j</em>.</p>
-<dl class="simple">
-<dt>chr_lam_param (string, required) :</dt><dd><p>The path to the potential scaling factor txt file.</p>
-</dd>
-<dt>sigma_tanh_chr_lam (float, required) :</dt><dd><p>Distance units (Default value = 4.0).</p>
-</dd>
-<dt>rc_tanh_chr_lam (float, required)<span class="classifier"></span></dt><dd><p>Distance units, where <span class="math notranslate nohighlight">\(g(r_{i,j}) = 0.5\)</span> (Default value = 0.75).</p>
-</dd>
-<dt>cutoff_chr_lam (float, required) :</dt><dd><p>The cutoff (Default value = 2.0)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="openNucleome.open_chr_model.OpenChrModel.add_chr_nuc">
-<code class="sig-name descname"><span class="pre">add_chr_nuc</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rescalar_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon_chr_nuc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_chr_nuc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff_chr_nuc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.5</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.open_chr_model.OpenChrModel.add_chr_nuc" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add nonbonded rescaled LJpotential between chromosomes and nucleoli</p>
-<dl class="simple">
-<dt>rescalar_file (string, required)<span class="classifier"></span></dt><dd><p>The path to the txt file of rescaling factors (SPIN state probabilities).</p>
-</dd>
-<dt>epsilon_chr_nuc (float, required)<span class="classifier"></span></dt><dd><p>Epsilon of LJ between nucleolus beads (Default value = 1.0).</p>
-</dd>
-<dt>sigma_chr_nuc (float, required) :</dt><dd><p>Sigma of LJ between nucleolus beads (Default value = 0.5).</p>
-</dd>
-<dt>cutoff_chr_nuc (float, required):</dt><dd><p>Cutoff of LJ between nucleolus beads (Default value = 1.5).</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="openNucleome.open_chr_model.OpenChrModel.add_chr_spec">
-<code class="sig-name descname"><span class="pre">add_chr_spec</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chr_spec_param</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_tanh_chr_spec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rc_tanh_chr_spec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.75</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff_chr_spec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.open_chr_model.OpenChrModel.add_chr_spec" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add nonbonded potential using custom values for interactions between chromosomes and speckles</p>
-<p>The parameters are part of the probability of function <span class="math notranslate nohighlight">\(g(r_{i,j}) = \frac{1}{2}\left(1 + \text{tanh}\left[\sigma(r_c - r_{i,j})\right] \right)\)</span>, where <span class="math notranslate nohighlight">\(r_{i,j}\)</span> is the spatial distance between loci (beads) <em>i</em> and <em>j</em>.</p>
-<dl class="simple">
-<dt>chr_spec_param (string, required)<span class="classifier"></span></dt><dd><p>The path to the potential scaling factor txt file.</p>
-</dd>
-<dt>sigma_tanh_chr_spec (float, required) :</dt><dd><p>Distance units (Default value = 4.0).</p>
-</dd>
-<dt>rc_tanh_chr_spec (float, required)<span class="classifier"></span></dt><dd><p>Distance units, where <span class="math notranslate nohighlight">\(g(r_{i,j}) = 0.5\)</span> (Default value = 0.75).</p>
-</dd>
-<dt>cutoff_chr_spec (float, required)<span class="classifier"></span></dt><dd><p>The cutoff (Default value = 2.0)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="openNucleome.open_chr_model.OpenChrModel.add_class2_bond">
-<code class="sig-name descname"><span class="pre">add_class2_bond</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r0c</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kc2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kc3</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kc4</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.open_chr_model.OpenChrModel.add_class2_bond" title="Permalink to this definition">¶</a></dt>
+<dt id="openNucleome.chromosome.Chromosome.add_class2_bond">
+<code class="sig-name descname"><span class="pre">add_class2_bond</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force_group</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r0c</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kc2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kc3</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kc4</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.chromosome.Chromosome.add_class2_bond" title="Permalink to this definition">¶</a></dt>
 <dd><p>Internal function that inits Class2 bond force. The default parameters value is for the 100KB resolution. (Recommended)</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="openNucleome.open_chr_model.OpenChrModel.add_fene_bond">
-<code class="sig-name descname"><span class="pre">add_fene_bond</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kfb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon_fene</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_fene</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff_fene</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.12</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.open_chr_model.OpenChrModel.add_fene_bond" title="Permalink to this definition">¶</a></dt>
-<dd><p>Internal function that inits FENE bond force. The default parameters value is for the 1MB resolution.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="openNucleome.open_chr_model.OpenChrModel.add_hardwall">
-<code class="sig-name descname"><span class="pre">add_hardwall</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epsilon_hw</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_hw</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.75</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff_hw</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.84</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.open_chr_model.OpenChrModel.add_hardwall" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add nonbonded hard-wall potential between (chromosomes, speckles, nucleoli) and lamina</p>
-<p>The size of lamina is 1.0 (diameter) and the size of other beads is 0.5, so the sigma is 1.0/2 + 0.5/2 = 0.75 for the 100KB model</p>
 <dl class="simple">
-<dt>epsilon_hw (float, required)<span class="classifier"></span></dt><dd><p>energy units (Default value = 1.0).</p>
+<dt>force_group (int, required):</dt><dd><p>labels the index of the current force.</p>
 </dd>
-<dt>sigma_hw (float, required)<span class="classifier"></span></dt><dd><p>distance units (Default value = 0.75).</p>
-</dd>
-<dt>cutoff_hw (float, required)<span class="classifier"></span></dt><dd><p>The cutoff, distance units (Default value = 0.75*1.12).</p>
+<dt>r0c, kc2, kc3, kc4 (float, required) :</dt><dd><p>class2 bond coefficients</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt id="openNucleome.open_chr_model.OpenChrModel.add_ideal_potential">
-<code class="sig-name descname"><span class="pre">add_ideal_potential</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ideal_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rc_tanh_ideal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.54</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dend_ideal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff_ideal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.open_chr_model.OpenChrModel.add_ideal_potential" title="Permalink to this definition">¶</a></dt>
+<dt id="openNucleome.chromosome.Chromosome.add_fene_bond">
+<code class="sig-name descname"><span class="pre">add_fene_bond</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force_group</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kfb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon_fene</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_fene</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff_fene</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.12</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.chromosome.Chromosome.add_fene_bond" title="Permalink to this definition">¶</a></dt>
+<dd><p>Internal function that inits FENE bond force. The default parameters value is for the 1MB resolution.</p>
+<dl class="simple">
+<dt>force_group (int, required):</dt><dd><p>labels the index of the current force.</p>
+</dd>
+<dt>r0c, kfb, r0, epsilon_fene, sigma_fene, cutoff_fene (float, required) :</dt><dd><p>fene bond coefficients</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="openNucleome.chromosome.Chromosome.add_ideal_potential">
+<code class="sig-name descname"><span class="pre">add_ideal_potential</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ideal_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_group</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rc_tanh_ideal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.54</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dend_ideal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff_ideal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.chromosome.Chromosome.add_ideal_potential" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add the Intra-chromosomal ideal potential using custom values for interactions between beads separated by a genomic distance <span class="math notranslate nohighlight">\(d\)</span>.</p>
 <p>The parameter rc_tanh_ideal is part of the probability of crosslink function</p>
 <div class="math notranslate nohighlight">
@@ -229,18 +131,20 @@
 <dl class="simple">
 <dt>ideal_file (string, required) :</dt><dd><p>The path to the ideal potential scaling factor txt file.</p>
 </dd>
-<dt>dend_ideal (int, required)<span class="classifier"></span></dt><dd><p>Cutoff of genomic separation (Default value = 1000 for the 100KB model).</p>
+<dt>force_group (int, required):</dt><dd><p>labels the index of the current force.</p>
 </dd>
-<dt>rc_tanh_ideal (float, required)<span class="classifier"></span></dt><dd><p><span class="math notranslate nohighlight">\(r_c\)</span> in the equation, a good estimation of the bond length during the simulation (Default value = 0.54 for the 100KB model).</p>
+<dt>dend_ideal (int, required) :</dt><dd><p>Cutoff of genomic separation (Default value = 1000 for the 100KB model).</p>
 </dd>
-<dt>cutoff_ideal (float, required)<span class="classifier"></span></dt><dd><p>Cutoff of Ideal potential (Default value = 2.0 for the 100KB model).</p>
+<dt>rc_tanh_ideal (float, required) :</dt><dd><p><span class="math notranslate nohighlight">\(r_c\)</span> in the equation, a good estimation of the bond length during the simulation (Default value = 0.54 for the 100KB model).</p>
+</dd>
+<dt>cutoff_ideal (float, required) :</dt><dd><p>Cutoff of Ideal potential (Default value = 2.0 for the 100KB model).</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt id="openNucleome.open_chr_model.OpenChrModel.add_inter_potential">
-<code class="sig-name descname"><span class="pre">add_inter_potential</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inter_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rc_tanh_inter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.54</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff_inter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.open_chr_model.OpenChrModel.add_inter_potential" title="Permalink to this definition">¶</a></dt>
+<dt id="openNucleome.chromosome.Chromosome.add_inter_potential">
+<code class="sig-name descname"><span class="pre">add_inter_potential</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inter_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_group</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rc_tanh_inter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.54</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff_inter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.chromosome.Chromosome.add_inter_potential" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add the Inter-chromosome Chromosome potential using custom values for interactions between beads separated by a genomic distance <span class="math notranslate nohighlight">\(d\)</span>.</p>
 <p>The parameter rc_tanh_inter is part of the probability of crosslink function</p>
 <div class="math notranslate nohighlight">
@@ -250,6 +154,8 @@
 <dl class="simple">
 <dt>inter_file (string, required) :</dt><dd><p>The path to the inter-chromosomal potential scaling factor txt file.</p>
 </dd>
+<dt>force_group (int, required):</dt><dd><p>labels the index of the current force.</p>
+</dd>
 <dt>rc_tanh_inter (float, required) :</dt><dd><p><span class="math notranslate nohighlight">\(r_c\)</span> in the equation, a good estimation of the bond length during the simulation (Default value = 0.54 for the 100KB model).</p>
 </dd>
 <dt>cutoff_inter (float, required) :</dt><dd><p>Cutoff of inter-chromosomal potential (Default value = 2.0 for the 100KB model).</p>
@@ -258,12 +164,14 @@
 </dd></dl>
 
 <dl class="py method">
-<dt id="openNucleome.open_chr_model.OpenChrModel.add_softcore">
-<code class="sig-name descname"><span class="pre">add_softcore</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epsilon_sc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_sc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff_sc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.56</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ecut_sc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.open_chr_model.OpenChrModel.add_softcore" title="Permalink to this definition">¶</a></dt>
+<dt id="openNucleome.chromosome.Chromosome.add_softcore">
+<code class="sig-name descname"><span class="pre">add_softcore</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force_group</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon_sc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_sc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff_sc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.56</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ecut_sc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.chromosome.Chromosome.add_softcore" title="Permalink to this definition">¶</a></dt>
 <dd><p>We plug the tanh potential into the WCA potential to represent the excluded volume effect;</p>
 <p>The softcore potential will only be applied to the chromosomes (type 1, 2, 3, 4).</p>
 <p>When <span class="math notranslate nohighlight">\(r_{sc} &lt; r &lt; r_{cutoff}\)</span>, use <span class="math notranslate nohighlight">\(E_{LJ} = 4\epsilon_{sc}\left(\left(\frac{\sigma_{sc}}{r}\right)^{12} -\left(\frac{\sigma_{sc}}{r}\right)^{6}   \right) + \epsilon_{rc}\)</span>; <span class="math notranslate nohighlight">\(r &lt; r_{sc}\)</span>, use <span class="math notranslate nohighlight">\(E = \frac{1}{2}E_{cut}\left(1+\text{tanh}(\frac{2E_{LJ}}{E_{cut}}-1) \right)\)</span>, where <span class="math notranslate nohighlight">\(r_{sc} \approx 0.485\)</span>.</p>
 <dl class="simple">
+<dt>force_group (int, required):</dt><dd><p>labels the index of the current force.</p>
+</dd>
 <dt>epsilon_sc (float, required) :</dt><dd><p>energy units (Default value = 1.0).</p>
 </dd>
 <dt>sigma_sc (float, required) :</dt><dd><p>distance units, which represents the diameter of a 100KB-resolution bead (Default value = 0.5).</p>
@@ -276,8 +184,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt id="openNucleome.open_chr_model.OpenChrModel.add_type_type_potential">
-<code class="sig-name descname"><span class="pre">add_type_type_potential</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">types_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rc_tanh_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.54</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.open_chr_model.OpenChrModel.add_type_type_potential" title="Permalink to this definition">¶</a></dt>
+<dt id="openNucleome.chromosome.Chromosome.add_type_type_potential">
+<code class="sig-name descname"><span class="pre">add_type_type_potential</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">types_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_group</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rc_tanh_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.54</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.chromosome.Chromosome.add_type_type_potential" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add the type-to-type potential using custom values for interactions between the chromatin types.</p>
 <p>The parameter rc_tanh_type is part of the probability of crosslink function</p>
 <div class="math notranslate nohighlight">
@@ -287,33 +195,251 @@
 <dl class="simple">
 <dt>types_file (string, required) :</dt><dd><p>The path to the type-to-type potential scaling factor txt file.</p>
 </dd>
-<dt>rc_tanh_type (float, required)<span class="classifier"></span></dt><dd><p><span class="math notranslate nohighlight">\(r_c\)</span> in the equation, a good estimation of the bond length during the simulation (Default value = 0.54 for the 100KB model).</p>
+<dt>force_group (int, required):</dt><dd><p>labels the index of the current force.</p>
+</dd>
+<dt>rc_tanh_type (float, required) :</dt><dd><p><span class="math notranslate nohighlight">\(r_c\)</span> in the equation, a good estimation of the bond length during the simulation (Default value = 0.54 for the 100KB model).</p>
 </dd>
 <dt>cutoff_type (float, required) :</dt><dd><p>Cutoff of Type-Type potential (Default value = 2.0 for the 100KB model).</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="py method">
-<dt id="openNucleome.open_chr_model.OpenChrModel.construct_topology">
-<code class="sig-name descname"><span class="pre">construct_topology</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.open_chr_model.OpenChrModel.construct_topology" title="Permalink to this definition">¶</a></dt>
-<dd><p>Construct the topology for the system.</p>
-<p>This function is called automatically when creating a system.</p>
 </dd></dl>
 
+</div>
+<div class="section" id="module-openNucleome.speckle">
+<span id="speckle"></span><h2>Speckle<a class="headerlink" href="#module-openNucleome.speckle" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="openNucleome.speckle.Speckle">
+<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">Speckle</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N_bead</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bond_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compart_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chr_groups</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bead_groups</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mol_type</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.speckle.Speckle" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Speckle class stores all the useful potentials related to speckles used in the whole nucleus model.</p>
 <dl class="py method">
-<dt id="openNucleome.open_chr_model.OpenChrModel.create_simulation">
-<code class="sig-name descname"><span class="pre">create_simulation</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">platform_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'CPU'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.open_chr_model.OpenChrModel.create_simulation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Specify a platform when creating the simulation.</p>
+<dt id="openNucleome.speckle.Speckle.add_LJ_spec">
+<code class="sig-name descname"><span class="pre">add_LJ_spec</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force_group</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon_dP_dP</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_spec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff_dP_dP</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon_P</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff_P</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.56</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.speckle.Speckle.add_LJ_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add nonbonded rescaled LJpotential between Speckles-Speckles</p>
+<p>Notice that the system has two different speckles dP (type 6) and P (type 7).</p>
 <dl class="simple">
-<dt>platform_type (string, required)<span class="classifier"></span></dt><dd><p>The CPU platform is set as the default, while CUDA, OpenCL, and Reference are available as optional platforms.</p>
+<dt>force_group (int, required):</dt><dd><p>labels the index of the current force.</p>
+</dd>
+<dt>epsilon_dP_dP (float, required) :</dt><dd><p>Epsilon of LJ between (dP,dP), energy units (Default value = 3.0).</p>
+</dd>
+<dt>sigma_spec (float, required) :</dt><dd><p>Sigma of LJ between speckles and speckles, distance units (Default value = 0.5).</p>
+</dd>
+<dt>cutoff_dP_dP (float, required) :</dt><dd><p>Cutoff of LJ between (dP,dP), distance units (Default value = 1.5).</p>
+</dd>
+<dt>epsilon_P (float, required) :</dt><dd><p>Epsilon of LJ between (dP,P) and (P,P), energy units (Default value = 1.0).</p>
+</dd>
+<dt>cutoff_P (float, required) :</dt><dd><p>Cutoff of LJ between (dP,P) and (P,P), distance units (Default value = 0.5*1.12).</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt id="openNucleome.open_chr_model.OpenChrModel.create_system">
-<code class="sig-name descname"><span class="pre">create_system</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">PDB_file</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.open_chr_model.OpenChrModel.create_system" title="Permalink to this definition">¶</a></dt>
+<dt id="openNucleome.speckle.Speckle.add_chr_spec">
+<code class="sig-name descname"><span class="pre">add_chr_spec</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chr_spec_param</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_group</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_tanh_chr_spec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rc_tanh_chr_spec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.75</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff_chr_spec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.speckle.Speckle.add_chr_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add nonbonded potential using custom values for interactions between chromosomes and speckles</p>
+<p>The parameters are part of the probability of function <span class="math notranslate nohighlight">\(g(r_{i,j}) = \frac{1}{2}\left(1 + \text{tanh}\left[\sigma(r_c - r_{i,j})\right] \right)\)</span>, where <span class="math notranslate nohighlight">\(r_{i,j}\)</span> is the spatial distance between loci (beads) <em>i</em> and <em>j</em>.</p>
+<dl class="simple">
+<dt>chr_spec_param (string, required) :</dt><dd><p>The path to the potential scaling factor txt file.</p>
+</dd>
+<dt>force_group (int, required):</dt><dd><p>labels the index of the current force.</p>
+</dd>
+<dt>sigma_tanh_chr_spec (float, required) :</dt><dd><p>Distance units (Default value = 4.0).</p>
+</dd>
+<dt>rc_tanh_chr_spec (float, required) :</dt><dd><p>Distance units, where <span class="math notranslate nohighlight">\(g(r_{i,j}) = 0.5\)</span> (Default value = 0.75).</p>
+</dd>
+<dt>cutoff_chr_spec (float, required) :</dt><dd><p>The cutoff (Default value = 2.0)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-openNucleome.nucleolus">
+<span id="nucleolus"></span><h2>Nucleolus<a class="headerlink" href="#module-openNucleome.nucleolus" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="openNucleome.nucleolus.Nucleolus">
+<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">Nucleolus</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N_bead</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N_chr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N_chr_nuc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bond_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compart_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chr_groups</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bead_groups</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mol_type</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.nucleolus.Nucleolus" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Nucleolus class stores all the useful potentials related to nucleoli used in the whole nucleus model.</p>
+<dl class="py method">
+<dt id="openNucleome.nucleolus.Nucleolus.add_LJ_nuc">
+<code class="sig-name descname"><span class="pre">add_LJ_nuc</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force_group</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon_nuc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_nuc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff_nuc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.5</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.nucleolus.Nucleolus.add_LJ_nuc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add nonbonded rescaled LJpotential between Nucleoli-Nucleoli.</p>
+<dl class="simple">
+<dt>force_group (int, required):</dt><dd><p>labels the index of the current force.</p>
+</dd>
+<dt>epsilon_nuc (float, required) :</dt><dd><p>energy units (Default value = 3.0).</p>
+</dd>
+<dt>sigma_nuc (float, required) :</dt><dd><p>distance units (Default value = 0.5).</p>
+</dd>
+<dt>cutoff_nuc (float, required) :</dt><dd><p>The cutoff, distance units (Default value = 1.5).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="openNucleome.nucleolus.Nucleolus.add_LJ_plain">
+<code class="sig-name descname"><span class="pre">add_LJ_plain</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force_group</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon_LJ_plain</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_LJ_plain</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff_LJ_plain</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.56</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.nucleolus.Nucleolus.add_LJ_plain" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add nonbonded plain LJpotential between Nucleoli and Speckles</p>
+<dl class="simple">
+<dt>force_group (int, required):</dt><dd><p>labels the index of the current force.</p>
+</dd>
+<dt>epsilon_LJ_plain (float, required) :</dt><dd><p>energy units (Default value = 1.0).</p>
+</dd>
+<dt>sigma_LJ_plain (float, required) :</dt><dd><p>distance units (Default value = 0.5).</p>
+</dd>
+<dt>cutoff_LJ_plain (float, required) :</dt><dd><p>The cutoff, distance units (Default value = 0.5*1.12).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="openNucleome.nucleolus.Nucleolus.add_chr_nuc">
+<code class="sig-name descname"><span class="pre">add_chr_nuc</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rescalar_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_group</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon_chr_nuc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_chr_nuc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff_chr_nuc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.5</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.nucleolus.Nucleolus.add_chr_nuc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add nonbonded rescaled LJpotential between chromosomes and nucleoli</p>
+<dl class="simple">
+<dt>rescalar_file (string, required) :</dt><dd><p>The path to the txt file of rescaling factors (SPIN state probabilities).</p>
+</dd>
+<dt>force_group (int, required):</dt><dd><p>labels the index of the current force.</p>
+</dd>
+<dt>epsilon_chr_nuc (float, required) :</dt><dd><p>Epsilon of LJ between nucleolus beads (Default value = 1.0).</p>
+</dd>
+<dt>sigma_chr_nuc (float, required) :</dt><dd><p>Sigma of LJ between nucleolus beads (Default value = 0.5).</p>
+</dd>
+<dt>cutoff_chr_nuc (float, required):</dt><dd><p>Cutoff of LJ between nucleolus beads (Default value = 1.5).</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-openNucleome.lamina">
+<span id="lamina"></span><h2>Lamina<a class="headerlink" href="#module-openNucleome.lamina" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="openNucleome.lamina.Lamina">
+<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">Lamina</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N_bead</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N_chr_nuc_spec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bond_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compart_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chr_groups</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bead_groups</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mol_type</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.lamina.Lamina" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Lamina class stores all the useful potentials related to lamina used in the whole nucleus model.</p>
+<dl class="py method">
+<dt id="openNucleome.lamina.Lamina.add_chr_lam">
+<code class="sig-name descname"><span class="pre">add_chr_lam</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chr_lam_param</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_group</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_tanh_chr_lam</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rc_tanh_chr_lam</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.75</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff_chr_lam</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.lamina.Lamina.add_chr_lam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add nonbonded potential using custom values for interactions between chromosomes and lamina</p>
+<p>The parameters are part of the probability of function <span class="math notranslate nohighlight">\(g(r_{i,j}) = \frac{1}{2}\left(1 + \text{tanh}\left[\sigma(r_c - r_{i,j})\right] \right)\)</span>, where <span class="math notranslate nohighlight">\(r_{i,j}\)</span> is the spatial distance between loci (beads) <em>i</em> and <em>j</em>.</p>
+<dl class="simple">
+<dt>chr_lam_param (string, required) :</dt><dd><p>The path to the potential scaling factor txt file.</p>
+</dd>
+<dt>force_group (int, required):</dt><dd><p>labels the index of the current force.</p>
+</dd>
+<dt>sigma_tanh_chr_lam (float, required) :</dt><dd><p>Distance units (Default value = 4.0).</p>
+</dd>
+<dt>rc_tanh_chr_lam (float, required) :</dt><dd><p>Distance units, where <span class="math notranslate nohighlight">\(g(r_{i,j}) = 0.5\)</span> (Default value = 0.75).</p>
+</dd>
+<dt>cutoff_chr_lam (float, required) :</dt><dd><p>The cutoff (Default value = 2.0)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="openNucleome.lamina.Lamina.add_hardwall">
+<code class="sig-name descname"><span class="pre">add_hardwall</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force_group</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon_hw</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_hw</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.75</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff_hw</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.84</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.lamina.Lamina.add_hardwall" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add nonbonded hard-wall potential between (chromosomes, speckles, nucleoli) and lamina</p>
+<p>The size of lamina is 1.0 (diameter) and the size of other beads is 0.5, so the sigma is 1.0/2 + 0.5/2 = 0.75 for the 100KB model</p>
+<dl class="simple">
+<dt>force_group (int, required):</dt><dd><p>labels the index of the current force.</p>
+</dd>
+<dt>epsilon_hw (float, required) :</dt><dd><p>energy units (Default value = 1.0).</p>
+</dd>
+<dt>sigma_hw (float, required) :</dt><dd><p>distance units (Default value = 0.75).</p>
+</dd>
+<dt>cutoff_hw (float, required) :</dt><dd><p>The cutoff, distance units (Default value = 0.75*1.12).</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-openNucleome.whole_nucleus_model">
+<span id="wholenucleus"></span><h2>WholeNucleus<a class="headerlink" href="#module-openNucleome.whole_nucleus_model" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="openNucleome.whole_nucleus_model.OpenChrModel">
+<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">OpenChrModel</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.005</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass_scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.whole_nucleus_model.OpenChrModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>The OpenChrModel class performes the whole nucleus dynamics based on the compartment annotations sequence of chromosomes.</p>
+<p>The simulations can be performed using customed values for the type-to-type, intra, inter-chromosomal, chromosomes-nucleoli, and chromosomes-speckles parameters.</p>
+<p>In our model, each component has specific type. Compartment A: 1, Compartment B: 2, Pericentromeres: 3, Centromeres: 4, Nucleoli: 5, dP Speckles: 6, P Speckles: 7, Lamina: 8</p>
+<dl class="py method">
+<dt id="openNucleome.whole_nucleus_model.OpenChrModel.add_chromosome_potential">
+<code class="sig-name descname"><span class="pre">add_chromosome_potential</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ideal_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">types_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inter_file</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.whole_nucleus_model.OpenChrModel.add_chromosome_potential" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add the potential related to the genome in the system.</p>
+<dl class="simple">
+<dt>flag (dict, required):</dt><dd><p>A dict contains the switch of each chromosome-related potential.</p>
+</dd>
+<dt>ideal_file (string, required) :</dt><dd><p>The path to the ideal potential scaling factor txt file.</p>
+</dd>
+<dt>types_file (string, required) :</dt><dd><p>The path to the type-to-type potential scaling factor txt file.</p>
+</dd>
+<dt>inter_file (string, required) :</dt><dd><p>The path to the inter-chromosomal potential scaling factor txt file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="openNucleome.whole_nucleus_model.OpenChrModel.add_lamina_potential">
+<code class="sig-name descname"><span class="pre">add_lamina_potential</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chr_lam_param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.whole_nucleus_model.OpenChrModel.add_lamina_potential" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add the potential related to the nuclear lamina in the system.</p>
+<dl class="simple">
+<dt>flag (dict, required):</dt><dd><p>A dict contains the switch of each lamina-related potential</p>
+</dd>
+<dt>chr_lam_param (string, required) :</dt><dd><p>The path to the potential scaling factor txt file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="openNucleome.whole_nucleus_model.OpenChrModel.add_nucleolus_potential">
+<code class="sig-name descname"><span class="pre">add_nucleolus_potential</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rescalar_file</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.whole_nucleus_model.OpenChrModel.add_nucleolus_potential" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add the potential related to the nucleoli in the system.</p>
+<dl class="simple">
+<dt>flag (dict, required):</dt><dd><p>A dict contains the switch of each nucleolus-related potential</p>
+</dd>
+<dt>rescalar_file (string, required) :</dt><dd><p>The path to the txt file of rescaling factors (SPIN state probabilities).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="openNucleome.whole_nucleus_model.OpenChrModel.add_speckle_potential">
+<code class="sig-name descname"><span class="pre">add_speckle_potential</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chr_spec_param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.whole_nucleus_model.OpenChrModel.add_speckle_potential" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add the potential related to the nuclear speckles in the system.</p>
+<dl class="simple">
+<dt>flag (dict, required):</dt><dd><p>A dict contains the switch of each speckle-related potential</p>
+</dd>
+<dt>chr_spec_param (string, required) :</dt><dd><p>The path to the potential scaling factor txt file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="openNucleome.whole_nucleus_model.OpenChrModel.construct_topology">
+<code class="sig-name descname"><span class="pre">construct_topology</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.whole_nucleus_model.OpenChrModel.construct_topology" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct the topology for the system.</p>
+<p>This function is called automatically when creating a system.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="openNucleome.whole_nucleus_model.OpenChrModel.create_simulation">
+<code class="sig-name descname"><span class="pre">create_simulation</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">platform_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'CPU'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.whole_nucleus_model.OpenChrModel.create_simulation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Specify a platform when creating the simulation.</p>
+<dl class="simple">
+<dt>platform_type (string, required) :</dt><dd><p>The CPU platform is set as the default, while CUDA, OpenCL, and Reference are available as optional platforms.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="openNucleome.whole_nucleus_model.OpenChrModel.create_system">
+<code class="sig-name descname"><span class="pre">create_system</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">PDB_file</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.whole_nucleus_model.OpenChrModel.create_system" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create the system with initial configurations.</p>
 <dl class="simple">
 <dt>PDB_file (string, required):</dt><dd><p>The path to the chromosome PDB file, including nucleoli, speckles, and lamina.</p>
@@ -322,15 +448,15 @@
 </dd></dl>
 
 <dl class="py method">
-<dt id="openNucleome.open_chr_model.OpenChrModel.generate_element">
-<code class="sig-name descname"><span class="pre">generate_element</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.open_chr_model.OpenChrModel.generate_element" title="Permalink to this definition">¶</a></dt>
+<dt id="openNucleome.whole_nucleus_model.OpenChrModel.generate_element">
+<code class="sig-name descname"><span class="pre">generate_element</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.whole_nucleus_model.OpenChrModel.generate_element" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate elements for each coarse-grained bead.</p>
 <p>This function is called automatically when creating a system.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="openNucleome.open_chr_model.OpenChrModel.save_system">
-<code class="sig-name descname"><span class="pre">save_system</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">system_xml</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.open_chr_model.OpenChrModel.save_system" title="Permalink to this definition">¶</a></dt>
+<dt id="openNucleome.whole_nucleus_model.OpenChrModel.save_system">
+<code class="sig-name descname"><span class="pre">save_system</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">system_xml</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.whole_nucleus_model.OpenChrModel.save_system" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save the simulation state to readable xml format.</p>
 </dd></dl>
 
