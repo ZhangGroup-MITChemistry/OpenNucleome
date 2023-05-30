@@ -19,7 +19,7 @@
 
 project = 'openNucleome'
 copyright = '2023, Zhuohan Lao'
-author = 'Zhuohan Lao'
+author = 'the Zhang Group'
 
 
 # -- General configuration ---------------------------------------------------

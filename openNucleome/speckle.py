@@ -99,7 +99,7 @@ class Speckle(object):
         
         return LJ_spec
 
-    def add_chr_spec(self, force_group, chr_spec_param, sigma_tanh_chr_spec = 4., rc_tanh_chr_spec = 0.75, cutoff_chr_spec = 2.0):
+    def add_chr_spec(self, chr_spec_param, force_group, sigma_tanh_chr_spec = 4., rc_tanh_chr_spec = 0.75, cutoff_chr_spec = 2.0):
         r'''
         Add nonbonded potential using custom values for interactions between chromosomes and speckles
 
@@ -107,11 +107,11 @@ class Speckle(object):
 
         Parameters
         ----------
-        force_group (int, required):
-            labels the index of the current force.
-
         chr_spec_param (string, required) :
             The path to the potential scaling factor txt file.
+
+        force_group (int, required):
+            labels the index of the current force.
 
         sigma_tanh_chr_spec (float, required) :
             Distance units (Default value = 4.0).

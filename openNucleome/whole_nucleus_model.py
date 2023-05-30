@@ -8,7 +8,7 @@ import parmed as pmd
 import json
 import sys
 from sys import platform
-from openNucleome import Chromosome, Speckle, Nucleolus, Lamina
+#from openNucleome import Chromosome, Speckle, Nucleolus, Lamina
 
 class OpenChrModel:
     '''
@@ -116,10 +116,10 @@ class OpenChrModel:
 
         self.construct_topology()
 
-        chromosome_model = Chromosome(self.chr_system.getNumParticles(), self.N_type, self.all_bonds, self.compart_type, self.chr_groups, self.bead_groups, self.mol_type)
-        speckle_model = Speckle(self.chr_system.getNumParticles(), self.N_type, self.all_bonds, self.compart_type, self.chr_groups, self.bead_groups, self.mol_type)
-        nucleolus_model = Nucleolus(self.chr_system.getNumParticles(), self.N_type, self.all_bonds, self.compart_type, self.chr_groups, self.bead_groups, self.mol_type)
-        lamina_model = Lamina(self.chr_system.getNumParticles(), self.N_type, self.all_bonds, self.compart_type, self.chr_groups, self.bead_groups, self.mol_type)
+        self.chromosome_model = Chromosome(self.chr_system.getNumParticles(), self.N_type, self.all_bonds, self.compart_type, self.chr_groups, self.bead_groups, self.mol_type)
+        self.speckle_model = Speckle(self.chr_system.getNumParticles(), self.N_type, self.all_bonds, self.compart_type, self.chr_groups, self.bead_groups, self.mol_type)
+        self.nucleolus_model = Nucleolus(self.chr_system.getNumParticles(), self.N_type, self.N_chr, self.N_chr_nuc, self.all_bonds, self.compart_type, self.chr_groups, self.bead_groups, self.mol_type)
+        self.lamina_model = Lamina(self.chr_system.getNumParticles(), self.N_type, self.N_chr_nuc_spec, self.all_bonds, self.compart_type, self.chr_groups, self.bead_groups, self.mol_type)
 
     def generate_element(self):
         '''
@@ -154,6 +154,94 @@ class OpenChrModel:
         self.all_bonds = []
         for b in self.chr_topo.bonds():
             self.all_bonds.append((b.atom1, b.atom2))
+
+    def add_chromosome_potential(self, flag, ideal_file, types_file, inter_file):
+        '''
+        Add the potential related to the genome in the system.
+
+        Parameters
+        ----------
+
+        flag (dict, required):
+            A dict contains the switch of each chromosome-related potential.
+
+        ideal_file (string, required) :
+            The path to the ideal potential scaling factor txt file.
+
+        types_file (string, required) :
+            The path to the type-to-type potential scaling factor txt file.
+
+        inter_file (string, required) :
+            The path to the inter-chromosomal potential scaling factor txt file.
+        '''
+        if flag['bond']:
+            self.chr_system.addForce(self.chromosome_model.add_class2_bond(10))
+        if flag['angle']:
+            self.chr_system.addForce(self.chromosome_model.add_angle_force())
+        if flag['softcore']:
+            self.chr_system.addForce(self.chromosome_model.add_softcore(11))
+        if flag['ideal']:
+            self.chr_system.addForce(self.chromosome_model.add_ideal_potential(ideal_file, 12))
+        if flag['compt']:
+            self.chr_system.addForce(self.chromosome_model.add_type_type_potential(types_file, 13))
+        if flag['inter']:
+            self.chr_system.addForce(self.chromosome_model.add_inter_potential(inter_file, 14))
+
+    def add_speckle_potential(self, flag, chr_spec_param):
+        '''
+        Add the potential related to the nuclear speckles in the system.
+
+        Parameters
+        ----------
+
+        flag (dict, required):
+            A dict contains the switch of each speckle-related potential
+
+        chr_spec_param (string, required) :
+            The path to the potential scaling factor txt file.
+        '''
+        if flag['spec-spec']:
+            self.chr_system.addForce(self.speckle_model.add_LJ_spec(15))
+        if flag['spec-chrom']:
+            self.chr_system.addForce(self.speckle_model.add_chr_spec(chr_spec_param, 16))
+
+    def add_nucleolus_potential(self, flag, rescalar_file):
+        '''
+        Add the potential related to the nucleoli in the system.
+
+        Parameters
+        ----------
+
+        flag (dict, required):
+            A dict contains the switch of each nucleolus-related potential
+
+        rescalar_file (string, required) :
+            The path to the txt file of rescaling factors (SPIN state probabilities).
+        '''
+        if flag['nuc-nuc']:
+            self.chr_system.addForce(self.nucleolus_model.add_LJ_nuc(17))
+        if flag['nuc-spec']:
+            self.chr_system.addForce(self.nucleolus_model.add_LJ_plain(18))
+        if flag['nuc-chrom']:
+            self.chr_system.addForce(self.nucleolus_model.add_chr_nuc(rescalar_file, 19))
+
+    def add_lamina_potential(self, flag, chr_lam_param):
+        '''
+        Add the potential related to the nuclear lamina in the system.
+
+        Parameters
+        ----------
+
+        flag (dict, required):
+            A dict contains the switch of each lamina-related potential
+
+        chr_lam_param (string, required) :
+            The path to the potential scaling factor txt file.
+        '''
+        if flag['lam-chrom']:
+            self.chr_system.addForce(self.lamina_model.add_chr_lam(chr_lam_param, 20))
+        if flag['hard-wall']:
+            self.chr_system.addForce(self.lamina_model.add_hardwall(21))
 
     def save_system(self, system_xml):
         '''

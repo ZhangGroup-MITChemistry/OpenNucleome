@@ -52,6 +52,7 @@ class Chromosome(object):
     def add_fene_bond(self, force_group, kfb = 30.0, r0 = 1.5, epsilon_fene = 1.0, sigma_fene = 1.0, cutoff_fene = 1.12):
         '''
         Internal function that inits FENE bond force. The default parameters value is for the 1MB resolution.
+
         Parameters
         ----------
         force_group (int, required):
@@ -348,7 +349,7 @@ class Chromosome(object):
         cross_inter.addGlobalParameter('rc_tanh_inter', rc_tanh_inter)
         cross_inter.addGlobalParameter('cutoff_inter', cutoff_inter)
         cross_inter.setCutoffDistance(cutoff_inter)
-        cross_inter.setForceGroup(21)
+        cross_inter.setForceGroup(force_group)
 
         tab_inter = np.zeros((self.N_hapchrom, self.N_hapchrom))
         with open(inter_file, "r") as fin_inter:

@@ -13,7 +13,7 @@ class Nucleolus(object):
     '''
     The Nucleolus class stores all the useful potentials related to nucleoli used in the whole nucleus model.
     '''
-    def __init__(self, N_bead, N_type, bond_list, compart_type, chr_groups, bead_groups, mol_type):
+    def __init__(self, N_bead, N_type, N_chr, N_chr_nuc, bond_list, compart_type, chr_groups, bead_groups, mol_type):
         '''
         Initialize the useful parameters
 
@@ -42,6 +42,8 @@ class Nucleolus(object):
         '''
         self.N_bead = N_bead
         self.N_type = N_type
+        self.N_chr = N_chr
+        self.N_chr_nuc = N_chr_nuc
         self.N_hapchrom = 23 # the number of haploid chromsomes, always 23 for human cells
         self.bond_list = bond_list
         self.compart_type = compart_type
@@ -131,11 +133,11 @@ class Nucleolus(object):
 
         Parameters
         ----------
-        force_group (int, required):
-            labels the index of the current force.
-
         rescalar_file (string, required) :
             The path to the txt file of rescaling factors (SPIN state probabilities).
+
+        force_group (int, required):
+            labels the index of the current force.
 
         epsilon_chr_nuc (float, required) :
             Epsilon of LJ between nucleolus beads (Default value = 1.0).

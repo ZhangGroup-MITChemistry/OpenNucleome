@@ -13,7 +13,7 @@ class Lamina(object):
     '''
     The Lamina class stores all the useful potentials related to lamina used in the whole nucleus model.
     '''
-    def __init__(self, N_bead, N_type, bond_list, compart_type, chr_groups, bead_groups, mol_type):
+    def __init__(self, N_bead, N_type, N_chr_nuc_spec, bond_list, compart_type, chr_groups, bead_groups, mol_type):
         '''
         Initialize the useful parameters
 
@@ -42,6 +42,7 @@ class Lamina(object):
         '''
         self.N_bead = N_bead
         self.N_type = N_type
+        self.N_chr_nuc_spec = N_chr_nuc_spec
         self.N_hapchrom = 23 # the number of haploid chromsomes, always 23 for human cells
         self.bond_list = bond_list
         self.compart_type = compart_type
@@ -92,7 +93,7 @@ class Lamina(object):
 
         return particle_hw_energy
 
-    def add_chr_lam(self, force_group, chr_lam_param, sigma_tanh_chr_lam = 4., rc_tanh_chr_lam = 0.75, cutoff_chr_lam = 2.0):
+    def add_chr_lam(self, chr_lam_param, force_group, sigma_tanh_chr_lam = 4., rc_tanh_chr_lam = 0.75, cutoff_chr_lam = 2.0):
         r'''
         Add nonbonded potential using custom values for interactions between chromosomes and lamina
 
@@ -100,11 +101,12 @@ class Lamina(object):
 
         Parameters
         ----------
-        force_group (int, required):
-            labels the index of the current force.
-            
+
         chr_lam_param (string, required) :
             The path to the potential scaling factor txt file.
+
+        force_group (int, required):
+            labels the index of the current force.
 
         sigma_tanh_chr_lam (float, required) :
             Distance units (Default value = 4.0).
