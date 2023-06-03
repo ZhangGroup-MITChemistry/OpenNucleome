@@ -13,9 +13,16 @@ import mdtraj.reporters
 import random
 from openNucleome import OpenChrModel
 
+prob_P_dP = 0.2 # Transition probability from P to dP
+prob_dP_P = 0.2 # Transition probability from dP to P
+transition_freq = 4000
+sampling_freq = 2000
+dP_type = 6
+P_type = 7
+
 ######################
 ## initialize the system
-model = OpenChrModel(1.0, 0.1, 0.005, 1.0)
+model = OpenChrModel(1.0, 0.1, 0.005, 1.0) #1.0: temperature (LJ reduced unit); 0.1: damping coefficient (LJ reduced unit); 0.005: timestep (LJ reduced unit); 1.0: mass_scale#
 PDB_file = "human.pdb"
 ideal_file = "ideal_param.txt"
 types_file = "types_param.txt"
@@ -27,19 +34,19 @@ model.create_system(PDB_file) #generate new elements and construct topology as w
 
 ######################
 ## add force field
-model.add_class2_bond()
-model.add_angle_force()
-model.add_softcore()
-model.add_ideal_potential(ideal_file)
-model.add_type_type_potential(types_file)
-model.add_LJ_plain()
-model.add_LJ_nuc()
-model.add_LJ_spec()
-model.add_chr_nuc(chr_nuc_param)
-model.add_chr_spec(chr_spec_param)
-model.add_chr_lam(chr_lam_param)
-model.add_hardwall()
-model.add_inter_potential(inter_file)
+dict_chrom = {'bond':True, 'angle':True, 'softcore':True, 'ideal':True, 'compt':True, 'inter':True}
+dict_spec = {'spec-spec':True, 'spec-chrom':True}
+dict_nuc = {'nuc-nuc':True, 'nuc-spec':True, 'nuc-chrom':True}
+dict_lam = {'lam-chrom':True, 'hard-wall':True}
+model.add_chromosome_potential(dict_chrom, ideal_file, types_file, inter_file)
+model.add_speckle_potential(dict_spec, chr_spec_param)
+model.add_nucleolus_potential(dict_nuc, chr_nuc_param)
+model.add_lamina_potential(dict_lam, chr_lam_param)
+
+index_spec_spec_potential = 6
+start_spec_index = model.N_chr_nuc+1
+end_spec_index = model.N_chr_nuc_spec+1
+N_index = start_spec_index-end_spec_index
 
 ######################
 ## perform simulation, in this example, total step = 3,000,000, output to dcd every 2000 steps, and output the energy (similar to thermo in lammps) every 2000 steps
@@ -49,12 +56,9 @@ model.add_inter_potential(inter_file)
 simulation = model.create_simulation(platform_type = "CUDA")
 simulation.context.setPositions(model.chr_positions) 
 
-#state = simulation.context.getState(getPositions=True)
-#np.savetxt('bead_position.txt',np.array(state.getPositions().value_in_unit(u.nanometer)), fmt='%.6f')
 #simulation.minimizeEnergy()
 
-simulation.reporters.append(mdtraj.reporters.DCDReporter('HFF_3e6_every2000.dcd', 2000))
-#simulation.context.setPositions(model.chr_positions) #assign a new configuration as the initial configuration, different from the pdb file.
+simulation.reporters.append(mdtraj.reporters.DCDReporter('HFF_3e6_every2000.dcd', sampling_freq))
 
 def setVelocity(context):
     sigma = u.sqrt(1.0*u.kilojoule_per_mole / model.chr_system.getParticleMass(1)) 
@@ -62,35 +66,22 @@ def setVelocity(context):
     context.setVelocities(velocs) 
 setVelocity(simulation.context)
 
-simulation.reporters.append(mmapp.statedatareporter.StateDataReporter(sys.stdout, 2000, step=True, 
+simulation.reporters.append(mmapp.statedatareporter.StateDataReporter(sys.stdout, sampling_freq, step=True, 
     potentialEnergy=True, kineticEnergy=True, temperature=True, progress=True, remainingTime=True, separator='\t', totalSteps = 3000000))
 
-for i in range(750):
-    simulation.step(4000)
+for i in range(3000000//transition_freq):
+    simulation.step(transition_freq)
     # Change the type of speckles every 4000 steps, non-equilibrium scheme.
 
-    print("Bonding potential:", simulation.context.getState(getEnergy=True, groups={10}).getPotentialEnergy() / u.kilojoule_per_mole)
-    print("Softcore potential:", simulation.context.getState(getEnergy=True, groups={11}).getPotentialEnergy() / u.kilojoule_per_mole)
-    print("Ideal(intra-chromosomal) potential:", simulation.context.getState(getEnergy=True, groups={12}).getPotentialEnergy() / u.kilojoule_per_mole)
-    print("Compt-Compt potential:", simulation.context.getState(getEnergy=True, groups={13}).getPotentialEnergy() / u.kilojoule_per_mole)
-    print("Hardwall:", simulation.context.getState(getEnergy=True, groups={14}).getPotentialEnergy() / u.kilojoule_per_mole)
-    print("Nuc-Spec:", simulation.context.getState(getEnergy=True, groups={15}).getPotentialEnergy() / u.kilojoule_per_mole)
-    print("Nuc-Nuc:", simulation.context.getState(getEnergy=True, groups={16}).getPotentialEnergy() / u.kilojoule_per_mole)
-    print("Spec-Spec:", simulation.context.getState(getEnergy=True, groups={17}).getPotentialEnergy() / u.kilojoule_per_mole)
-    print("Nuc-Chr:", simulation.context.getState(getEnergy=True, groups={18}).getPotentialEnergy() / u.kilojoule_per_mole)
-    print("Spec-Chr:", simulation.context.getState(getEnergy=True, groups={19}).getPotentialEnergy() / u.kilojoule_per_mole)
-    print("Chr-Lam:", simulation.context.getState(getEnergy=True, groups={20}).getPotentialEnergy() / u.kilojoule_per_mole)
-    print("Inter-chromosomal potential:", simulation.context.getState(getEnergy=True, groups={21}).getPotentialEnergy() / u.kilojoule_per_mole)
+    for j in np.random.randint(start_spec_index, end_spec_index, N_index):
 
-    for j in np.random.randint(60942,62542,1600):
-
-        if model.compart_type[j] == 5:
-            model.compart_type[j] = 6 if random.random() < 0.2 else 5
+        if model.compart_type[j] == dP_type-1:
+            model.compart_type[j] = P_type-1 if random.random() < prob_dP_P else dP_type-1
         else:
-            model.compart_type[j] = 5 if random.random() < 0.2 else 6
+            model.compart_type[j] = dP_type-1 if random.random() < prob_P_dP else P_type-1
 
     for m in range(model.chr_system.getNumParticles()):
-        model.chr_system.getForce(7).setParticleParameters(m, [model.compart_type[m]])
-    model.chr_system.getForce(7).updateParametersInContext(simulation.context)
+        model.chr_system.getForce(index_spec_spec_potential).setParticleParameters(m, [model.compart_type[m]])
+    model.chr_system.getForce(index_spec_spec_potential).updateParametersInContext(simulation.context)
 
 np.savetxt('type_final.txt', (np.array(model.compart_type)+1).reshape((-1,1)), fmt='%d')

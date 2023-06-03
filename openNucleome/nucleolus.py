@@ -127,9 +127,11 @@ class Nucleolus(object):
 
         return LJ_nuc
 
-    def add_chr_nuc(self, rescalar_file, force_group, epsilon_chr_nuc = 1.0, sigma_chr_nuc = 0.5, cutoff_chr_nuc = 1.5):
-        '''
-        Add nonbonded rescaled LJpotential between chromosomes and nucleoli
+    def add_chr_nuc(self, rescalar_file, force_group, sigma_tanh_chr_nuc = 4.0, rc_tanh_chr_nuc = 0.75, cutoff_chr_nuc = 2.0):
+         r'''
+        Add nonbonded potential using custom values for interactions between chromosomes and nucleolus.
+
+        The parameters are part of the probability of function :math:`g(r_{i,j}) = \frac{1}{2}\left(1 + \text{tanh}\left[\sigma(r_c - r_{i,j})\right] \right)`, where :math:`r_{i,j}` is the spatial distance between loci (beads) *i* and *j*.
 
         Parameters
         ----------
@@ -139,26 +141,26 @@ class Nucleolus(object):
         force_group (int, required):
             labels the index of the current force.
 
-        epsilon_chr_nuc (float, required) :
-            Epsilon of LJ between nucleolus beads (Default value = 1.0).
+        sigma_tanh_chr_nuc (float, required) :
+            Distance units (Default value = 4.0).
 
-        sigma_chr_nuc (float, required) :
-            Sigma of LJ between nucleolus beads (Default value = 0.5).
+        rc_tanh_chr_nuc (float, required) :
+            Distance units, where :math:`g(r_{i,j}) = 0.5` (Default value = 0.75).
 
         cutoff_chr_nuc (float, required):
-            Cutoff of LJ between nucleolus beads (Default value = 1.5).
+            The cutoff (Default value = 2.0).
         '''
 
-        chr_nuc_energy = ("chr_nuc(min(f1,f2))*step(max(f1,f2)-N_chr)*step(N_chr_nuc-max(f1,f2))*epsilon_chr_nuc*4.*((sigma_chr_nuc/r)^12-(sigma_chr_nuc/r)^6-(sigma_chr_nuc/cutoff_chr_nuc)^12+(sigma_chr_nuc/cutoff_chr_nuc)^6)*step(cutoff_chr_nuc-r);")
-
+        chr_nuc_energy = ("chr_nuc(min(f1,f2))*step(max(f1,f2)-N_chr)*step(N_chr_nuc-max(f1,f2))*(f-0.5*(1.+tanh(sigma_tanh_chr_nuc*(rc_tanh_chr_nuc-cutoff_chr_nuc))))*step(cutoff_chr_nuc-r);"
+                         "f = 0.5*(1.+tanh(sigma_tanh_chr_lam*(rc_tanh_chr_lam-r)));")
         rescalar_mat = np.loadtxt(rescalar_file)
 
         NAD_energy = mm.CustomNonbondedForce(chr_nuc_energy)
 
         rescalar = mm.Discrete1DFunction(rescalar_mat)
         NAD_energy.addTabulatedFunction('chr_nuc', rescalar)
-        NAD_energy.addGlobalParameter("sigma_chr_nuc", sigma_chr_nuc)
-        NAD_energy.addGlobalParameter("epsilon_chr_nuc", epsilon_chr_nuc)
+        NAD_energy.addGlobalParameter("sigma_tanh_chr_nuc", sigma_tanh_chr_nuc)
+        NAD_energy.addGlobalParameter("rc_tanh_chr_nuc", rc_tanh_chr_nuc)
         NAD_energy.addGlobalParameter("cutoff_chr_nuc", cutoff_chr_nuc)
         NAD_energy.addGlobalParameter("N_chr", self.N_chr-0.5)
         NAD_energy.addGlobalParameter("N_chr_nuc", self.N_chr_nuc-0.5)
