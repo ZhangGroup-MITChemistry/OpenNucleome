@@ -46,7 +46,7 @@ model.add_lamina_potential(dict_lam, chr_lam_param)
 index_spec_spec_potential = 6
 start_spec_index = model.N_chr_nuc+1
 end_spec_index = model.N_chr_nuc_spec+1
-N_index = start_spec_index-end_spec_index
+N_spec = start_spec_index-end_spec_index
 
 ######################
 ## perform simulation, in this example, total step = 3,000,000, output to dcd every 2000 steps, and output the energy (similar to thermo in lammps) every 2000 steps
@@ -73,7 +73,7 @@ for i in range(3000000//transition_freq):
     simulation.step(transition_freq)
     # Change the type of speckles every 4000 steps, non-equilibrium scheme.
 
-    for j in np.random.randint(start_spec_index, end_spec_index, N_index):
+    for j in np.random.randint(start_spec_index, end_spec_index, N_spec): # Do the chemical modification, and change the spec-spec potential on the fly
 
         if model.compart_type[j] == dP_type-1:
             model.compart_type[j] = P_type-1 if random.random() < prob_dP_P else dP_type-1
@@ -84,4 +84,5 @@ for i in range(3000000//transition_freq):
         model.chr_system.getForce(index_spec_spec_potential).setParticleParameters(m, [model.compart_type[m]])
     model.chr_system.getForce(index_spec_spec_potential).updateParametersInContext(simulation.context)
 
+# Keep the final result of spec types in case constructing the configuration for the continuous simulation.
 np.savetxt('type_final.txt', (np.array(model.compart_type)+1).reshape((-1,1)), fmt='%d')
