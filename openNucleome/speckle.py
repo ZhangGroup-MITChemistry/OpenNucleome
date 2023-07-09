@@ -92,7 +92,7 @@ class Speckle(object):
         LJ_spec.setForceGroup(force_group)
 
         for idx1, idx2 in self.bond_list: #exclude all nearest neighbor interactions
-            LJ_spec.addExclusion(idx1, idx2)
+            LJ_spec.addExclusion(int(idx1), int(idx2))
 
         for i in range(self.N_bead):
             LJ_spec.addParticle([self.compart_type[i]])
@@ -140,7 +140,7 @@ class Speckle(object):
         chr_spec_energy.addPerParticleParameter("v")
 
         for idx1, idx2 in self.bond_list: #exclude all nearest neighbor interactions
-            chr_spec_energy.addExclusion(idx1, idx2)
+            chr_spec_energy.addExclusion(int(idx1), int(idx2))
 
         chr_spec_energy.setNonbondedMethod(chr_spec_energy.CutoffNonPeriodic) #avoid periodic boundary
 

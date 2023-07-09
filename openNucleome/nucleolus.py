@@ -83,7 +83,7 @@ class Nucleolus(object):
 
         LJ_plain.setForceGroup(force_group)
         for idx1, idx2 in self.bond_list: #exclude all nearest neighbor interactions
-            LJ_plain.addExclusion(idx1, idx2)
+            LJ_plain.addExclusion(int(idx1), int(idx2))
 
         for i in range(self.N_bead):
             LJ_plain.addParticle([])
@@ -92,7 +92,7 @@ class Nucleolus(object):
 
     def add_LJ_nuc(self, force_group, epsilon_nuc = 3.0, sigma_nuc = 0.5, cutoff_nuc = 1.5):
         '''
-        Add nonbonded rescaled LJpotential between Nucleoli-Nucleoli.
+        Add nonbonded LJpotential between Nucleoli-Nucleoli.
 
         Parameters
         ----------
@@ -120,7 +120,7 @@ class Nucleolus(object):
         LJ_nuc.setForceGroup(force_group)
 
         for idx1, idx2 in self.bond_list: #exclude all nearest neighbor interactions
-            LJ_nuc.addExclusion(idx1, idx2)
+            LJ_nuc.addExclusion(int(idx1), int(idx2))
 
         for i in range(self.N_bead):
             LJ_nuc.addParticle([])
@@ -169,7 +169,7 @@ class Nucleolus(object):
         NAD_energy.addPerParticleParameter("f")
 
         for idx1, idx2 in self.bond_list: #exclude all nearest neighbor interactions
-            NAD_energy.addExclusion(idx1, idx2)
+            NAD_energy.addExclusion(int(idx1), int(idx2))
 
         NAD_energy.setNonbondedMethod(NAD_energy.CutoffNonPeriodic) #avoid periodic boundary
 

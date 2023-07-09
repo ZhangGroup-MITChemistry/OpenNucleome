@@ -82,7 +82,7 @@ class Lamina(object):
         particle_hw_energy.addPerParticleParameter("phw")
 
         for idx1, idx2 in self.bond_list: #exclude all nearest neighbor interactions
-            particle_hw_energy.addExclusion(idx1, idx2)
+            particle_hw_energy.addExclusion(int(idx1), int(idx2))
 
         particle_hw_energy.setNonbondedMethod(particle_hw_energy.CutoffNonPeriodic) #avoid periodic boundary
 
@@ -135,7 +135,7 @@ class Lamina(object):
         chr_lam_energy.addPerParticleParameter("idx_damid")
 
         for idx1, idx2 in self.bond_list: #exclude all nearest neighbor interactions
-            chr_lam_energy.addExclusion(idx1, idx2)
+            chr_lam_energy.addExclusion(int(idx1), int(idx2))
 
         chr_lam_energy.setNonbondedMethod(chr_lam_energy.CutoffNonPeriodic) #avoid periodic boundary
 
@@ -145,3 +145,82 @@ class Lamina(object):
             chr_lam_energy.addParticle([i])
 
         return chr_lam_energy
+
+    def add_lam_lam(self, force_group, epsilon_lam = 1., sigma_lam = 0.5, cutoff_lam = 0.5*(2.**(1./6.))):
+        '''
+        Add nonbonded plain LJpotential between Lamina and Lamina
+
+        Parameters
+        ----------
+
+        force_group (int, required) :
+            labels the index of the current force.
+
+        epsilon_lam (float, required) :
+            energy units (Default value = 1.0).
+
+        sigma_lam (float, required) :
+            Distance units (Default value = 0.5).
+
+        cutoff_lam (float, required) :
+            The cutoff (Default value = 0.5*1.12)
+        '''
+        #load the bead-specific rescaling factors
+
+        LJ_lam = mm.CustomNonbondedForce("step(min(h1,h2)-N_lam)*4*epsilon_lam*((sigma_lam/r)^12-(sigma_lam/r)^6-(sigma_lam/cutoff_lam)^12+(sigma_lam/cutoff_lam)^6) * step(cutoff_lam-r)")
+
+        LJ_lam.addGlobalParameter("epsilon_lam", epsilon_lam)
+        LJ_lam.addGlobalParameter("sigma_lam", sigma_lam)
+        LJ_lam.addGlobalParameter("cutoff_lam", cutoff_lam)
+        LJ_lam.addGlobalParameter("N_lam", self.N_chr_nuc_spec-0.5)
+        LJ_lam.setCutoffDistance(cutoff_lam)
+
+        LJ_lam.addPerParticleParameter("h")
+
+        for idx1, idx2 in self.bond_list: #exclude all nearest neighbor interactions
+            LJ_lam.addExclusion(int(idx1), int(idx2))
+
+        LJ_lam.setNonbondedMethod(LJ_lam.CutoffNonPeriodic) #avoid periodic boundary
+
+        LJ_lam.setForceGroup(force_group)
+
+        for i in range(self.N_bead):
+            LJ_lam.addParticle([i])
+
+        return LJ_lam
+
+    def add_squeeze_nucleus(self, force_group, k = 1., R = 13.):
+        '''
+        Add external force to squeeze the cell nucleus (Default: constant force)
+
+        Parameters
+        ----------
+
+        force_group (int, required) :
+            labels the index of the current force.
+
+        k (float, required) :
+            energy units (Default value = 1.0).
+
+        R (float, required) :
+            perfect sphere nucleus radius (Default value = 13.0)
+        '''
+        #load the bead-specific rescaling factors
+
+        squeeze = mm.CustomExternalForce("step(x-N_lam)*k*(2*step(z)-1)*z*abs(z)/R")
+
+        squeeze.addGlobalParameter("k", k)
+        squeeze.addGlobalParameter("R", R)
+        squeeze.addGlobalParameter("N_lam", self.N_chr_nuc_spec-0.5)
+
+        squeeze.addPerParticleParameter("x")
+
+        for idx1, idx2 in self.bond_list: #exclude all nearest neighbor interactions
+            squeeze.addExclusion(int(idx1), int(idx2))
+
+        squeeze.setForceGroup(force_group)
+
+        for i in range(self.N_bead):
+            squeeze.addParticle(i, [i])
+
+        return squeeze

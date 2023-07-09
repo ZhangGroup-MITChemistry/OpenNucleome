@@ -11,7 +11,7 @@ from sys import platform
 import mdtraj as md
 import mdtraj.reporters
 import random
-from openNucleome import OpenChrModel
+from openNucleome import OpenNucleome
 
 prob_P_dP = 0.2 # Transition probability from P to dP
 prob_dP_P = 0.2 # Transition probability from dP to P
@@ -19,6 +19,7 @@ transition_freq = 4000
 sampling_freq = 2000
 dP_type = 6
 P_type = 7
+total_steps = 3000000
 
 ######################
 ## initialize the system
@@ -30,14 +31,16 @@ chr_nuc_param = "chr_nuc_param.txt"
 chr_spec_param = "chr_spec_param.txt"
 chr_lam_param = "chr_lam_param.txt"
 inter_file = 'inter_param.txt'
-model.create_system(PDB_file) #generate new elements and construct topology as well
+mem_dynamics = True # True: include the membrane dyanmics; False: exclude the membrane dynamics
+mem_network = 'lamina_bond.txt' if mem_dynamics else None
+model.create_system(PDB_file) # Generate new elements and construct topology as well
 
 ######################
 ## add force field
 dict_chrom = {'bond':True, 'angle':True, 'softcore':True, 'ideal':True, 'compt':True, 'inter':True}
 dict_spec = {'spec-spec':True, 'spec-chrom':True}
 dict_nuc = {'nuc-nuc':True, 'nuc-spec':True, 'nuc-chrom':True}
-dict_lam = {'lam-chrom':True, 'hard-wall':True}
+dict_lam = {'lam-chrom':True, 'hard-wall':True, 'lam-lam':True, 'squeeze_nucleus':True}
 model.add_chromosome_potential(dict_chrom, ideal_file, types_file, inter_file)
 model.add_speckle_potential(dict_spec, chr_spec_param)
 model.add_nucleolus_potential(dict_nuc, chr_nuc_param)
@@ -67,9 +70,9 @@ def setVelocity(context):
 setVelocity(simulation.context)
 
 simulation.reporters.append(mmapp.statedatareporter.StateDataReporter(sys.stdout, sampling_freq, step=True, 
-    potentialEnergy=True, kineticEnergy=True, temperature=True, progress=True, remainingTime=True, separator='\t', totalSteps = 3000000))
+    potentialEnergy=True, kineticEnergy=True, temperature=True, progress=True, remainingTime=True, separator='\t', totalSteps = total_steps))
 
-for i in range(3000000//transition_freq):
+for i in range(total_steps//transition_freq):
     simulation.step(transition_freq)
     # Change the type of speckles every 4000 steps, non-equilibrium scheme.
 

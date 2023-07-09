@@ -71,7 +71,7 @@ class Chromosome(object):
 
         bond.setUsesPeriodicBoundaryConditions(False)#avoid periodic boundary
         for idx1, idx2 in self.bond_list:
-            bond.addBond(idx1, idx2)
+            bond.addBond(int(idx1), int(idx2))
 
         return bond
 
@@ -96,7 +96,7 @@ class Chromosome(object):
 
         class2_bond.setUsesPeriodicBoundaryConditions(False)#avoid periodic boundary
         for idx1, idx2 in self.bond_list:
-            class2_bond.addBond(idx1, idx2)
+            class2_bond.addBond(int(idx1), int(idx2))
 
         return class2_bond
 
@@ -118,7 +118,7 @@ class Chromosome(object):
             if bond1 is None:
                 bond1 = bond2
                 continue
-            if bond1[1] == bond2[0]:
+            if bond1[1] == bond2[0] and bond2[1] <= self.N_chr_nuc_spec - 1:
                 angle.addAngle(bond1[0], bond1[1], bond2[1])
             bond1 = bond2
 
@@ -170,7 +170,7 @@ class Chromosome(object):
         soft_core.addPerParticleParameter("c")
 
         for idx1, idx2 in self.bond_list: #exclude all nearest neighbor interactions
-            soft_core.addExclusion(idx1, idx2)
+            soft_core.addExclusion(int(idx1), int(idx2))
 
         #avoid periodic boundary
         soft_core.setNonbondedMethod(soft_core.CutoffNonPeriodic)
@@ -235,7 +235,7 @@ class Chromosome(object):
             ideal.addInteractionGroup(self.chr_groups[i], self.chr_groups[i])
 
         for idx1, idx2 in self.bond_list: #exclude all nearest neighbor interactions
-            ideal.addExclusion(idx1, idx2)
+            ideal.addExclusion(int(idx1), int(idx2))
 
         #avoid periodic boundary
         ideal.setNonbondedMethod(ideal.CutoffNonPeriodic)
@@ -304,7 +304,7 @@ class Chromosome(object):
         cross_type.addPerParticleParameter("t")
 
         for idx1, idx2 in self.bond_list: #exclude all nearest neighbor interactions
-            cross_type.addExclusion(idx1, idx2)
+            cross_type.addExclusion(int(idx1), int(idx2))
 
         cross_type.setNonbondedMethod(cross_type.CutoffNonPeriodic) #avoid periodic boundary
 
@@ -368,7 +368,7 @@ class Chromosome(object):
         cross_inter.addPerParticleParameter("m")
 
         for idx1, idx2 in self.bond_list: #exclude all nearest neighbor interactions
-            cross_inter.addExclusion(idx1, idx2)
+            cross_inter.addExclusion(int(idx1), int(idx2))
 
         cross_inter.setNonbondedMethod(cross_inter.CutoffNonPeriodic) #avoid periodic boundary
 

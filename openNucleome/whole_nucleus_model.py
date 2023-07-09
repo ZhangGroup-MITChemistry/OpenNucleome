@@ -8,9 +8,9 @@ import parmed as pmd
 import json
 import sys
 from sys import platform
-#from openNucleome import Chromosome, Speckle, Nucleolus, Lamina
+from openNucleome import Chromosome, Speckle, Nucleolus, Lamina
 
-class OpenChrModel:
+class OpenNucleome:
     '''
     The OpenChrModel class performes the whole nucleus dynamics based on the compartment annotations sequence of chromosomes.
 
@@ -18,7 +18,7 @@ class OpenChrModel:
 
     In our model, each component has specific type. Compartment A: 1, Compartment B: 2, Pericentromeres: 3, Centromeres: 4, Nucleoli: 5, dP Speckles: 6, P Speckles: 7, Lamina: 8
     '''
-    def __init__(self, temperature = 1.0, gamma = 0.1, timestep = 0.005, mass_scale=1.0):
+    def __init__(self, temperature = 1.0, gamma = 0.1, timestep = 0.005, mass_scale = 1.0):
         r'''
         Initialize the whole nucleus model.
 
@@ -44,7 +44,7 @@ class OpenChrModel:
         self.kT = self.kB * self.temperature
         self.chr_mass = 10.0 * u.amu * mass_scale
 
-    def create_system(self, PDB_file):
+    def create_system(self, PDB_file, flag_membrane = True, lam_bond = None):
         '''
         Create the system with initial configurations.
 
@@ -53,8 +53,17 @@ class OpenChrModel:
 
         PDB_file (string, required):
             The path to the chromosome PDB file, including nucleoli, speckles, and lamina.
+
+        flag_membrane (bool, required):
+            A flag to control the dynamics of the lamina membrane, True: include the dynamics; False: exclude the dynamics (Default: True)
+
+        lam_bond (string, required):
+            The file containing the bond between specific lamina beads.
+
         '''
         chr_PDB_path = PDB_file
+        if flag_membrane: self.membrane_bond = np.loadtxt(lam_bond, dtype='int')
+
         self.chr_PDB = mmapp.PDBFile(chr_PDB_path)
 
         self.chr_system = mm.System()
@@ -82,7 +91,10 @@ class OpenChrModel:
             self.mol_type.append(int(a.residue.index))
 
             #add atom into the system with mass = chr_mass
-            m = 1. if self.compart_type[-1] != 7 else 0. # set mass of Lamina beads to zero to freeze them
+            if not flag_membrane:
+                m = 1. if self.compart_type[-1] != 7 else 0. # set mass of Lamina beads to zero to freeze them
+            else:
+                m = 1.
             self.chr_system.addParticle(self.chr_mass * m)
 
             #find the start and end index in each residue, self.chrResidue will be (start, end, residue) for each residue after self.construct_topology
@@ -112,32 +124,47 @@ class OpenChrModel:
 
         self.chr_residues.append([start, a.index])
 
-        self.generate_element()
+        self.generate_element(flag_membrane)
 
-        self.construct_topology()
+        self.construct_topology(flag_membrane)
 
         self.chromosome_model = Chromosome(self.chr_system.getNumParticles(), self.N_type, self.all_bonds, self.compart_type, self.chr_groups, self.bead_groups, self.mol_type)
         self.speckle_model = Speckle(self.chr_system.getNumParticles(), self.N_type, self.all_bonds, self.compart_type, self.chr_groups, self.bead_groups, self.mol_type)
         self.nucleolus_model = Nucleolus(self.chr_system.getNumParticles(), self.N_type, self.N_chr, self.N_chr_nuc, self.all_bonds, self.compart_type, self.chr_groups, self.bead_groups, self.mol_type)
         self.lamina_model = Lamina(self.chr_system.getNumParticles(), self.N_type, self.N_chr_nuc_spec, self.all_bonds, self.compart_type, self.chr_groups, self.bead_groups, self.mol_type)
 
-    def generate_element(self):
+    def generate_element(self, flag_membrane):
         '''
         Generate elements for each coarse-grained bead.
 
         This function is called automatically when creating a system.
+
+        Parameters
+        ----------
+
+        flag_membrane (bool, required):
+            A flag to control the dynamics of the lamina membrane, True: include the dynamics; False: exclude the dynamics (Default: True)
         '''
         name_to_element = ['ASP', 'GLU', 'HIS', 'LYS', 'ARG', 'ASN', 'GLN', 'PRO']
         self.Elements = []
         for i in range(8):
-            m = 1. if i!= 7 else 0.
+            if not flag_membrane:
+                m = 1. if i!= 7 else 0.
+            else:
+                m = 1.
             self.Elements.append(mmapp.Element(1000+i, name_to_element[i], name_to_element[i], self.chr_mass * m))
 
-    def construct_topology(self):
+    def construct_topology(self, flag_membrane):
         '''
         Construct the topology for the system.
 
         This function is called automatically when creating a system.
+
+        Parameters
+        ----------
+
+        flag_membrane (bool, required):
+            A flag to control the dynamics of the lamina membrane, True: include the dynamics; False: exclude the dynamics (Default: True)
         '''
         # Construct topology, add chain, residues, atoms, bonds
         self.chr_topo = mmapp.topology.Topology()
@@ -149,6 +176,13 @@ class OpenChrModel:
                 self.chr_topo.addAtom(str(j), self.Elements[self.compart_type[j]], curr_res_idx)
                 if j != self.chr_residues[i][0]:
                     self.chr_topo.addBond(j - 1, j) #added atom index, instead of atom item here
+
+        if flag_membrane:
+
+            self.membrane_bond += self.N_chr_nuc_spec + 1
+
+            for i, j in self.membrane_bond:
+                self.chrTopo.addBond(i, j)
 
         #store all bonds in all_bonds
         self.all_bonds = []
@@ -242,6 +276,10 @@ class OpenChrModel:
             self.chr_system.addForce(self.lamina_model.add_chr_lam(chr_lam_param, 20))
         if flag['hard-wall']:
             self.chr_system.addForce(self.lamina_model.add_hardwall(21))
+        if flag['lam-lam']:
+            self.chr_system.addForce(self.lamina_model.add_lam_lam(22))
+        if flag['squeeze_nucleus']:
+            self.chr_system.addForce(self.lamina_model.add_squeeze_nucleus(23))
 
     def save_system(self, system_xml):
         '''
