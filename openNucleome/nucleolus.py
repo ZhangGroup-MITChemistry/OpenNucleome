@@ -128,7 +128,7 @@ class Nucleolus(object):
         return LJ_nuc
 
     def add_chr_nuc(self, rescalar_file, force_group, sigma_tanh_chr_nuc = 4.0, rc_tanh_chr_nuc = 0.75, cutoff_chr_nuc = 2.0):
-         r'''
+        r'''
         Add nonbonded potential using custom values for interactions between chromosomes and nucleolus.
 
         The parameters are part of the probability of function :math:`g(r_{i,j}) = \frac{1}{2}\left(1 + \text{tanh}\left[\sigma(r_c - r_{i,j})\right] \right)`, where :math:`r_{i,j}` is the spatial distance between loci (beads) *i* and *j*.
@@ -151,8 +151,8 @@ class Nucleolus(object):
             The cutoff (Default value = 2.0).
         '''
 
-        chr_nuc_energy = ("chr_nuc(min(f1,f2))*step(max(f1,f2)-N_chr)*step(N_chr_nuc-max(f1,f2))*(f-0.5*(1.+tanh(sigma_tanh_chr_nuc*(rc_tanh_chr_nuc-cutoff_chr_nuc))))*step(cutoff_chr_nuc-r);"
-                         "f = 0.5*(1.+tanh(sigma_tanh_chr_lam*(rc_tanh_chr_lam-r)));")
+        chr_nuc_energy =("chr_nuc(min(f1,f2))*step(max(f1,f2)-N_chr)*step(N_chr_nuc-max(f1,f2))*(f-0.5*(1.+tanh(sigma_tanh_chr_nuc*(rc_tanh_chr_nuc-cutoff_chr_nuc))))*step(cutoff_chr_nuc-r);"
+                         "f = 0.5*(1.+tanh(sigma_tanh_chr_nuc*(rc_tanh_chr_nuc-r)));")
         rescalar_mat = np.loadtxt(rescalar_file)
 
         NAD_energy = mm.CustomNonbondedForce(chr_nuc_energy)

@@ -129,7 +129,7 @@ class OpenNucleome:
 
         self.construct_topology(flag_membrane)
 
-        self.chromosome_model = Chromosome(self.chr_system.getNumParticles(), self.N_type, self.all_bonds, self.compart_type, self.chr_groups, self.bead_groups, self.mol_type)
+        self.chromosome_model = Chromosome(self.chr_system.getNumParticles(), self.N_chr, self.N_type, self.all_bonds, self.compart_type, self.chr_groups, self.bead_groups, self.mol_type)
         self.speckle_model = Speckle(self.chr_system.getNumParticles(), self.N_type, self.all_bonds, self.compart_type, self.chr_groups, self.bead_groups, self.mol_type)
         self.nucleolus_model = Nucleolus(self.chr_system.getNumParticles(), self.N_type, self.N_chr, self.N_chr_nuc, self.all_bonds, self.compart_type, self.chr_groups, self.bead_groups, self.mol_type)
         self.lamina_model = Lamina(self.chr_system.getNumParticles(), self.N_type, self.N_chr_nuc_spec, self.all_bonds, self.compart_type, self.chr_groups, self.bead_groups, self.mol_type)
@@ -289,17 +289,17 @@ class OpenNucleome:
         dict_chrom_ff = {'bond':True, 'angle':True, 'softcore':True, 'ideal':True, 'compt':True, 'inter':True}
         dict_spec_ff = {'spec-spec':True, 'spec-chrom':True}
         dict_nuc_ff = {'nuc-nuc':True, 'nuc-spec':True, 'nuc-chrom':True}
-        dict_lam_ff = {'lam-chrom':True, 'hard-wall':True, 'lam-lam':flag_membrane, 'squeeze_nucleus':flag_membrane}
+        dict_lam_ff = {'lam-chrom':True, 'hard-wall':True, 'lam-lam':self.flag_membrane, 'squeeze_nucleus':self.flag_membrane}
         ideal_param_file = "ideal_param_file.txt"
         compt_param_file = "compt_param_file.txt"
         interchr_param_file = 'interchr_param_file.txt'
         chr_nuc_param = "chr_nuc_param.txt"
         chr_spec_param = "chr_spec_param.txt"
         chr_lam_param = "chr_lam_param.txt"
-        model.add_chromosome_potential(dict_chrom_ff, ideal_param_file, compt_param_file, interchr_param_file)
-        model.add_speckle_potential(dict_spec_ff, chr_spec_param)
-        model.add_nucleolus_potential(dict_nuc_ff, chr_nuc_param)
-        model.add_lamina_potential(dict_lam_ff, chr_lam_param)
+        self.add_chromosome_potential(dict_chrom_ff, ideal_param_file, compt_param_file, interchr_param_file)
+        self.add_speckle_potential(dict_spec_ff, chr_spec_param)
+        self.add_nucleolus_potential(dict_nuc_ff, chr_nuc_param)
+        self.add_lamina_potential(dict_lam_ff, chr_lam_param)
 
     def load_customized_settings(self, force_field):
         '''
@@ -308,17 +308,17 @@ class OpenNucleome:
         dict_chrom_ff = {'bond':force_field.loc['chromosome']['bond'], 'angle':force_field.loc['chromosome']['angle'], 'softcore':force_field.loc['chromosome']['softcore'], 'ideal':force_field.loc['chromosome']['ideal'], 'compt':force_field.loc['chromosome']['compt'], 'inter':force_field.loc['chromosome']['inter']}
         dict_spec_ff = {'spec-spec':force_field.loc['speckle']['spec-spec'], 'spec-chrom':force_field.loc['speckle']['spec-chrom']}
         dict_nuc_ff = {'nuc-nuc':force_field.loc['nucleolus']['nuc-nuc'], 'nuc-spec':force_field.loc['nucleolus']['nuc-spec'], 'nuc-chrom':force_field.loc['nucleolus']['nuc-chrom']}
-        dict_lam_ff = {'lam-chrom':force_field.loc['lamina']['lam-chrom'], 'hard-wall':force_field.loc['lamina']['hard-wall'], 'lam-lam':flag_membrane, 'squeeze_nucleus':flag_membrane}
+        dict_lam_ff = {'lam-chrom':force_field.loc['lamina']['lam-chrom'], 'hard-wall':force_field.loc['lamina']['hard-wall'], 'lam-lam':self.flag_membrane, 'squeeze_nucleus':self.flag_membrane}
         ideal_param_file = force_field.loc['chromosome']['ideal_param_file']
         compt_param_file = force_field.loc['chromosome']['compt_param_file']
         interchr_param_file = force_field.loc['chromosome']['interchr_param_file']
         chr_nuc_param = force_field.loc['nucleolus']['chr_nuc_param']
         chr_spec_param = force_field.loc['speckle']['chr_spec_param']
         chr_lam_param = force_field.loc['lamina']['chr_lam_param']
-        model.add_chromosome_potential(dict_chrom_ff, ideal_param_file, compt_param_file, interchr_param_file)
-        model.add_speckle_potential(dict_spec_ff, chr_spec_param)
-        model.add_nucleolus_potential(dict_nuc_ff, chr_nuc_param)
-        model.add_lamina_potential(dict_lam_ff, chr_lam_param)
+        self.add_chromosome_potential(dict_chrom_ff, ideal_param_file, compt_param_file, interchr_param_file)
+        self.add_speckle_potential(dict_spec_ff, chr_spec_param)
+        self.add_nucleolus_potential(dict_nuc_ff, chr_nuc_param)
+        self.add_lamina_potential(dict_lam_ff, chr_lam_param)
 
     def save_system(self, system_xml):
         '''

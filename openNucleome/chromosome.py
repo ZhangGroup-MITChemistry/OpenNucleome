@@ -13,7 +13,7 @@ class Chromosome(object):
     '''
     The Chromosome class stores all the useful potentials amoung chromatin beads used in the whole nucleus model.
     '''
-    def __init__(self, N_bead, N_type, bond_list, compart_type, chr_groups, bead_groups, mol_type):
+    def __init__(self, N_bead, N_chr, N_type, bond_list, compart_type, chr_groups, bead_groups, mol_type):
         '''
         Initialize the useful parameters
 
@@ -21,6 +21,9 @@ class Chromosome(object):
         ----------
         N_bead (int, required):
             the number of beads in the system.
+
+        N_chr (int, required):
+            the number of chromosome beads in the system
 
         N_type (int, required):
             the number of types in the system.
@@ -41,6 +44,7 @@ class Chromosome(object):
             contains the indexes of all molecules (each chromosome is one molecule, but each neclear body bead is also one molecule).
         '''
         self.N_bead = N_bead
+        self.N_chr = N_chr
         self.N_type = N_type
         self.N_hapchrom = 23 # the number of haploid chromsomes, always 23 for human cells
         self.bond_list = bond_list
@@ -118,7 +122,7 @@ class Chromosome(object):
             if bond1 is None:
                 bond1 = bond2
                 continue
-            if bond1[1] == bond2[0] and bond2[1] <= self.N_chr_nuc_spec - 1:
+            if bond1[1] == bond2[0] and bond2[1] <= self.N_chr:
                 angle.addAngle(bond1[0], bond1[1], bond2[1])
             bond1 = bond2
 
