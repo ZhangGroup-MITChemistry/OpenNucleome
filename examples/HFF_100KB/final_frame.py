@@ -1,4 +1,4 @@
-### This file is used to get the final frame of the previous simulation to restart a new simulation.
+### This file is used to extract the final frame of the previous simulation to restart a new simulation.
 
 import numpy as np
 import MDAnalysis as mda
@@ -11,7 +11,7 @@ X = np.array(['X']*len(index)).reshape((-1,1))
 
 last = np.array([0.00]*len(index))
 
-type_final = np.loadtxt('type_final.txt', dtype='int')
+type_final = np.loadtxt('compt_final_frame.txt', dtype='int')
 
 coor  = traj.trajectory[-1].positions
 n_chrom = 46

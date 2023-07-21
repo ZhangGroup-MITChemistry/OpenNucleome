@@ -3,6 +3,7 @@ import simtk.openmm as mm
 import simtk.openmm.app as mmapp
 import simtk.unit as u
 import numpy as np
+import pandas as pd
 import os
 import parmed as pmd
 import json
@@ -23,28 +24,19 @@ total_steps = 3000000
 
 ######################
 ## initialize the system
-model = OpenChrModel(1.0, 0.1, 0.005, 1.0) #1.0: temperature (LJ reduced unit); 0.1: damping coefficient (LJ reduced unit); 0.005: timestep (LJ reduced unit); 1.0: mass_scale#
+model = OpenNucleome(1.0, 0.1, 0.005, 1.0) # 1.0: temperature (LJ reduced unit); 0.1: damping coefficient (LJ reduced unit); 0.005: timestep (LJ reduced unit); 1.0: mass_scale
 PDB_file = "human.pdb"
-ideal_file = "ideal_param.txt"
-types_file = "types_param.txt"
-chr_nuc_param = "chr_nuc_param.txt"
-chr_spec_param = "chr_spec_param.txt"
-chr_lam_param = "chr_lam_param.txt"
-inter_file = 'inter_param.txt'
-mem_dynamics = True # True: include the membrane dyanmics; False: exclude the membrane dynamics
-mem_network = 'lamina_bond.txt' if mem_dynamics else None
-model.create_system(PDB_file) # Generate new elements and construct topology as well
+model.create_system(PDB_file, membrane_dynamics = False, membrane_bond = None) # Generate new elements and construct topology as well; membrane_dynamics: True for including lamina dynamics, False for excluding lamina dynamics; membrane_bond: A file contains the lamina bond when membrane_dynamics is on.
 
 ######################
 ## add force field
-dict_chrom = {'bond':True, 'angle':True, 'softcore':True, 'ideal':True, 'compt':True, 'inter':True}
-dict_spec = {'spec-spec':True, 'spec-chrom':True}
-dict_nuc = {'nuc-nuc':True, 'nuc-spec':True, 'nuc-chrom':True}
-dict_lam = {'lam-chrom':True, 'hard-wall':True, 'lam-lam':True, 'squeeze_nucleus':True}
-model.add_chromosome_potential(dict_chrom, ideal_file, types_file, inter_file)
-model.add_speckle_potential(dict_spec, chr_spec_param)
-model.add_nucleolus_potential(dict_nuc, chr_nuc_param)
-model.add_lamina_potential(dict_lam, chr_lam_param)
+
+# add the default force field
+model.load_default_settings()
+
+# add the customized force field
+#force_field = pd.read_csv('input.csv', sep=' ', header=0, index_col=0)
+#model.load_customized_settings(force_field)
 
 index_spec_spec_potential = 6
 start_spec_index = model.N_chr_nuc+1
@@ -59,7 +51,7 @@ N_spec = start_spec_index-end_spec_index
 simulation = model.create_simulation(platform_type = "CUDA")
 simulation.context.setPositions(model.chr_positions) 
 
-#simulation.minimizeEnergy()
+simulation.minimizeEnergy()
 
 simulation.reporters.append(mdtraj.reporters.DCDReporter('HFF_3e6_every2000.dcd', sampling_freq))
 
@@ -88,4 +80,4 @@ for i in range(total_steps//transition_freq):
     model.chr_system.getForce(index_spec_spec_potential).updateParametersInContext(simulation.context)
 
 # Keep the final result of spec types in case constructing the configuration for the continuous simulation.
-np.savetxt('type_final.txt', (np.array(model.compart_type)+1).reshape((-1,1)), fmt='%d')
+np.savetxt('compt_final_frame.txt', (np.array(model.compart_type)+1).reshape((-1,1)), fmt='%d')
