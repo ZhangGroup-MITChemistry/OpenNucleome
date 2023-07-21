@@ -308,6 +308,11 @@ class OpenNucleome:
     def load_customized_settings(self, force_field):
         '''
         Load customized force field settings
+
+        Parameters
+        ----------
+        force_field (Pandas Dataframe, required) :
+            Store the flag of all the potentials and the parameter file names
         '''
         dict_chrom_ff = {'bond':force_field.loc['chromosome']['bond'], 'angle':force_field.loc['chromosome']['angle'], 'softcore':force_field.loc['chromosome']['softcore'], 'ideal':force_field.loc['chromosome']['ideal'], 'compt':force_field.loc['chromosome']['compt'], 'inter':force_field.loc['chromosome']['inter']}
         dict_spec_ff = {'spec-spec':force_field.loc['speckle']['spec-spec'], 'spec-chrom':force_field.loc['speckle']['spec-chrom']}
