@@ -191,7 +191,7 @@ class Lamina(object):
 
     def add_squeeze_nucleus(self, force_group, k = 1., R = 13.):
         '''
-        Add external force to squeeze the cell nucleus (Default: constant force)
+        Add external force to squeeze the cell nucleus (Default: spring force)
 
         Parameters
         ----------
