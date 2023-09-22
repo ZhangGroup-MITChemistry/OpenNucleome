@@ -32,7 +32,7 @@ pip install openNucleome
 
 ## Workflow for creating the whole nucleus model and efficiency across different platforms
 
-<img src="./images/workflow.png" width="2000px"><img>
+<img src="./images/Figure1.png" width="2000px"><img>
 
 ## Examples
 
