@@ -37,7 +37,7 @@ def update_alpha(iterId,egcut):
     savetxt('new_potential/%s'%afile_new, alpha, fmt='%15.12e')
 
     ## Update the intra-chrom potential
-    fo = open('new_potential/ideal_param.txt', 'w')
+    fo = open('new_potential/ideal_param_file.txt', 'w')
     fo.write('%8d '%(0))
     fo.write('%12.6f '%(0))
     fo.write('\n')
@@ -54,7 +54,7 @@ def update_alpha(iterId,egcut):
     eij_intraTAD_intraChrom = [0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]
     eij_interTAD_intraChrom = alpha[nIdeal:nIdeal+ncv_interTAD_intraChrom]
     eij_interTAD_interChrom = copy.deepcopy(eij_interTAD_intraChrom)
-    fo = open('new_potential/types_param.txt', 'w')
+    fo = open('new_potential/compt_param_file.txt', 'w')
     icv = 0
     for ic in range(ncompt+1):
         for jc in range(ic, ncompt+1):
@@ -69,7 +69,7 @@ def update_alpha(iterId,egcut):
     fo.close()
 
     ## Update the inter-chrom potential
-    fo = open('new_potential/inter_param.txt', 'w')
+    fo = open('new_potential/interchr_param_file.txt', 'w')
     icv = 2495
     for ic in range(1,22,1):
         for jc in range(ic+1,23,1):
@@ -81,7 +81,7 @@ if __name__ == "__main__":
     run_path    = sys.argv[1]
     iterId      = int(sys.argv[2])
     eigcutoff   = int(sys.argv[3])
-    old_potential_path    = "%s/parameters/HFF_100KB"%run_path
+    old_potential_path    = "%s/openNucleome/parameters/HFF_100KB"%run_path
 
     eta1        = float(sys.argv[4])
     eta2        = float(sys.argv[5])

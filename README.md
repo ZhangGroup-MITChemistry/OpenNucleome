@@ -22,14 +22,6 @@ conda install -c conda-forge openmm=7.5.1
 
 Other required packages: numpy, mdanalysis, mdtraj.
 
-## Installation
-
-The user can either download the package from github, or use pip install:
-
-```
-pip install openNucleome
-```
-
 ## Workflow for creating the whole nucleus model and efficiency across different platforms
 
 <img src="./images/Figure1.png" width="2000px"><img>

@@ -80,4 +80,4 @@ eigen_value_best        = 0
 
 np.savetxt("iter_num/%02d/dalpha.iter%02d.cutEig%d_noIdeal.txt"%(run_number-1,run_number,eigen_value_best),dalpha1.reshape((-1,1)),fmt='%15.12e')
 
-subprocess.call(["python update_alpha_chr_chr.py ../../ %d %d %.4f %.4f %.4f %d"%(run_number,eigen_value_best,eta1,eta2,eta3,chop_ideals)],shell=True,stdout=subprocess.PIPE)
+subprocess.call(["python update_alpha_chr_chr.py ../../../ %d %d %.4f %.4f %.4f %d"%(run_number,eigen_value_best,eta1,eta2,eta3,chop_ideals)],shell=True,stdout=subprocess.PIPE)

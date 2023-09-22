@@ -30,7 +30,7 @@ tsa_data_low_res    = np.loadtxt("TSA-Seq-OE.txt",usecols=[1])
 ### Get number of frames data   ### 
 n_frames        = np.zeros(N_replicas)
 for i in range(N_replicas):
-    traj_data   = mda.coordinates.LAMMPS.DCDReader("../../examples/HFF_100KB/DUMP_FILE.dcd")
+    traj_data   = mda.coordinates.LAMMPS.DCDReader("../../../tutorials/HFF_100KB/DUMP_FILE.dcd")
     n_frames[i] = len(traj_data)-first_frames
 
 cvInd       = np.zeros((ncv, ), dtype=float)
@@ -102,7 +102,7 @@ v_db_corr_dam   = v_db_dam/(1-beta2_dam**t_dam)
 dalpha1_dam     = m_dw_corr_dam/(np.sqrt(v_dw_corr_dam)+epsilon_dam)
 dalpha2_dam     = m_db_corr_dam/(np.sqrt(v_db_corr_dam)+epsilon_dam)
 
-damid = np.loadtxt("../../examples/HFF_100KB/chr_lam_param.txt")[:60642]
+damid = np.loadtxt("../../../openNucleome/parameters/HFF_100KB/chr_lam_param.txt")[:60642]
 
 for i in update_chr_list:
     damid[maternalIdx[i][0]-1:maternalIdx[i][1]] -= eta_dam*dalpha1_dam[gLength[i]:gLength[i+1]]
@@ -146,7 +146,7 @@ v_db_corr_tsa   = v_db_tsa/(1-beta2_tsa**t_tsa)
 dalpha1_tsa     = m_dw_corr_tsa/(np.sqrt(v_dw_corr_tsa)+epsilon_tsa)
 dalpha2_tsa     = m_db_corr_tsa/(np.sqrt(v_db_corr_tsa)+epsilon_tsa)
 
-tsaseq = np.loadtxt("../../examples/HFF_100KB/chr_spec_param.txt")[:60642]
+tsaseq = np.loadtxt("../../../openNucleome/parameters/HFF_100KB/chr_spec_param.txt")[:60642]
 
 for i in update_chr_list:
     tsaseq[maternalIdx[i][0]-1:maternalIdx[i][1]] -= eta_tsa*dalpha1_tsa[gLength[i]:gLength[i+1]]

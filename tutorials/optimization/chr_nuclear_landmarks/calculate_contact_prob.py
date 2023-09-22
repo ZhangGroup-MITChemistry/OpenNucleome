@@ -29,7 +29,7 @@ paternalIdx         = np.loadtxt("mol_info/paternalIdxFile.txt",dtype=int)
 
 def process_traj_win(win_num):
 
-    traj_data                   = mda.coordinates.LAMMPS.DCDReader("../../examples/HFF_100KB/DUMP_FILE.dcd")
+    traj_data                   = mda.coordinates.LAMMPS.DCDReader("../../../tutorials/HFF_100KB/DUMP_FILE.dcd")
     N_frame                     = len(traj_data)-first_frame
     exp_tsa_seq                 = np.zeros(N_chr_beads)
     exp_damid                   = np.zeros(N_chr_beads)
