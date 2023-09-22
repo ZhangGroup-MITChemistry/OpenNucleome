@@ -81,7 +81,7 @@ if __name__ == "__main__":
     run_path    = sys.argv[1]
     iterId      = int(sys.argv[2])
     eigcutoff   = int(sys.argv[3])
-    old_potential_path    = "%s/examples/HFF_100KB"%run_path
+    old_potential_path    = "%s/parameters/HFF_100KB"%run_path
 
     eta1        = float(sys.argv[4])
     eta2        = float(sys.argv[5])
