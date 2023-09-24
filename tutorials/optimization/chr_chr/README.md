@@ -10,7 +10,7 @@ To run the optimization (All the parameters in this file can be changed):
 ```
 gfortran -o calculate_contact_prob calculate_contact_prob.f90
 
-./calculate_contact_prob ../../examples/HFF_100KB/DUMP_FILE.dcd 501 -1 ./contact_prob/ 1 counter.txt
+./calculate_contact_prob ../../HFF_100KB/DUMP_FILE.dcd 501 -1 ./contact_prob/ 1 counter.txt
 
 python adam.py 1 1
 ```

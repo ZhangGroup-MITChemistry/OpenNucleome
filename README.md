@@ -20,7 +20,7 @@ Install openmm 7.5.1 with the following command:
 conda install -c conda-forge openmm=7.5.1
 ```
 
-Other required packages: numpy, mdanalysis, mdtraj.
+Other required packages: numpy, pandas, mdanalysis, mdtraj.
 
 ## Workflow for creating the whole nucleus model and efficiency across different platforms
 
@@ -28,4 +28,4 @@ Other required packages: numpy, mdanalysis, mdtraj.
 
 ## Examples
 
-We provide an example in examples/HFF_100KB, and we also show how to calculate the contact probabilities and compare with experiments to obtain optimized potential parameters in ./analysis_code.
+We provide an example in tutorials/HFF_100KB, and we also show how to calculate the contact probabilities and compare with experiments to obtain optimized potential parameters in tutorials/optimization.
