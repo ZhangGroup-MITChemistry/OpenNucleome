@@ -1,16 +1,14 @@
-alpha.txt: all the parameters for the Chromosomes-Chromosomes
+This folder includes all the parameter files needed for simulating a human nucleus. The parameters were optimized to reproduce experimental data, including Hi-C, DamID, and TSA-Seq.
 
-## Files about the Chromosomes-Nuclear landmarks
-chr_lam_spec.txt: Chr-lamina potential parameters
+- chr_lam_spec.txt: Chromosome-lamina interaction parameters
 
-chr_spec_param.txt: Chr-speckle potential parameters
+- chr_spec_param.txt: Chromosome-speckle interaction parameters
 
-chr_nuc_param.txt: the probability for a chromatin bead to be in the nucleolus state as assigned by the SPIN algorithm
+- chr_nuc_param.txt: Chromosome-nucleoli interaction parameters 
 
-## Files about the Chromosomes-Chromosomes
+- ideal_param.txt: intra-chromosomal interaction parameters
 
-ideal_param.txt: intra-chromosomal potential parameters
+- inter_param.txt: inter-chromosomal interaction parameters
 
-types_param.txt: compt-compt potential parameters
+- types_param.txt: interaction parameters among various compartmental types
 
-inter_param.txt: inter-chromosomal potential parameters
