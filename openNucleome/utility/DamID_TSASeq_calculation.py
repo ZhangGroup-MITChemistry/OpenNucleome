@@ -9,27 +9,9 @@ import scipy.stats
 import sys
 import os
 
-iter_num        = int(sys.argv[1])
-sigma_tanh          =  4
-rc_tanh             =  0.75
-
-N_chr_beads         = 60642
-
-first_frame                 = 500
-N_nucleolus_particles       = 300
-N_speckles_particles        = 1600
-N_lamina_particles          = 8000
-radius_nucleus              = 13.0
-
-"""Info files"""
-gLength             = np.loadtxt("mol_info/gLengthFile.txt",dtype=int)
-maternalIdx         = np.loadtxt("mol_info/maternalIdxFile.txt",dtype=int)
-paternalIdx         = np.loadtxt("mol_info/paternalIdxFile.txt",dtype=int)
-""""""
-
 def process_traj_win(win_num):
 
-    traj_data                   = mda.coordinates.LAMMPS.DCDReader("../../../tutorials/HFF_100KB/DUMP_FILE.dcd")
+    traj_data                   = mda.coordinates.LAMMPS.DCDReader("../HFF_100KB/SphericalNucleus/DUMP_FILE.dcd")
     N_frame                     = len(traj_data)-first_frame
     exp_tsa_seq                 = np.zeros(N_chr_beads)
     exp_damid                   = np.zeros(N_chr_beads)
@@ -102,5 +84,3 @@ def process_traj_win(win_num):
     np.save("contact_prob/cvInd.txt_%d"%win_num,np.sum(damid_all_frames_haploid,axis=0))
     np.save("contact_prob/cvInd_tsa.txt_%d"%win_num,np.sum(tsaseq_all_frames_haploid,axis=0))
 
-win_to_run = int(sys.argv[2])
-process_traj_win(win_to_run)
