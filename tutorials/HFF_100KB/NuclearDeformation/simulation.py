@@ -26,17 +26,17 @@ total_steps = 3000000
 ## initialize the system
 model = OpenNucleome(1.0, 0.1, 0.005, 1.0) # 1.0: temperature (LJ reduced unit); 0.1: damping coefficient (LJ reduced unit); 0.005: timestep (LJ reduced unit); 1.0: mass_scale
 PDB_file = "human.pdb"
-model.create_system(PDB_file, membrane_dynamics = False, membrane_bond = None) # Generate new elements and construct topology as well; membrane_dynamics: True for including lamina dynamics, False for excluding lamina dynamics; membrane_bond: A file contains the lamina bond when membrane_dynamics is on.
+model.create_system(PDB_file, membrane_dynamics = True, membrane_bond = 'lamina_bond.txt') # Generate new elements and construct topology as well; membrane_dynamics: True for including lamina dynamics, False for excluding lamina dynamics; membrane_bond: A file contains the lamina bond when membrane_dynamics is on.
 
 ######################
 ## add force field
 
 # add the default force field
-model.load_default_settings()
+#model.load_default_settings()
 
 # add the customized force field
-#force_field = pd.read_csv('input.csv', sep=' ', header=0, index_col=0)
-#model.load_customized_settings(force_field)
+force_field = pd.read_csv('input.csv', sep=' ', header=0, index_col=0)
+model.load_customized_settings(force_field)
 
 index_spec_spec_potential = 6
 start_spec_index = model.N_chr_nuc+1
