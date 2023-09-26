@@ -29,3 +29,8 @@ WholeNucleus
 
 .. automodule:: openNucleome.whole_nucleus_model
     :members:
+
+DamID_TSASeq_calculation
+-------------------------
+.. automodule:: openNucleome.utility.DamID_TSASeq_calculation
+    :members:

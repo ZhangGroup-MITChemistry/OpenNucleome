@@ -9,7 +9,16 @@ import scipy.stats
 import sys
 import os
 
-def process_traj_win(win_num):
+def DamID_TSASeq_calculation(win_num):
+
+    """
+    The function computes the DamID and TSA-Seq signals
+
+    Parameters
+    ----------
+    win_num (int, required) :
+        The index of traj that we hope to analyze.
+    """
 
     traj_data                   = mda.coordinates.LAMMPS.DCDReader("../HFF_100KB/SphericalNucleus/DUMP_FILE.dcd")
     N_frame                     = len(traj_data)-first_frame
