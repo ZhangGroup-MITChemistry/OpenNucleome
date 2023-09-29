@@ -1,7 +1,3 @@
 ## Analysis code
 
-This folder contains the chromosome-nuclear landmarks potential optimization and chromosome-chromosome potential optimization
-
-chr_nuclear_landmarks contains the file calculating the DamID and TSASeq, and chromosome-nuclear landmarks potential optimization with Adam optimizer
-
-chr_chr contains the file calculating the chromosome-related contact probabilities, and chromosome-chromosome potential optimization with Adam optimizer
+compute_contact_prob.ipynb calls and computes the contact probabilities (DamID, TSASeq, and chr-chr), and the folder mol_info stores all the molecular information files necessary for computing contact probabilities.
