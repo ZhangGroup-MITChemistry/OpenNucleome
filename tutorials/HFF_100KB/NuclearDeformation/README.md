@@ -1,6 +1,6 @@
-## Spherical Nucleus
+## NuclearDeformation 
 
-This folder provides tutorials for setting up and performing simulations of the HFF nucleus at the 100KB resolution with the presence of various nuclear landmarks, including nuclear lamina, speckles, and nucleoli.
+This folder provides tutorials for setting up and performing simulations of the HFF nucleus at the 100KB resolution with the presence of various nuclear landmarks, including nuclear lamina, speckles, and nucleoli. Different from the sphere situation, we applied a force to squeeze the nucleus.
 
 - simulation.ipynb: The jupyter notebook showing how to create a system and run a simulation
 
@@ -12,6 +12,4 @@ This folder provides tutorials for setting up and performing simulations of the 
 
 - bead_info.txt: This file contains the information of each chromatin bead, and is necessary when creating the final configuration. 1st column: the index of each bead; 2nd column: the index of belonging chromosome; 3rd column: the type of each chromatin bead.
 
-- initial_configs: This folder contains 50 initial configurations, which were chosen according to the "Section: Initial configurations for simulations"
-
-- final_configs: This folder contains the corresponding 50 final configurations after running 10,000,000 steps for each initial configuration.
+- human_final.pdb: The final configuration after finishing the simulation.

@@ -1,4 +1,4 @@
-### This file converts the position in OpenMM to reduced unit
+# This file converts the trajectory with position in OpenMM default unit to reduced unit
 import MDAnalysis as mda
 import numpy as np
 
