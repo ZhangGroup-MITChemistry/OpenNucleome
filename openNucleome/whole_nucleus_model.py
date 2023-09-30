@@ -284,7 +284,7 @@ class OpenNucleome:
         if flag['lam-lam']:
             self.chr_system.addForce(self.lamina_model.add_lam_lam(22))
         if flag['squeeze_nucleus']:
-            self.chr_system.addForce(self.lamina_model.add_squeeze_nucleus(23))
+            self.chr_system.addForce(self.lamina_model.add_squeeze_nucleus(23, k = flag['strength']))
 
     def load_default_settings(self):
         '''
@@ -305,7 +305,7 @@ class OpenNucleome:
         self.add_nucleolus_potential(dict_nuc_ff, chr_nuc_param)
         self.add_lamina_potential(dict_lam_ff, chr_lam_param)
 
-    def load_customized_settings(self, force_field):
+    def load_customized_settings(self, force_field, k = 1.0):
         '''
         Load customized force field settings
 
@@ -313,11 +313,13 @@ class OpenNucleome:
         ----------
         force_field (Pandas Dataframe, required) :
             Store the flag of all the potentials and the parameter file names
+        k (float, required) :
+            The strength of force squeezing the nucleus (Default: 1.0)
         '''
         dict_chrom_ff = {'bond':force_field.loc['chromosome']['bond'], 'angle':force_field.loc['chromosome']['angle'], 'softcore':force_field.loc['chromosome']['softcore'], 'ideal':force_field.loc['chromosome']['ideal'], 'compt':force_field.loc['chromosome']['compt'], 'inter':force_field.loc['chromosome']['inter']}
         dict_spec_ff = {'spec-spec':force_field.loc['speckle']['spec-spec'], 'spec-chrom':force_field.loc['speckle']['spec-chrom']}
         dict_nuc_ff = {'nuc-nuc':force_field.loc['nucleolus']['nuc-nuc'], 'nuc-spec':force_field.loc['nucleolus']['nuc-spec'], 'nuc-chrom':force_field.loc['nucleolus']['nuc-chrom']}
-        dict_lam_ff = {'lam-chrom':force_field.loc['lamina']['lam-chrom'], 'hard-wall':force_field.loc['lamina']['hard-wall'], 'lam-lam':self.flag_membrane, 'squeeze_nucleus':self.flag_membrane}
+        dict_lam_ff = {'lam-chrom':force_field.loc['lamina']['lam-chrom'], 'hard-wall':force_field.loc['lamina']['hard-wall'], 'lam-lam':self.flag_membrane, 'squeeze_nucleus':self.flag_membrane, 'strength': k}
         ideal_param_file = force_field.loc['chromosome']['ideal_param_file']
         compt_param_file = force_field.loc['chromosome']['compt_param_file']
         interchr_param_file = force_field.loc['chromosome']['interchr_param_file']
