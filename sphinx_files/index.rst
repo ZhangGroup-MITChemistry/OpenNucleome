@@ -15,7 +15,7 @@ We recommend using openmm 7.5.1 for using openNucleome, as openNucleome is built
 
 Install openmm 7.5.1 with the following command: ``conda install -c conda-forge openmm=7.5.1``
 
-Other required packages: numpy, pandas, mdanalysis, mdtraj.
+Other required packages: numpy, pandas, scikit-learn, MDAnalysis, mdtraj.
 
 .. toctree::
    :maxdepth: 2
