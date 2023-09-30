@@ -69,9 +69,6 @@ Program main
     call getarg(3,instr)
     read (instr, '(i10)') last_frame
     call getarg(4,write_file_path)
-    call getarg(5,replica_number)
-    call getarg(6,counterFileName)
-
     !
     ! read dcd file
     open(10,file=trim(dcdFileName),status='old',form='unformatted')
@@ -235,13 +232,13 @@ Program main
 
     cvRaw_avg = sum(cvRaw(:,first_frame:nframes),2) 
 
-    write_file_1 = trim(write_file_path)//'cvInd.txt_replica_'//replica_number
-    write_file_2 = trim(write_file_path)//'nframes.txt_replica_'//replica_number
-    write_file_3 = trim(write_file_path)//'counter.txt'//replica_number
+    write_file_1 = trim(write_file_path)//'contact_prob.txt'
+    write_file_2 = trim(write_file_path)//'nframes.txt'
+    write_file_3 = trim(write_file_path)//'counter.txt'
 
     Open (unit=11, File=trim(write_file_1))
     do ib = 1, ncv
-        write(11,'(E15.8)') cvRaw_avg(ib)
+        write(11,'(E15.8)') cvRaw_avg(ib)/(nframes - first_frame + 1)
     enddo
     close(11)
 
