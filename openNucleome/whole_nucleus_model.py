@@ -8,11 +8,11 @@ import parmed as pmd
 import json
 import sys
 from sys import platform
-#from openNucleome import Chromosome, Speckle, Nucleolus, Lamina
-from .chromosome import Chromosome
-from .nucleolus import Nucleolus
-from .speckle import Speckle
-from .lamina import Lamina
+from openNucleome import Chromosome, Speckle, Nucleolus, Lamina
+#from .chromosome import Chromosome
+#from .nucleolus import Nucleolus
+#from .speckle import Speckle
+#from .lamina import Lamina
 
 class OpenNucleome:
     '''
