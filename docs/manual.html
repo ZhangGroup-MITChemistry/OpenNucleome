@@ -500,10 +500,12 @@
 
 <dl class="py method">
 <dt id="openNucleome.whole_nucleus_model.OpenNucleome.load_customized_settings">
-<code class="sig-name descname"><span class="pre">load_customized_settings</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force_field</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.whole_nucleus_model.OpenNucleome.load_customized_settings" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">load_customized_settings</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force_field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.whole_nucleus_model.OpenNucleome.load_customized_settings" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load customized force field settings</p>
 <dl class="simple">
 <dt>force_field (Pandas Dataframe, required) :</dt><dd><p>Store the flag of all the potentials and the parameter file names</p>
+</dd>
+<dt>k (float, required) :</dt><dd><p>The strength of force squeezing the nucleus (Default: 1.0)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -527,12 +529,23 @@
 <span id="damid-tsaseq-calculation"></span><h2>DamID_TSASeq_calculation<a class="headerlink" href="#module-openNucleome.utility.DamID_TSASeq_calculation" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="openNucleome.utility.DamID_TSASeq_calculation.DamID_TSASeq_calculation">
-<code class="sig-name descname"><span class="pre">DamID_TSASeq_calculation</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">win_num</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.utility.DamID_TSASeq_calculation.DamID_TSASeq_calculation" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">DamID_TSASeq_calculation</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">traj_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gLength</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maternalIdx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">paternalIdx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_frame</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.utility.DamID_TSASeq_calculation.DamID_TSASeq_calculation" title="Permalink to this definition">¶</a></dt>
 <dd><p>The function computes the DamID and TSA-Seq signals</p>
 <dl class="simple">
-<dt>win_num (int, required) :</dt><dd><p>The index of traj that we hope to analyze.</p>
+<dt>traj_data (string, required) :</dt><dd><p>The trajectory file</p>
+</dd>
+<dt>gLength (string, required) :</dt><dd><p>The difference between each two neighboring values in the file represents the length of the chromosome</p>
+</dd>
+<dt>maternalIdx (string, required) :</dt><dd><p>Index of each maternal chromosome</p>
+</dd>
+<dt>paternalIdx (string, required) :</dt><dd><p>Index of each paternal chromosome</p>
+</dd>
+<dt>start_frame (int, required) :</dt><dd><p>The starting analyzed frame</p>
+</dd>
+<dt>end_frame (int, required) :</dt><dd><p>The ending analyzed frame</p>
 </dd>
 </dl>
+<p>DamID, TSA-Seq, N_speckle_clusters</p>
 </dd></dl>
 
 </div>
