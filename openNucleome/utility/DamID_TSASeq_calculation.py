@@ -12,7 +12,7 @@ import os
 def DamID_TSASeq_calculation(traj_data, gLength, maternalIdx, paternalIdx, start_frame, end_frame):
 
     """
-    The function computes the DamID and TSA-Seq signals
+    The function computes the DamID and TSA-Seq signals. The returns of this function are DamID, TSA-Seq, and number of speckle clusters.
 
     Parameters
     ----------
@@ -34,9 +34,6 @@ def DamID_TSASeq_calculation(traj_data, gLength, maternalIdx, paternalIdx, start
     end_frame (int, required) :
         The ending analyzed frame
 
-    Returns
-    -------
-    DamID, TSA-Seq, N_speckle_clusters 
     """
     # The next two parameters are used when computing the DamID and TSASeq signals
     sigma_tanh          =  4
