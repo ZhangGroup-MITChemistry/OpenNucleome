@@ -2,7 +2,7 @@
 
 This folder provides tutorials for setting up and performing simulations of the HFF nucleus at the 100KB resolution with the presence of various nuclear landmarks, including nuclear lamina, speckles, and nucleoli. Different from the sphere nucleus situation, we applied a force to squeeze the nucleus.
 
-- simulation.ipynb: The jupyter notebook showing how to create a system and run a simulation
+- simulation.ipynb: The jupyter notebook showing how to create a system and run a simulation. Make sure you put all the force field parameter files in the same path of this file.
 
 - human.pdb: An initial configuration used for creating a simulation.
 
