@@ -19,6 +19,14 @@ conda install -c conda-forge openmm=7.5.1
 
 Other required packages: numpy, pandas, scikit-learn, MDAnalysis, mdtraj.
 
+## Download
+
+The user can either download the package from github, or use pip install:
+
+```
+pip install opennucleome==1.0.0
+```
+
 ## Tutorials 
 
 Detailed instructions for performing simulations of a human nucleus can be found at: tutorials/HFF_100KB. We also provide a tutorial for parameter optimization to develop new nucleus models at: tutorials/optimization.
