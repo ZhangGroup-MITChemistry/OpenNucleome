@@ -19,7 +19,7 @@ conda install -c conda-forge openmm=7.5.1
 
 Other required packages: numpy, pandas, scikit-learn, MDAnalysis, mdtraj.
 
-## Download
+## Installation
 
 The user can either download the package from github, or use pip install:
 
