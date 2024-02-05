@@ -1,0 +1,223 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "fd8ad4c0-3c41-449c-a2e7-04b012e07e09",
+   "metadata": {},
+   "source": [
+    "# Choose-Initial-Configurations"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "f9446931-88ad-4dd7-b24d-dfea6886eab1",
+   "metadata": {},
+   "source": [
+    "Import the necessary packages"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "a7cf3611-2e87-47c5-89dc-5daf272b05cc",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from scipy import stats\n",
+    "import numpy as np\n",
+    "import random\n",
+    "import copy\n",
+    "import sys"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "944dd836-0051-4bbf-b6e6-0adcea424e80",
+   "metadata": {},
+   "source": [
+    "In the next block, we load the simulated and experimental inter-chromosomal contacts and DamID sequencing data."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "0e5f0688-a8cd-443b-ab45-a15f97cd9ae7",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "target_1 = np.loadtxt('expt_constraints_HFF_100KB.txt')[-231:]\n",
+    "target_2 = np.loadtxt('DamID_haploid.txt')\n",
+    "non_zeros = np.where(target_2 != 0)\n",
+    "model_1 = np.loadtxt('inter_contact_simulation.txt')\n",
+    "model_damid = np.loadtxt('DamID_simulation.txt')\n",
+    "\n",
+    "model_2 = np.zeros((len(model_damid), len(model_damid[0])))\n",
+    "\n",
+    "#The simulated DamID results are taken the logarithm\n",
+    "for i in range(len(model_damid)):\n",
+    "    non_zero_sim = np.where(model_damid[i] != 0)\n",
+    "    model_2[i][non_zero_sim] = np.log2(model_damid[i][non_zero_sim]/np.mean(model_damid[i][non_zero_sim]))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "aa6d341b-e5fd-4ef6-9d79-41e2383aef7f",
+   "metadata": {},
+   "source": [
+    "We randomly choose 20 configurations and calculate the pearson correlation coefficients between experimental and simulated results"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "e4b228e5-1be0-4db8-af4b-0953808e0248",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "choose = np.random.randint(1,201,20)\n",
+    "\n",
+    "pearson_previous_1 = stats.pearsonr(target_1,np.mean(model_1[choose],axis=0))[0]\n",
+    "pearson_previous_2 = stats.pearsonr(target_2[non_zeros],np.mean(model_2[choose],axis=0)[non_zeros])[0]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "5cc95175-7117-49ab-b137-66c734f3b5dd",
+   "metadata": {},
+   "source": [
+    "We then iteratively go through every configuration in the initial configuration ensemble (ICE) and replace with a structure from FCE that's not already included in ICE. We then compute the Pearson correlation coefficient between new average ICE contact probabilities and experimental values. If the Pearson correlation coefficient is higher than the value determined from the original ICE, the new structure is accepted and the ICE is updated. Otherwise, the new structure is rejected."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "fec93c50-84af-48ae-8e57-14b8261a0fbf",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "pearson_previous_1: 0.623154678072617\n",
+      "pearson_previous_2: 0.6096369858640148\n",
+      "pearson_previous_1: 0.6342043259811628\n",
+      "pearson_previous_2: 0.6127018990732918\n",
+      "pearson_previous_1: 0.6416742081908886\n",
+      "pearson_previous_2: 0.6235081508950805\n",
+      "pearson_previous_1: 0.6507173333210494\n",
+      "pearson_previous_2: 0.6242140802564254\n",
+      "pearson_previous_1: 0.6525561813708923\n",
+      "pearson_previous_2: 0.6274832627994167\n",
+      "pearson_previous_1: 0.6546429824792156\n",
+      "pearson_previous_2: 0.6355704848623595\n",
+      "pearson_previous_1: 0.6613731669384822\n",
+      "pearson_previous_2: 0.6361247320921432\n",
+      "pearson_previous_1: 0.6664841689688658\n",
+      "pearson_previous_2: 0.6395072016323031\n",
+      "pearson_previous_1: 0.6674629251354353\n",
+      "pearson_previous_2: 0.6409561900073473\n",
+      "pearson_previous_1: 0.6729137884168772\n",
+      "pearson_previous_2: 0.6440289132802018\n",
+      "pearson_previous_1: 0.6769007569408156\n",
+      "pearson_previous_2: 0.6539153304771814\n",
+      "pearson_previous_1: 0.6786271476443753\n",
+      "pearson_previous_2: 0.6550591732765327\n",
+      "pearson_previous_1: 0.6890704364541482\n",
+      "pearson_previous_2: 0.6559477577096485\n",
+      "pearson_previous_1: 0.689291881554134\n",
+      "pearson_previous_2: 0.6589510083013823\n",
+      "pearson_previous_1: 0.6895894266804906\n",
+      "pearson_previous_2: 0.6606082808771188\n",
+      "pearson_previous_1: 0.6915695372195538\n",
+      "pearson_previous_2: 0.661312582709897\n",
+      "pearson_previous_1: 0.7006532764788085\n",
+      "pearson_previous_2: 0.6668180711252502\n",
+      "pearson_previous_1: 0.7021688436140852\n",
+      "pearson_previous_2: 0.6669982033733982\n",
+      "pearson_previous_1: 0.7136459660830662\n",
+      "pearson_previous_2: 0.6759114711227185\n",
+      "pearson_previous_1: 0.7194465415433162\n",
+      "pearson_previous_2: 0.6858685834822772\n",
+      "pearson_previous_1: 0.7269670672376706\n",
+      "pearson_previous_2: 0.6968069360562964\n",
+      "pearson_previous_1: 0.7313887518441096\n",
+      "pearson_previous_2: 0.697440751360122\n",
+      "pearson_previous_1: 0.7376432364351209\n",
+      "pearson_previous_2: 0.6991309548994008\n",
+      "pearson_previous_1: 0.7412082016688102\n",
+      "pearson_previous_2: 0.7007149882409178\n",
+      "pearson_previous_1: 0.7415915203437293\n",
+      "pearson_previous_2: 0.7008510946511858\n",
+      "pearson_previous_1: 0.7535564031431198\n",
+      "pearson_previous_2: 0.7015526131599754\n",
+      "pearson_previous_1: 0.7558136196901397\n",
+      "pearson_previous_2: 0.7033194415452361\n",
+      "pearson_previous_1: 0.760299190214547\n",
+      "pearson_previous_2: 0.7035751060750525\n",
+      "pearson_previous_1: 0.7668049571483361\n",
+      "pearson_previous_2: 0.7042624026198036\n",
+      "pearson_previous_1: 0.7675502264787035\n",
+      "pearson_previous_2: 0.7047260396144769\n",
+      "pearson_previous_1: 0.7701351949373072\n",
+      "pearson_previous_2: 0.7059434043197194\n",
+      "pearson_previous_1: 0.77016524989917\n",
+      "pearson_previous_2: 0.7062846327830313\n",
+      "pearson_previous_1: 0.7705616971572704\n",
+      "pearson_previous_2: 0.7066482922181797\n",
+      "pearson_previous_1: 0.770797485505686\n",
+      "pearson_previous_2: 0.707329688025022\n"
+     ]
+    }
+   ],
+   "source": [
+    "max_iteration = 1 #Choose the maximum iteration\n",
+    "\n",
+    "for i in range(max_iteration):\n",
+    "    for j in range(len(choose)):\n",
+    "        for k in range(len(model_1)):\n",
+    "            if k not in choose:\n",
+    "                mid_choose = copy.deepcopy(choose)\n",
+    "                mid_choose[j] = k\n",
+    "                pearson_1 = stats.pearsonr(target_1,np.mean(model_1[mid_choose],axis=0))[0]\n",
+    "                pearson_2 = stats.pearsonr(target_2[non_zeros],np.mean(model_2[mid_choose],axis=0)[non_zeros])[0]\n",
+    "                if pearson_previous_1 < pearson_1 and pearson_previous_2 < pearson_2:\n",
+    "                    pearson_previous_1 = pearson_1\n",
+    "                    pearson_previous_2 = pearson_2\n",
+    "                    choose = copy.deepcopy(mid_choose)\n",
+    "                    print('pearson_previous_1:', pearson_previous_1)\n",
+    "                    print('pearson_previous_2:', pearson_previous_2)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "id": "aaf1375e-946d-4b16-875c-072866d59e07",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "np.savetxt('choose_20.txt', choose.reshape((-1,1)), fmt='%d')"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.8.8"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}

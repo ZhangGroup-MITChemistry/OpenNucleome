@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chr-NL-Optimization &mdash; openNucleome 1.0.0 documentation</title><link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/jupyter-sphinx.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/thebelab.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/thebelab-helper.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "tex2jax_ignore|mathjax_ignore|document", "processClass": "tex2jax_process|mathjax_process|math|output_area"}})</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Choose-Initial-Configurations" href="Choose_Initial_Configs.html" />
+    <link rel="prev" title="Chr-Chr-Optimization" href="Chr_Chr_Optimization.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            openNucleome
+          </a>
+              <div class="version">
+                1.0.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">OpenNucleome:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../OpenNucleome.html">OpenNucleome</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Compute_Contact_Prob.html">Compute the simulated DamID and TSASeq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Chr_Chr_Optimization.html">Chr-Chr-Optimization</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Chr-NL-Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Choose_Initial_Configs.html">Choose-Initial-Configurations</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">openNucleome</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Chr-NL-Optimization</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/Tutorials/Chr_NL_Optimization.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt .copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="Chr-NL-Optimization">
+<h1>Chr-NL-Optimization<a class="headerlink" href="#Chr-NL-Optimization" title="Permalink to this headline">¶</a></h1>
+<p>Import the necessary packages</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">sklearn.cluster</span> <span class="k">as</span> <span class="nn">sk</span>
+</pre></div>
+</div>
+</div>
+<p>We defined the important parameters in the next block.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">MDAnalysis</span> <span class="k">as</span> <span class="nn">mda</span>
+
+<span class="n">run_number</span>          <span class="o">=</span> <span class="mi">1</span>
+
+<span class="c1"># The next two parameters are used when computing the DamID and TSASeq signals</span>
+<span class="n">sigma_tanh</span>          <span class="o">=</span>  <span class="mi">4</span>
+<span class="n">rc_tanh</span>             <span class="o">=</span>  <span class="mf">0.75</span>
+
+<span class="n">N_chr_beads</span>         <span class="o">=</span> <span class="mi">60642</span>            <span class="c1">#Number of chromosome particles</span>
+
+<span class="n">first_frame</span>                 <span class="o">=</span> <span class="mi">0</span>      <span class="c1">#The analysis starts from the first frame, currently, 500</span>
+<span class="n">N_nucleolus_particles</span>       <span class="o">=</span> <span class="mi">300</span>      <span class="c1">#The number of nucleolus particles</span>
+<span class="n">N_speckles_particles</span>        <span class="o">=</span> <span class="mi">1600</span>     <span class="c1">#The number of speckle particles</span>
+<span class="n">N_lamina_particles</span>          <span class="o">=</span> <span class="mi">8000</span>     <span class="c1">#The number of lamina particles</span>
+<span class="n">radius_nucleus</span>              <span class="o">=</span> <span class="mf">13.0</span>     <span class="c1">#The radius of cell nucleus, 13.0 (LJ unit) = 5.0 µm</span>
+
+<span class="sd">&quot;&quot;&quot;Info files&quot;&quot;&quot;</span>
+<span class="n">gLength</span>             <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s2">&quot;mol_info/gLengthFile.txt&quot;</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>      <span class="c1">#The difference between each two neighboring values</span>
+                                                                            <span class="c1">#in the file represents the length of the chromosome</span>
+<span class="n">maternalIdx</span>         <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s2">&quot;mol_info/maternalIdxFile.txt&quot;</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>  <span class="c1">#Index of each maternal chromosome</span>
+<span class="n">paternalIdx</span>         <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s2">&quot;mol_info/paternalIdxFile.txt&quot;</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>  <span class="c1">#Index of each paternal chromosome</span>
+</pre></div>
+</div>
+</div>
+<p>Compute the simulated DamID and TSASeq</p>
+<p>The function here we use is the same as the function defined in chr_chr_optimization.ipynb</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">DamID_TSASeq_calculation</span><span class="p">(</span><span class="n">traj_data</span><span class="p">):</span>
+    <span class="n">traj_data</span> <span class="o">=</span> <span class="n">mda</span><span class="o">.</span><span class="n">coordinates</span><span class="o">.</span><span class="n">LAMMPS</span><span class="o">.</span><span class="n">DCDReader</span><span class="p">(</span><span class="n">traj_data</span><span class="p">)</span>
+
+    <span class="n">N_frame</span>                     <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">traj_data</span><span class="p">)</span><span class="o">-</span><span class="n">first_frame</span>
+    <span class="n">exp_tsa_seq</span>                 <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">N_chr_beads</span><span class="p">)</span>
+    <span class="n">exp_damid</span>                   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">N_chr_beads</span><span class="p">)</span>
+    <span class="n">exp_tsa_seq_all_frames</span>      <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">N_frame</span><span class="p">,</span><span class="n">N_chr_beads</span><span class="p">))</span>
+    <span class="n">exp_damid_all_frames</span>        <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">N_frame</span><span class="p">,</span><span class="n">N_chr_beads</span><span class="p">))</span>
+    <span class="n">N_speckle</span>                   <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">frame_number</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">first_frame</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">traj_data</span><span class="p">),</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">chr_I_data</span>    <span class="o">=</span> <span class="n">traj_data</span><span class="o">.</span><span class="n">trajectory</span><span class="p">[</span><span class="n">frame_number</span><span class="p">]</span><span class="o">.</span><span class="n">positions</span><span class="p">[:</span><span class="n">N_chr_beads</span><span class="p">]</span>
+        <span class="n">speckles_data</span> <span class="o">=</span> <span class="n">traj_data</span><span class="o">.</span><span class="n">trajectory</span><span class="p">[</span><span class="n">frame_number</span><span class="p">]</span><span class="o">.</span><span class="n">positions</span><span class="p">[(</span><span class="n">N_chr_beads</span><span class="o">+</span><span class="n">N_nucleolus_particles</span><span class="p">)</span>
+                                                    <span class="p">:(</span><span class="n">N_chr_beads</span><span class="o">+</span><span class="n">N_nucleolus_particles</span><span class="o">+</span><span class="n">N_speckles_particles</span><span class="p">)]</span>
+        <span class="n">lamina_data</span>   <span class="o">=</span> <span class="n">traj_data</span><span class="o">.</span><span class="n">trajectory</span><span class="p">[</span><span class="n">frame_number</span><span class="p">]</span><span class="o">.</span><span class="n">positions</span><span class="p">[(</span><span class="n">N_chr_beads</span><span class="o">+</span>
+                                                    <span class="n">N_nucleolus_particles</span><span class="o">+</span><span class="n">N_speckles_particles</span><span class="p">):]</span>
+
+        <span class="c1">#Following code identifies the speckles clusters and calculates center of mass positions</span>
+        <span class="sd">&quot;&quot;&quot;Code Snippet from DBSCAN Python Page</span>
+<span class="sd">        https://scikit-learn.org/stable/auto_examples/cluster/plot_dbscan.html#sphx-glr-auto-examples-cluster-plot-dbscan-py</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">db</span> <span class="o">=</span> <span class="n">sk</span><span class="o">.</span><span class="n">DBSCAN</span><span class="p">(</span><span class="n">eps</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">speckles_data</span><span class="p">)</span>
+        <span class="n">core_samples_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">labels_</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+        <span class="n">core_samples_mask</span><span class="p">[</span><span class="n">db</span><span class="o">.</span><span class="n">core_sample_indices_</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">labels_</span>
+        <span class="c1"># Number of clusters in labels, ignoring noise if present.</span>
+        <span class="n">n_clusters_</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">labels</span><span class="p">))</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span> <span class="k">if</span> <span class="o">-</span><span class="mi">1</span> <span class="ow">in</span> <span class="n">labels</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">n_noise_</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">N_speckle</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">n_clusters_</span><span class="p">)</span>
+
+        <span class="n">cluster_com_master</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_clusters_</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+        <span class="n">radius_cluster_master</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_clusters_</span><span class="p">)</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">i</span><span class="o">&lt;=</span><span class="nb">max</span><span class="p">(</span><span class="n">labels</span><span class="p">)):</span>
+            <span class="c1">#Go cluster by cluster</span>
+            <span class="n">r_points_cluster</span>          <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">speckles_data</span><span class="p">[</span><span class="n">labels</span><span class="o">==</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">cluster_com</span>               <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">r_points_cluster</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">cluster_com_master</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>     <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">cluster_com</span><span class="p">)</span>
+            <span class="n">radius_cluster_master</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>  <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">r_points_cluster</span><span class="o">-</span><span class="n">cluster_com</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+                                         <span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">r_points_cluster</span><span class="p">))</span><span class="o">**</span><span class="mf">0.5</span>
+            <span class="n">i</span> <span class="o">+=</span><span class="mi">1</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">chr_I_data</span><span class="p">)):</span>
+            <span class="c1">###Speckles</span>
+            <span class="n">distances_from_speckles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">cluster_com_master</span><span class="o">-</span><span class="n">chr_I_data</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">**</span><span class="mf">0.5</span>
+            <span class="n">distances_from_speckles</span> <span class="o">-=</span> <span class="n">radius_cluster_master</span>
+
+            <span class="c1">#Do this only for speckles</span>
+            <span class="n">exp_tsa_seq_all_frames</span><span class="p">[</span><span class="n">frame_number</span><span class="o">-</span><span class="n">first_frame</span><span class="p">,</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0</span><span class="o">+</span>
+                                            <span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">sigma_tanh</span><span class="o">*</span><span class="p">(</span><span class="n">rc_tanh</span><span class="o">-</span><span class="n">distances_from_speckles</span><span class="p">))),</span><span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+            <span class="n">exp_tsa_seq_all_frames</span><span class="p">[</span><span class="n">frame_number</span><span class="o">-</span><span class="n">first_frame</span><span class="p">,</span><span class="n">i</span><span class="p">]</span> <span class="o">/=</span> <span class="nb">float</span><span class="p">(</span><span class="n">n_clusters_</span><span class="p">)</span>
+            <span class="n">exp_tsa_seq</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">exp_tsa_seq_all_frames</span><span class="p">[</span><span class="n">frame_number</span><span class="o">-</span><span class="n">first_frame</span><span class="p">,</span><span class="n">i</span><span class="p">])</span>
+
+            <span class="c1">###Lamina</span>
+            <span class="n">distances_from_lamina</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">lamina_data</span><span class="o">-</span><span class="n">chr_I_data</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">**</span><span class="mf">0.5</span>
+
+            <span class="c1">#Do this only for lamina</span>
+            <span class="n">exp_damid_all_frames</span><span class="p">[</span><span class="n">frame_number</span><span class="o">-</span><span class="n">first_frame</span><span class="p">,</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0</span><span class="o">+</span>
+                                            <span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">sigma_tanh</span><span class="o">*</span><span class="p">(</span><span class="n">rc_tanh</span><span class="o">-</span><span class="n">distances_from_lamina</span><span class="p">))),</span><span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+            <span class="n">exp_damid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">exp_damid_all_frames</span><span class="p">[</span><span class="n">frame_number</span><span class="o">-</span><span class="n">first_frame</span><span class="p">,</span><span class="n">i</span><span class="p">])</span>
+
+
+    <span class="n">damid_all_frames_haploid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">N_frame</span><span class="p">,</span><span class="nb">int</span><span class="p">(</span><span class="n">N_chr_beads</span><span class="o">/</span><span class="mi">2</span><span class="p">)))</span>
+    <span class="n">tsaseq_all_frames_haploid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">N_frame</span><span class="p">,</span><span class="nb">int</span><span class="p">(</span><span class="n">N_chr_beads</span><span class="o">/</span><span class="mi">2</span><span class="p">)))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">23</span><span class="p">):</span>
+        <span class="n">damid_all_frames_haploid</span><span class="p">[:,</span><span class="n">gLength</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span><span class="n">gLength</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span>
+            <span class="n">exp_damid_all_frames</span><span class="p">[:,</span><span class="n">maternalIdx</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="n">maternalIdx</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span>
+             <span class="o">+</span><span class="n">exp_damid_all_frames</span><span class="p">[:,</span><span class="n">paternalIdx</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="n">paternalIdx</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]])</span>
+        <span class="n">tsaseq_all_frames_haploid</span><span class="p">[:,</span><span class="n">gLength</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span><span class="n">gLength</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span>
+            <span class="n">exp_tsa_seq_all_frames</span><span class="p">[:,</span><span class="n">maternalIdx</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="n">maternalIdx</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span>
+             <span class="o">+</span><span class="n">exp_tsa_seq_all_frames</span><span class="p">[:,</span><span class="n">paternalIdx</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="n">paternalIdx</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]])</span>
+
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">damid_all_frames_haploid</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">tsaseq_all_frames_haploid</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">N_speckle</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>We compute the simulated DamID and TSASeq firstly.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">damid_simulated</span><span class="p">,</span> <span class="n">tsaseq_simulated</span><span class="p">,</span> <span class="n">n_clusters</span> <span class="o">=</span> <span class="n">DamID_TSASeq_calculation</span><span class="p">(</span><span class="s2">&quot;frame_10.dcd&quot;</span><span class="p">)</span>
+<span class="n">gw_lamina</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">damid_simulated</span><span class="p">)</span>
+<span class="n">gw_speckles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">tsaseq_simulated</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>We load the experimental DamID and TSASeq</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">damid_data_low_res</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s2">&quot;DamID-OE.txt&quot;</span><span class="p">,</span><span class="n">usecols</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">tsa_data_low_res</span>    <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s2">&quot;TSA-Seq-OE.txt&quot;</span><span class="p">,</span><span class="n">usecols</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="n">damid_data_low_res_haploid</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">30321</span><span class="p">)</span> <span class="c1">#Haploid results</span>
+<span class="n">tsa_data_low_res_haploid</span>    <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">30321</span><span class="p">)</span> <span class="c1">#Haploid results</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">23</span><span class="p">):</span>
+    <span class="n">damid_data_low_res_haploid</span><span class="p">[</span><span class="n">gLength</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span><span class="n">gLength</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">damid_data_low_res</span><span class="p">[</span><span class="n">maternalIdx</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="n">maternalIdx</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span> <span class="o">+</span>
+                                                       <span class="n">damid_data_low_res</span><span class="p">[</span><span class="n">paternalIdx</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="n">paternalIdx</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span>
+                                                       <span class="p">)</span>
+    <span class="n">tsa_data_low_res_haploid</span><span class="p">[</span><span class="n">gLength</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span><span class="n">gLength</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">tsa_data_low_res</span><span class="p">[</span><span class="n">maternalIdx</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="n">maternalIdx</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span> <span class="o">+</span>
+                                                       <span class="n">tsa_data_low_res</span><span class="p">[</span><span class="n">paternalIdx</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="n">paternalIdx</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span>
+                                                       <span class="p">)</span>
+
+<span class="n">expt_dam</span>            <span class="o">=</span> <span class="n">damid_data_low_res_haploid</span><span class="o">*</span><span class="n">gw_lamina</span>
+<span class="n">expt_tsa</span>            <span class="o">=</span> <span class="n">tsa_data_low_res_haploid</span><span class="o">*</span><span class="n">gw_speckles</span>
+
+<span class="n">update_chr_list</span>     <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">23</span><span class="p">)])</span>
+<span class="n">update_chr_list</span>    <span class="o">-=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+<p>We start the adam optimization</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##DamID part</span>
+
+<span class="n">m_dw_dam</span>                    <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">&#39;adam_chr_NL_param/</span><span class="si">%02d</span><span class="s1">/mdw_dam.txt&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">run_number</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">v_dw_dam</span>                    <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">&#39;adam_chr_NL_param/</span><span class="si">%02d</span><span class="s1">/vdw_dam.txt&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">run_number</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">m_db_dam</span>                    <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">&#39;adam_chr_NL_param/</span><span class="si">%02d</span><span class="s1">/mdb_dam.txt&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">run_number</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">v_db_dam</span>                    <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">&#39;adam_chr_NL_param/</span><span class="si">%02d</span><span class="s1">/vdb_dam.txt&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">run_number</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">beta1_dam</span>                   <span class="o">=</span> <span class="mf">0.9</span>
+<span class="n">beta2_dam</span>                   <span class="o">=</span> <span class="mf">0.999</span>
+<span class="n">epsilon_dam</span>                 <span class="o">=</span> <span class="mf">1e-8</span>
+<span class="n">eta_dam</span>                     <span class="o">=</span> <span class="mf">0.01</span>
+<span class="n">t_dam</span>                       <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">&#39;adam_chr_NL_param/</span><span class="si">%02d</span><span class="s1">/t_dam.txt&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">run_number</span><span class="o">-</span><span class="mi">1</span><span class="p">)))</span>
+
+<span class="n">grad_dam</span>        <span class="o">=</span> <span class="o">-</span><span class="n">damid_simulated</span> <span class="o">+</span> <span class="n">expt_dam</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># START TO DO THE ADAM OPTIMIZATION</span>
+
+<span class="c1"># momentum beta 1</span>
+<span class="c1"># *** weights *** #</span>
+<span class="n">m_dw_dam</span>        <span class="o">=</span> <span class="n">beta1_dam</span><span class="o">*</span><span class="n">m_dw_dam</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">beta1_dam</span><span class="p">)</span><span class="o">*</span><span class="n">grad_dam</span>
+<span class="c1"># *** biases *** #</span>
+<span class="n">m_db_dam</span>        <span class="o">=</span> <span class="n">beta1_dam</span><span class="o">*</span><span class="n">m_db_dam</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">beta1_dam</span><span class="p">)</span><span class="o">*</span><span class="n">grad_dam</span>
+<span class="c1"># rms beta 2</span>
+<span class="c1"># *** weights *** #</span>
+<span class="n">v_dw_dam</span>        <span class="o">=</span> <span class="n">beta2_dam</span><span class="o">*</span><span class="n">v_dw_dam</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">beta2_dam</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">grad_dam</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="c1"># *** biases *** #</span>
+<span class="n">v_db_dam</span>        <span class="o">=</span> <span class="n">beta2_dam</span><span class="o">*</span><span class="n">v_db_dam</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">beta2_dam</span><span class="p">)</span><span class="o">*</span><span class="n">grad_dam</span>
+
+<span class="c1"># We save the updated parameters in Adam for the next iteration</span>
+
+<span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;mkdir -p adam_chr_NL_param/</span><span class="si">%02d</span><span class="s2">&quot;</span><span class="o">%</span><span class="k">run_number</span>],shell=True,stdout=subprocess.PIPE)
+<span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="s1">&#39;adam_chr_NL_param/</span><span class="si">%02d</span><span class="s1">/mdw_dam.txt&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">run_number</span><span class="p">),</span> <span class="n">m_dw_dam</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)),</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%15.12e</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="s1">&#39;adam_chr_NL_param/</span><span class="si">%02d</span><span class="s1">/vdw_dam.txt&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">run_number</span><span class="p">),</span> <span class="n">v_dw_dam</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)),</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%15.12e</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="s1">&#39;adam_chr_NL_param/</span><span class="si">%02d</span><span class="s1">/mdb_dam.txt&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">run_number</span><span class="p">),</span> <span class="n">m_db_dam</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)),</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%15.12e</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="s1">&#39;adam_chr_NL_param/</span><span class="si">%02d</span><span class="s1">/vdb_dam.txt&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">run_number</span><span class="p">),</span> <span class="n">v_db_dam</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)),</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%15.12e</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="s1">&#39;adam_chr_NL_param/</span><span class="si">%02d</span><span class="s1">/t_dam.txt&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">run_number</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">t_dam</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)),</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1">## bias correction</span>
+<span class="n">m_dw_corr_dam</span>   <span class="o">=</span> <span class="n">m_dw_dam</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">beta1_dam</span><span class="o">**</span><span class="n">t_dam</span><span class="p">)</span>
+<span class="n">m_db_corr_dam</span>   <span class="o">=</span> <span class="n">m_db_dam</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">beta1_dam</span><span class="o">**</span><span class="n">t_dam</span><span class="p">)</span>
+<span class="n">v_dw_corr_dam</span>   <span class="o">=</span> <span class="n">v_dw_dam</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">beta2_dam</span><span class="o">**</span><span class="n">t_dam</span><span class="p">)</span>
+<span class="n">v_db_corr_dam</span>   <span class="o">=</span> <span class="n">v_db_dam</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">beta2_dam</span><span class="o">**</span><span class="n">t_dam</span><span class="p">)</span>
+
+<span class="n">dalpha_dam</span>      <span class="o">=</span> <span class="n">m_dw_corr_dam</span><span class="o">/</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">v_dw_corr_dam</span><span class="p">)</span><span class="o">+</span><span class="n">epsilon_dam</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load the old parameters and update them</span>
+
+<span class="n">damid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s2">&quot;potential/</span><span class="si">%02d</span><span class="s2">/chr_lam_param.txt&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">run_number</span><span class="o">-</span><span class="mi">1</span><span class="p">))[:</span><span class="mi">60642</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">update_chr_list</span><span class="p">:</span>
+    <span class="n">damid</span><span class="p">[</span><span class="n">maternalIdx</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="n">maternalIdx</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span> <span class="o">-=</span> <span class="n">eta_dam</span><span class="o">*</span><span class="n">dalpha_dam</span><span class="p">[</span><span class="n">gLength</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span><span class="n">gLength</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]]</span>
+    <span class="n">damid</span><span class="p">[</span><span class="n">paternalIdx</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="n">paternalIdx</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span> <span class="o">-=</span> <span class="n">eta_dam</span><span class="o">*</span><span class="n">dalpha_dam</span><span class="p">[</span><span class="n">gLength</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span><span class="n">gLength</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TSASeq part, very similar to the above</span>
+
+<span class="n">m_dw_tsa</span>                    <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">&#39;adam_chr_NL_param/</span><span class="si">%02d</span><span class="s1">/mdw_tsa.txt&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">run_number</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">v_dw_tsa</span>                    <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">&#39;adam_chr_NL_param/</span><span class="si">%02d</span><span class="s1">/vdw_tsa.txt&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">run_number</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">m_db_tsa</span>                    <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">&#39;adam_chr_NL_param/</span><span class="si">%02d</span><span class="s1">/mdb_tsa.txt&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">run_number</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">v_db_tsa</span>                    <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">&#39;adam_chr_NL_param/</span><span class="si">%02d</span><span class="s1">/vdb_tsa.txt&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">run_number</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">beta1_tsa</span>                   <span class="o">=</span> <span class="mf">0.9</span>
+<span class="n">beta2_tsa</span>                   <span class="o">=</span> <span class="mf">0.999</span>
+<span class="n">epsilon_tsa</span>                 <span class="o">=</span> <span class="mf">1e-8</span>
+<span class="n">eta_tsa</span>                     <span class="o">=</span> <span class="mf">0.01</span>
+<span class="n">t_tsa</span>                       <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">&#39;adam_chr_NL_param/</span><span class="si">%02d</span><span class="s1">/t_tsa.txt&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">run_number</span><span class="o">-</span><span class="mi">1</span><span class="p">)))</span>
+
+<span class="n">grad_tsa</span>        <span class="o">=</span> <span class="o">-</span><span class="n">tsaseq_simulated</span> <span class="o">+</span> <span class="n">expt_tsa</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># START TO DO THE ADAM TRAINING</span>
+<span class="c1"># momentum beta 1</span>
+<span class="c1"># *** weights *** #</span>
+<span class="n">m_dw_tsa</span>        <span class="o">=</span> <span class="n">beta1_tsa</span><span class="o">*</span><span class="n">m_dw_tsa</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">beta1_tsa</span><span class="p">)</span><span class="o">*</span><span class="n">grad_tsa</span>
+<span class="c1"># *** biases *** #</span>
+<span class="n">m_db_tsa</span>        <span class="o">=</span> <span class="n">beta1_tsa</span><span class="o">*</span><span class="n">m_db_tsa</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">beta1_tsa</span><span class="p">)</span><span class="o">*</span><span class="n">grad_tsa</span>
+<span class="c1"># rms beta 2</span>
+<span class="c1"># *** weights *** #</span>
+<span class="n">v_dw_tsa</span>        <span class="o">=</span> <span class="n">beta2_tsa</span><span class="o">*</span><span class="n">v_dw_tsa</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">beta2_tsa</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">grad_tsa</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="c1"># *** biases *** #</span>
+<span class="n">v_db_tsa</span>        <span class="o">=</span> <span class="n">beta2_tsa</span><span class="o">*</span><span class="n">v_db_tsa</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">beta2_tsa</span><span class="p">)</span><span class="o">*</span><span class="n">grad_tsa</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="s1">&#39;adam_chr_NL_param/</span><span class="si">%02d</span><span class="s1">/mdw_tsa.txt&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">run_number</span><span class="p">),</span> <span class="n">m_dw_tsa</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)),</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%15.12e</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="s1">&#39;adam_chr_NL_param/</span><span class="si">%02d</span><span class="s1">/vdw_tsa.txt&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">run_number</span><span class="p">),</span> <span class="n">v_dw_tsa</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)),</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%15.12e</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="s1">&#39;adam_chr_NL_param/</span><span class="si">%02d</span><span class="s1">/mdb_tsa.txt&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">run_number</span><span class="p">),</span> <span class="n">m_db_tsa</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)),</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%15.12e</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="s1">&#39;adam_chr_NL_param/</span><span class="si">%02d</span><span class="s1">/vdb_tsa.txt&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">run_number</span><span class="p">),</span> <span class="n">v_db_tsa</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)),</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%15.12e</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="s1">&#39;adam_chr_NL_param/</span><span class="si">%02d</span><span class="s1">/t_tsa.txt&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">run_number</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">t_tsa</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)),</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1">## bias correction</span>
+<span class="n">m_dw_corr_tsa</span>   <span class="o">=</span> <span class="n">m_dw_tsa</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">beta1_tsa</span><span class="o">**</span><span class="n">t_tsa</span><span class="p">)</span>
+<span class="n">m_db_corr_tsa</span>   <span class="o">=</span> <span class="n">m_db_tsa</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">beta1_tsa</span><span class="o">**</span><span class="n">t_tsa</span><span class="p">)</span>
+<span class="n">v_dw_corr_tsa</span>   <span class="o">=</span> <span class="n">v_dw_tsa</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">beta2_tsa</span><span class="o">**</span><span class="n">t_tsa</span><span class="p">)</span>
+<span class="n">v_db_corr_tsa</span>   <span class="o">=</span> <span class="n">v_db_tsa</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">beta2_tsa</span><span class="o">**</span><span class="n">t_tsa</span><span class="p">)</span>
+
+<span class="n">dalpha_tsa</span>     <span class="o">=</span> <span class="n">m_dw_corr_tsa</span><span class="o">/</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">v_dw_corr_tsa</span><span class="p">)</span><span class="o">+</span><span class="n">epsilon_tsa</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load the old parameters and update them</span>
+
+<span class="n">tsaseq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s2">&quot;potential/</span><span class="si">%02d</span><span class="s2">/chr_spec_param.txt&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">run_number</span><span class="o">-</span><span class="mi">1</span><span class="p">))[:</span><span class="mi">60642</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">update_chr_list</span><span class="p">:</span>
+    <span class="n">tsaseq</span><span class="p">[</span><span class="n">maternalIdx</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="n">maternalIdx</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span> <span class="o">-=</span> <span class="n">eta_tsa</span><span class="o">*</span><span class="n">dalpha_tsa</span><span class="p">[</span><span class="n">gLength</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span><span class="n">gLength</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]]</span>
+    <span class="n">tsaseq</span><span class="p">[</span><span class="n">paternalIdx</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="n">paternalIdx</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span> <span class="o">-=</span> <span class="n">eta_tsa</span><span class="o">*</span><span class="n">dalpha_tsa</span><span class="p">[</span><span class="n">gLength</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span><span class="n">gLength</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Added portion to overide the parameters to 0.0 if no expt signal on segment</span>
+
+<span class="n">zero_signal_damid</span>   <span class="o">=</span> <span class="p">(</span><span class="n">damid_data_low_res</span><span class="p">[:]</span>    <span class="o">==</span> <span class="mf">0.0</span><span class="p">)</span>
+<span class="n">zero_signal_tsa</span>     <span class="o">=</span> <span class="p">(</span><span class="n">tsa_data_low_res</span><span class="p">[:]</span>      <span class="o">==</span> <span class="mf">0.0</span><span class="p">)</span>
+<span class="n">damid</span><span class="p">[</span><span class="n">zero_signal_damid</span><span class="p">]</span>  <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">tsaseq</span><span class="p">[</span><span class="n">zero_signal_tsa</span><span class="p">]</span>    <span class="o">=</span> <span class="mf">0.0</span>
+</pre></div>
+</div>
+</div>
+<p>We save the new parameters</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="s2">&quot;potential/</span><span class="si">%02d</span><span class="s2">/chr_spec_param.txt&quot;</span><span class="o">%</span><span class="k">run_number</span>, np.append(tsaseq,[0]*9900).reshape((-1,1)), fmt=&#39;%.6f&#39;)
+<span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="s2">&quot;potential/</span><span class="si">%02d</span><span class="s2">/chr_lam_param.txt&quot;</span><span class="o">%</span><span class="k">run_number</span>, np.append(damid,[0]*9900).reshape((-1,1)), fmt=&#39;%.6f&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Chr_Chr_Optimization.html" class="btn btn-neutral float-left" title="Chr-Chr-Optimization" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Choose_Initial_Configs.html" class="btn btn-neutral float-right" title="Choose-Initial-Configurations" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Zhuohan Lao.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -19,9 +19,18 @@ Other required packages: numpy, pandas, scikit-learn, MDAnalysis, mdtraj.
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: OpenNucleome:
 
-   manual
+   OpenNucleome
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Tutorials
+
+   Tutorials/Compute_Contact_Prob
+   Tutorials/Chr_Chr_Optimization
+   Tutorials/Chr_NL_Optimization
+   Tutorials/Choose_Initial_Configs
 
 Indices and tables
 ==================
@@ -33,4 +42,4 @@ Indices and tables
 Citations
 =========
 
-We will add reference after the paper is formally online.
+Lao, Zhuohan, et al. "OpenNucleome for high resolution nuclear structural and dynamical modeling." bioRxiv (2023): 2023-10.
