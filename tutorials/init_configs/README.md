@@ -1,5 +1,7 @@
 ## Choose a set of proper initial configurations to run the simulations
 
+Here, as an example, we only choose 20 initial configurations out of 200 relaxed configurations. 
+
 - choose_initial_configs.ipynb: call and outputs the indexes of 20 initial configurations
 
 - config_pool: save all the initial relaxed configurations
