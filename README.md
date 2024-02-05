@@ -7,7 +7,7 @@ OpenNucleome is an open-source software designed for conducting molecular dynami
 ## Citation
 Please cite the following paper if you use opennucleome package: 
 
-    "OpenNucleome for high resolution nuclear structural and dynamical modeling", doi: XXX 
+    "OpenNucleome for high resolution nuclear structural and dynamical modeling", eLife (in press), doi: 10.1101/2023.10.16.562451
 
 ## Environment
 
@@ -29,7 +29,7 @@ pip install opennucleome==1.0.0
 
 ## Tutorials 
 
-Detailed instructions for performing simulations of a human nucleus can be found at: tutorials/HFF_100KB. We also provide a tutorial for parameter optimization to develop new nucleus models at: tutorials/optimization.
+Detailed instructions for performing simulations of a human nucleus can be found at: tutorials/HFF_100KB. We also provide a tutorial for parameter optimization to develop new nucleus models at: tutorials/analysis_code.
 
 ## Manual
 
