@@ -1,4 +1,4 @@
-## Analysis code
+## chromosome-chromosome optimization code
 
 - chr_chr_optimization.ipynb: call and optimizes the chromosome-chromosome interactions (ideal, compt-compt, interchr)
 

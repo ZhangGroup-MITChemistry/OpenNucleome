@@ -1,4 +1,4 @@
-## Analysis code
+## contact_prob computation code
 
 - compute_contact_prob.ipynb: call and computes the contact probabilities (DamID, TSASeq, and chr-chr)
 

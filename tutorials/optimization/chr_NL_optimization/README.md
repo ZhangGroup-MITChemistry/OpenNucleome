@@ -1,4 +1,4 @@
-## Analysis code
+## chromosome-nuclear landmarks optimization code
 
 - chr_NL_optimization.ipynb: call and optimizes the chromosome-nuclear landmarks interactions (chr-spe, chr-lam)
 
