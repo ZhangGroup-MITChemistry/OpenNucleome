@@ -31,6 +31,8 @@ Other required packages: numpy, pandas, scikit-learn, MDAnalysis, mdtraj.
    Tutorials/Chr_Chr_Optimization
    Tutorials/Chr_NL_Optimization
    Tutorials/Choose_Initial_Configs
+   Tutorials/SphericalNucleus.ipynb
+   Tutorials/NuclearDeformation.ipynb
 
 Indices and tables
 ==================

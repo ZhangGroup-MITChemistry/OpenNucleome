@@ -24,7 +24,7 @@ Other required packages: numpy, pandas, scikit-learn, MDAnalysis, mdtraj.
 The user can either download the package from github, or use pip install:
 
 ```
-pip install opennucleome==1.0.1
+pip install opennucleome==1.0.2
 ```
 
 ## Tutorials 
