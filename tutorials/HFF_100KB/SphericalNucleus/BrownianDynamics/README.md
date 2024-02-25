@@ -30,12 +30,8 @@ The pipeline is as follows:
 
     2. Convert the trajectory with position in OpenMM default unit to reduced unit
 
-    ```
     python coordinate_transformation.py step_100000.dcd
-    ```
 
     3. Create a configuration file with the last frame
 
-    ```
     python coordinate_transformation.py reduced_traj.dcd
-    ```
