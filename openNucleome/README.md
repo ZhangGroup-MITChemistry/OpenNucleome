@@ -11,3 +11,5 @@
 - nucleolus.py: All the interactions between nucleolus-nucleolus, nucleolus-speckle, and nucleolus-chromosome
 
 - lamina.py: All the interactions between lamina-other particles, and includes the nucleus deformation force when squeezing the model
+
+- utils: The folder contains two functions for calculating the contact prob between chromosome and nuclear landmarks (Lamina and Speckles), and the contact prob within chromosomes
