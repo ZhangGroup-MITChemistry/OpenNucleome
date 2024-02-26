@@ -8,11 +8,14 @@ import parmed as pmd
 import json
 import sys
 from sys import platform
-#from openNucleome import Chromosome, Speckle, Nucleolus, Lamina
 from .chromosome import Chromosome
 from .nucleolus import Nucleolus
 from .speckle import Speckle
 from .lamina import Lamina
+
+current_path = os.path.abspath(__file__)
+father_path = os.path.abspath(os.path.dirname(current_path) + os.path.sep + '.')
+config_path = os.path.join(father_path, 'parameters', 'HFF_100KB')
 
 class OpenNucleome:
     '''
@@ -59,10 +62,10 @@ class OpenNucleome:
             The path to the chromosome PDB file, including nucleoli, speckles, and lamina.
 
         flag_membrane (bool, required):
-            A flag to control the dynamics of the lamina membrane, True: include the dynamics; False: exclude the dynamics (Default: True)
+            A flag to control the dynamics of the lamina membrane, True: include the dynamics; False: exclude the dynamics (Default: False)
 
         lam_bond (string, required):
-            The file containing the bond between specific lamina beads.
+            The file containing the bond between specific lamina beads. (Default: None)
 
         '''
         chr_PDB_path = PDB_file
@@ -148,7 +151,7 @@ class OpenNucleome:
         ----------
 
         flag_membrane (bool, required):
-            A flag to control the dynamics of the lamina membrane, True: include the dynamics; False: exclude the dynamics (Default: True)
+            A flag to control the dynamics of the lamina membrane, True: include the dynamics; False: exclude the dynamics (Default: False)
         '''
         name_to_element = ['ASP', 'GLU', 'HIS', 'LYS', 'ARG', 'ASN', 'GLN', 'PRO']
         self.Elements = []
@@ -169,7 +172,7 @@ class OpenNucleome:
         ----------
 
         flag_membrane (bool, required):
-            A flag to control the dynamics of the lamina membrane, True: include the dynamics; False: exclude the dynamics (Default: True)
+            A flag to control the dynamics of the lamina membrane, True: include the dynamics; False: exclude the dynamics (Default: False)
         '''
         # Construct topology, add chain, residues, atoms, bonds
         self.chr_topo = mmapp.topology.Topology()
@@ -184,10 +187,10 @@ class OpenNucleome:
 
         if flag_membrane:
 
-            self.membrane_bond += self.N_chr_nuc_spec + 1
+            self.membrane_bond += self.N_chr_nuc_spec
 
             for i, j in self.membrane_bond:
-                self.chrTopo.addBond(i, j)
+                self.chr_topo.addBond(i, j)
 
         #store all bonds in all_bonds
         self.all_bonds = []
@@ -294,12 +297,14 @@ class OpenNucleome:
         dict_spec_ff = {'spec-spec':True, 'spec-chrom':True}
         dict_nuc_ff = {'nuc-nuc':True, 'nuc-spec':True, 'nuc-chrom':True}
         dict_lam_ff = {'lam-chrom':True, 'hard-wall':True, 'lam-lam':self.flag_membrane, 'squeeze_nucleus':self.flag_membrane}
-        ideal_param_file = "ideal_param_file.txt"
-        compt_param_file = "compt_param_file.txt"
-        interchr_param_file = 'interchr_param_file.txt'
-        chr_nuc_param = "chr_nuc_param.txt"
-        chr_spec_param = "chr_spec_param.txt"
-        chr_lam_param = "chr_lam_param.txt"
+
+        ideal_param_file = os.path.join('.', 'parameters', 'HFF_100KB', "ideal_param_file.txt")
+        compt_param_file = os.path.join('.', 'parameters', 'HFF_100KB', "compt_param_file.txt")
+        interchr_param_file = os.path.join('.', 'parameters', 'HFF_100KB', "interchr_param_file.txt")
+        chr_nuc_param = os.path.join('.', 'parameters', 'HFF_100KB', "chr_nuc_param.txt")
+        chr_spec_param = os.path.join('.', 'parameters', 'HFF_100KB', "chr_spec_param.txt")
+        chr_lam_param = os.path.join('.', 'parameters', 'HFF_100KB', "chr_lam_param.txt")
+
         self.add_chromosome_potential(dict_chrom_ff, ideal_param_file, compt_param_file, interchr_param_file)
         self.add_speckle_potential(dict_spec_ff, chr_spec_param)
         self.add_nucleolus_potential(dict_nuc_ff, chr_nuc_param)
@@ -321,11 +326,23 @@ class OpenNucleome:
         dict_nuc_ff = {'nuc-nuc':force_field.loc['nucleolus']['nuc-nuc'], 'nuc-spec':force_field.loc['nucleolus']['nuc-spec'], 'nuc-chrom':force_field.loc['nucleolus']['nuc-chrom']}
         dict_lam_ff = {'lam-chrom':force_field.loc['lamina']['lam-chrom'], 'hard-wall':force_field.loc['lamina']['hard-wall'], 'lam-lam':self.flag_membrane, 'squeeze_nucleus':self.flag_membrane, 'strength': k}
         ideal_param_file = force_field.loc['chromosome']['ideal_param_file']
+        if ideal_param_file:
+            ideal_param_file = os.path.join('.', 'parameters', ideal_param_file)
         compt_param_file = force_field.loc['chromosome']['compt_param_file']
+        if compt_param_file:
+            compt_param_file = os.path.join('.', 'parameters', compt_param_file)
         interchr_param_file = force_field.loc['chromosome']['interchr_param_file']
+        if interchr_param_file:
+            interchr_param_file = os.path.join('.', 'parameters', interchr_param_file)
         chr_nuc_param = force_field.loc['nucleolus']['chr_nuc_param']
+        if chr_nuc_param:
+            chr_nuc_param = os.path.join('.', 'parameters', chr_nuc_param)
         chr_spec_param = force_field.loc['speckle']['chr_spec_param']
+        if chr_spec_param:
+            chr_spec_param = os.path.join('.', 'parameters', chr_spec_param)
         chr_lam_param = force_field.loc['lamina']['chr_lam_param']
+        if chr_lam_param:
+            chr_lam_param = os.path.join('.', 'parameters', chr_lam_param)
         self.add_chromosome_potential(dict_chrom_ff, ideal_param_file, compt_param_file, interchr_param_file)
         self.add_speckle_potential(dict_spec_ff, chr_spec_param)
         self.add_nucleolus_potential(dict_nuc_ff, chr_nuc_param)

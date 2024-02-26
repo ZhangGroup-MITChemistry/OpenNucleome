@@ -215,9 +215,6 @@ class Lamina(object):
 
         squeeze.addPerParticleParameter("x")
 
-        for idx1, idx2 in self.bond_list: #exclude all nearest neighbor interactions
-            squeeze.addExclusion(int(idx1), int(idx2))
-
         squeeze.setForceGroup(force_group)
 
         for i in range(self.N_bead):
