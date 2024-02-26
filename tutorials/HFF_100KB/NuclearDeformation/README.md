@@ -1,6 +1,6 @@
 ## Nuclear Deformation with Langevin Dynamics
 
-This folder provides tutorials for setting up and performing Langevin Dynamics simulations of the HFF nucleus at the 100KB resolution with the presence of various nuclear landmarks, including nuclear lamina, speckles, and nucleoli.
+With Langevin dynamics, this folder provides tutorials for setting up and performing Nuclear Deformation simulations of the HFF nucleus at the 100KB resolution with the presence of various nuclear landmarks, including nuclear lamina, speckles, and nucleoli. And here, we also show how to create the system with customized setup.
 
 - Nuclear_Deformation.ipynb: The jupyter notebook showing how to create a system and run a simulation with the nucleus deformation. Make sure you put all the force field parameter files in the parameter folder.
 
