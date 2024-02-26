@@ -2,7 +2,9 @@
 
 This folder provides tutorials for setting up and performing Brownian Dynamics simulations of the HFF nucleus at the 100KB resolution with the presence of various nuclear landmarks, including nuclear lamina, speckles, and nucleoli.
 
-- Simulation_Brownian.ipynb: The jupyter notebook showing how to create a system and run a simulation. Make sure you put all the force field parameter files in the same path of this file.
+- Simulation_Brownian.ipynb: The jupyter notebook showing how to create a system and run a simulation. Make sure you put all the force field parameter files in the parameter folder.
+
+- parameters: The folder saves all the parameters that the simulation needs
 
 - step_100000.dcd: The trajectory from the Brownian Dynamics
 
