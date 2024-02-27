@@ -49,7 +49,7 @@ class Speckle(object):
         self.bead_groups = bead_groups
         self.mol_type = mol_type
 
-    def add_LJ_spec(self, force_group, epsilon_dP_dP = 3.0, sigma_spec = 0.5, cutoff_dP_dP = 1.5, epsilon_P = 1., cutoff_P = 0.56):
+    def add_spec_spec(self, force_group, epsilon_dP_dP = 3.0, sigma_spec = 0.5, cutoff_dP_dP = 1.5, epsilon_P = 1., cutoff_P = 0.56):
         """
         Add nonbonded rescaled LJpotential between Speckles-Speckles
 

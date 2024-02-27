@@ -1,6 +1,6 @@
 ## chromosome-chromosome optimization code
 
-chr_chr_optimization.ipynb logs the process of optimizing the chromosome-chromosome interactions. The users can use the notebook OpenNucleome/tutorials/compute_contact_prob/compute_contact_prob.ipynb to get the ideal, compt-compt, and inter-chromosomal contact probablities, then, use this notebook to optimize the interactions with the Adam Optimizer. The loss function is $$L = \sum_i (\left< f_i\right> - f_i^\text{exp})^2$$
+ChrChrOptimization.ipynb logs the process of optimizing the chromosome-chromosome interactions. The users can use the notebook OpenNucleome/tutorials/compute_contact_prob/ComputeContactProb.ipynb to get the ideal, compt-compt, and inter-chromosomal contact probablities, then, use this notebook to optimize the interactions with the Adam Optimizer. The loss function is $$L = \sum_i (\left< f_i\right> - f_i^\text{exp})^2$$
 
 The pipeline is as follows:
 

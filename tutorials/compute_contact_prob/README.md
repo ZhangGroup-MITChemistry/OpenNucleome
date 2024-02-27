@@ -1,6 +1,6 @@
-## contact_prob computation code
+## contact probability computation code
 
-- compute_contact_prob.ipynb: this notebook includes the contact probablity calculation of chromosome-lamina (DamID) and chromosome-speckle (TSA-Seq), where the cluster analysis of speckles are also involved. The number of clusters with respect to the time are plotted. In addition, We show how to visualize the comparison between experimental contacts and simulated contacts, including DamID, TSA-Seq, ideal, compt-compt, and inter-chromosomal contact probs.
+- ComputeContactProb.ipynb: this notebook includes the contact probablity calculation of chromosome-lamina (DamID) and chromosome-speckle (TSA-Seq), where the cluster analysis of speckles are also involved. The number of clusters with respect to the time are plotted. In addition, We show how to visualize the comparison between experimental contacts and simulated contacts, including DamID, TSA-Seq, ideal, compt-compt, and inter-chromosomal contact probs.
 
 - contact_calculation: execution file compiled from Fortran code "../../openNucleome/utils/chromosome_contact_calculation.f90"
 

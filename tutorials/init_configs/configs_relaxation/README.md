@@ -2,7 +2,7 @@
 
 This folder provides tutorials for relaxing the initial configurations from the folder "../configs_generation/init_config_pool"
 
-- ConfigsRelax.ipynb: The jupyter notebook showing how to relax the configurations, same as the OpenNucleome/tutorials/HFF_100KB/SphericalNucleus/LangevinDynamics/Simulation_Langevin.ipynb. Make sure you put all the force field parameter files in the parameter folder.
+- ConfigsRelaxation.ipynb: The jupyter notebook showing how to relax the configurations, same as the OpenNucleome/tutorials/HFF_100KB/SphericalNucleus/LangevinDynamics/LangevinSimulation.ipynb. Make sure you put all the force field parameter files in the parameter folder.
 
 - parameters: The folder saves all the parameters that the simulation needs
 
@@ -24,7 +24,7 @@ This folder provides tutorials for relaxing the initial configurations from the 
 
 The pipeline is as follows:
 
-(i) Obtain the trajectories from ConfigsRelax.ipynb
+(i) Obtain the trajectories from ConfigsRelaxation.ipynb
 
 (ii) Convert the trajectory with position in OpenMM default unit to reduced unit
 

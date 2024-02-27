@@ -2,7 +2,7 @@
 
 Here, as an example, we only generate 10 initial configurations used for following simulations
 
-- ConfigsGen.ipynb: Output the indexes of 10 initial configurations into './init_config_pool', and users can change the number of initial configs in this file
+- ConfigsGeneration.ipynb: Output the indexes of 10 initial configurations into './init_config_pool', and users can change the number of initial configs in this file
 
 - init_config_pool: Save all the initial generated configurations
 

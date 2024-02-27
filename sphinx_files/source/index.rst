@@ -44,4 +44,4 @@ Indices and tables
 Citations
 =========
 
-Lao, Zhuohan, et al. "OpenNucleome for high resolution nuclear structural and dynamical modeling." bioRxiv (2023): 2023-10.
+"OpenNucleome for high resolution nuclear structural and dynamical modeling", eLife (in press), doi: 10.1101/2023.10.16.562451

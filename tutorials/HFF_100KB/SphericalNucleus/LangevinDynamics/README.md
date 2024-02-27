@@ -2,7 +2,7 @@
 
 This folder provides tutorials for setting up and performing Langevin Dynamics simulations of the HFF nucleus at the 100KB resolution with the presence of various nuclear landmarks, including nuclear lamina, speckles, and nucleoli.
 
-- Simulation_Langevin.ipynb: The jupyter notebook showing how to create a system and run a simulation. Make sure you put all the force field parameter files in the parameter folder.
+- LangevinSimulation.ipynb: The jupyter notebook showing how to create a system and run a simulation. Make sure you put all the force field parameter files in the parameter folder.
 
 - parameters: The folder saves all the parameters that the simulation needs
 
@@ -28,8 +28,7 @@ This folder provides tutorials for setting up and performing Langevin Dynamics s
 
 The pipeline is as follows:
 
-(i) Obtain the trajectories from Simulation_Langevin.ipynb
-
+(i) Obtain the trajectories from LangevinSimulation.ipynb
 
 (ii) Convert the trajectory with position in OpenMM default unit to reduced unit
 

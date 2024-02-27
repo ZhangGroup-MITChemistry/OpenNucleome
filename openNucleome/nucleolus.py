@@ -51,7 +51,7 @@ class Nucleolus(object):
         self.bead_groups = bead_groups
         self.mol_type = mol_type
 
-    def add_LJ_plain(self, force_group, epsilon_LJ_plain = 1.0, sigma_LJ_plain = 0.5, cutoff_LJ_plain = 0.56):
+    def add_nuc_spec(self, force_group, epsilon_LJ_plain = 1.0, sigma_LJ_plain = 0.5, cutoff_LJ_plain = 0.56):
         '''
         Add nonbonded plain LJpotential between Nucleoli and Speckles
 
@@ -90,7 +90,7 @@ class Nucleolus(object):
 
         return LJ_plain
 
-    def add_LJ_nuc(self, force_group, epsilon_nuc = 3.0, sigma_nuc = 0.5, cutoff_nuc = 1.5):
+    def add_nuc_nuc(self, force_group, epsilon_nuc = 3.0, sigma_nuc = 0.5, cutoff_nuc = 1.5):
         '''
         Add nonbonded LJpotential between Nucleoli-Nucleoli.
 

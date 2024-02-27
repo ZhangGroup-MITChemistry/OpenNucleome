@@ -2,7 +2,7 @@
 
 With Langevin dynamics, this folder provides tutorials for setting up and performing Nuclear Deformation simulations of the HFF nucleus at the 100KB resolution with the presence of various nuclear landmarks, including nuclear lamina, speckles, and nucleoli. And here, we also show how to create the system with customized setup.
 
-- Nuclear_Deformation.ipynb: The jupyter notebook showing how to create a system and run a simulation with the nucleus deformation. Make sure you put all the force field parameter files in the parameter folder.
+- NuclearDeformation.ipynb: The jupyter notebook showing how to create a system and run a simulation with the nucleus deformation. Make sure you put all the force field parameter files in the parameter folder.
 
 - parameters: The folder saves all the parameters that the simulation needs
 
@@ -34,7 +34,7 @@ With Langevin dynamics, this folder provides tutorials for setting up and perfor
 
 The pipeline is as follows:
 
-(i) Obtain the trajectories from Nuclear_Deformation.ipynb
+(i) Obtain the trajectories from NuclearDeformation.ipynb
 
 (ii) Convert the trajectory with position in OpenMM default unit to reduced unit
 

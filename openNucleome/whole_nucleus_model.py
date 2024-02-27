@@ -77,6 +77,7 @@ class OpenNucleome:
         self.chr_system = mm.System()
         self.chr_positions = []
         self.N_type = 8
+        self.chrbead_type = 4
 
         #record the position information of each bead in self.chr_positions
         for i in range(len(self.chr_PDB.positions)):
@@ -100,7 +101,7 @@ class OpenNucleome:
 
             #add atom into the system with mass = chr_mass
             if not flag_membrane:
-                m = 1. if self.compart_type[-1] != 7 else 0. # set mass of Lamina beads to zero to freeze them
+                m = 1. if self.compart_type[-1] != self.N_type-1 else 0. # set mass of Lamina beads to zero to freeze them
             else:
                 m = 1.
             self.chr_system.addParticle(self.chr_mass * m)
@@ -119,12 +120,12 @@ class OpenNucleome:
         self.N_chr = 0
         self.N_chr_nuc = 0
         self.N_chr_nuc_spec = 0
-        for i in range(7):
-            if i<=3:
+        for i in range(self.N_type-1):
+            if i<=self.chrbead_type-1:
                 self.N_chr += len(self.bead_groups[i])
                 self.N_chr_nuc += len(self.bead_groups[i])
                 self.N_chr_nuc_spec += len(self.bead_groups[i])
-            elif i<=4:
+            elif i<=self.chrbead_type:
                 self.N_chr_nuc += len(self.bead_groups[i])
                 self.N_chr_nuc_spec += len(self.bead_groups[i])
             else:
@@ -157,7 +158,7 @@ class OpenNucleome:
         self.Elements = []
         for i in range(8):
             if not flag_membrane:
-                m = 1. if i!= 7 else 0.
+                m = 1. if i!= self.N_type-1 else 0.
             else:
                 m = 1.
             self.Elements.append(mmapp.Element(1000+i, name_to_element[i], name_to_element[i], self.chr_mass * m))
@@ -243,7 +244,7 @@ class OpenNucleome:
             The path to the potential scaling factor txt file.
         '''
         if flag['spec-spec']:
-            self.chr_system.addForce(self.speckle_model.add_LJ_spec(15))
+            self.chr_system.addForce(self.speckle_model.add_spec_spec(15))
         if flag['spec-chrom']:
             self.chr_system.addForce(self.speckle_model.add_chr_spec(chr_spec_param, 16))
 
@@ -261,9 +262,9 @@ class OpenNucleome:
             The path to the txt file of rescaling factors (SPIN state probabilities).
         '''
         if flag['nuc-nuc']:
-            self.chr_system.addForce(self.nucleolus_model.add_LJ_nuc(17))
+            self.chr_system.addForce(self.nucleolus_model.add_nuc_nuc(17))
         if flag['nuc-spec']:
-            self.chr_system.addForce(self.nucleolus_model.add_LJ_plain(18))
+            self.chr_system.addForce(self.nucleolus_model.add_nuc_spec(18))
         if flag['nuc-chrom']:
             self.chr_system.addForce(self.nucleolus_model.add_chr_nuc(rescalar_file, 19))
 
