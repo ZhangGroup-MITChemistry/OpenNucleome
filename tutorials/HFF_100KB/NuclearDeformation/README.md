@@ -34,12 +34,16 @@ With Langevin dynamics, this folder provides tutorials for setting up and perfor
 
 The pipeline is as follows:
 
-    1. Obtain the trajectories from Nuclear_Deformation.ipynb
+(i) Obtain the trajectories from Nuclear_Deformation.ipynb
 
-    2. Convert the trajectory with position in OpenMM default unit to reduced unit
+(ii) Convert the trajectory with position in OpenMM default unit to reduced unit
 
-    python coordinate_transformation.py step_100000.dcd
+```
+python coordinate_transformation.py step_100000.dcd
+```
 
-    3. Create a configuration file with the last frame
+(iii) Create a configuration file with the last frame
 
-    python coordinate_transformation.py reduced_traj.dcd
+```
+python coordinate_transformation.py reduced_traj.dcd
+```
