@@ -19,6 +19,13 @@ Other required packages: numpy, pandas, scikit-learn, MDAnalysis, mdtraj.
 
 .. toctree::
    :maxdepth: 2
+   :caption: Getting Started
+
+   GettingStarted/Installation
+   GettingStarted/Introduction
+
+.. toctree::
+   :maxdepth: 2
    :caption: OpenNucleome:
 
    OpenNucleome
@@ -27,12 +34,14 @@ Other required packages: numpy, pandas, scikit-learn, MDAnalysis, mdtraj.
    :maxdepth: 2
    :caption: Tutorials
 
-   Tutorials/Compute_Contact_Prob
-   Tutorials/Chr_Chr_Optimization
-   Tutorials/Chr_NL_Optimization
-   Tutorials/Choose_Initial_Configs
-   Tutorials/SphericalNucleus.ipynb
-   Tutorials/NuclearDeformation.ipynb
+   Tutorials/LangevinSimulation
+   Tutorials/BrownianSimulation
+   Tutorials/NuclearDeformation
+   Tutorials/ConfigsGeneration
+   Tutorials/ConfigsRelaxation
+   Tutorials/ConfigsSelection
+   Tutorials/ChrChrOptimization
+   Tutorials/ChrNLOptimization
 
 Indices and tables
 ==================
