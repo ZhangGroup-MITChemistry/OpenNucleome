@@ -60,13 +60,13 @@ class Nucleolus(object):
         force_group (int, required):
             labels the index of the current force.
 
-        epsilon_LJ_plain (float, required) :
+        epsilon_LJ_plain (float, required):
             energy units (Default value = 1.0).
 
-        sigma_LJ_plain (float, required) :
+        sigma_LJ_plain (float, required):
             distance units (Default value = 0.5).
 
-        cutoff_LJ_plain (float, required) :
+        cutoff_LJ_plain (float, required):
             The cutoff, distance units (Default value = 0.5*1.12).
         '''
 
@@ -99,13 +99,13 @@ class Nucleolus(object):
         force_group (int, required):
             labels the index of the current force.
 
-        epsilon_nuc (float, required) :
+        epsilon_nuc (float, required):
             energy units (Default value = 3.0).
 
-        sigma_nuc (float, required) :
+        sigma_nuc (float, required):
             distance units (Default value = 0.5).
 
-        cutoff_nuc (float, required) :
+        cutoff_nuc (float, required):
             The cutoff, distance units (Default value = 1.5).
         '''
         LJ_nuc = mm.CustomNonbondedForce("4.*epsilon_nuc*((sigNuc/r)^12-(sigNuc/r)^6 - (sigNuc/cutoff_nuc)^12 + (sigNuc/cutoff_nuc)^6) * step(cutoff_nuc - r)")
@@ -135,16 +135,16 @@ class Nucleolus(object):
 
         Parameters
         ----------
-        rescalar_file (string, required) :
+        rescalar_file (string, required):
             The path to the txt file of rescaling factors (SPIN state probabilities).
 
         force_group (int, required):
             labels the index of the current force.
 
-        sigma_tanh_chr_nuc (float, required) :
+        sigma_tanh_chr_nuc (float, required):
             Distance units (Default value = 4.0).
 
-        rc_tanh_chr_nuc (float, required) :
+        rc_tanh_chr_nuc (float, required):
             Distance units, where :math:`g(r_{i,j}) = 0.5` (Default value = 0.75).
 
         cutoff_chr_nuc (float, required):

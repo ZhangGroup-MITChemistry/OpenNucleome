@@ -31,10 +31,10 @@ class OpenNucleome:
 
         Parameters
         ----------
-        temperature (float, required) :
+        temperature (float, required):
             Temperature in reduced units. (Default value = 1.0).
 
-        gamma (float, required) :
+        gamma (float, required):
             Friction/Damping constant in units of reciprocal time (:math:`1/\tau`) (Default value = 0.1).
 
         timestep (float, required):
@@ -208,13 +208,13 @@ class OpenNucleome:
         flag (dict, required):
             A dict contains the switch of each chromosome-related potential.
 
-        ideal_file (string, required) :
+        ideal_file (string, required):
             The path to the ideal potential scaling factor txt file.
 
-        types_file (string, required) :
+        types_file (string, required):
             The path to the type-to-type potential scaling factor txt file.
 
-        inter_file (string, required) :
+        inter_file (string, required):
             The path to the inter-chromosomal potential scaling factor txt file.
         '''
         if flag['bond']:
@@ -240,7 +240,7 @@ class OpenNucleome:
         flag (dict, required):
             A dict contains the switch of each speckle-related potential
 
-        chr_spec_param (string, required) :
+        chr_spec_param (string, required):
             The path to the potential scaling factor txt file.
         '''
         if flag['spec-spec']:
@@ -258,7 +258,7 @@ class OpenNucleome:
         flag (dict, required):
             A dict contains the switch of each nucleolus-related potential
 
-        rescalar_file (string, required) :
+        rescalar_file (string, required):
             The path to the txt file of rescaling factors (SPIN state probabilities).
         '''
         if flag['nuc-nuc']:
@@ -278,7 +278,7 @@ class OpenNucleome:
         flag (dict, required):
             A dict contains the switch of each lamina-related potential
 
-        chr_lam_param (string, required) :
+        chr_lam_param (string, required):
             The path to the potential scaling factor txt file.
         '''
         if flag['lam-chrom']:
@@ -317,9 +317,9 @@ class OpenNucleome:
 
         Parameters
         ----------
-        force_field (Pandas Dataframe, required) :
+        force_field (Pandas Dataframe, required):
             Store the flag of all the potentials and the parameter file names
-        k (float, required) :
+        k (float, required):
             The strength of force squeezing the nucleus (Default: 1.0)
         '''
         dict_chrom_ff = {'bond':force_field.loc['chromosome']['bond'], 'angle':force_field.loc['chromosome']['angle'], 'softcore':force_field.loc['chromosome']['softcore'], 'ideal':force_field.loc['chromosome']['ideal'], 'compt':force_field.loc['chromosome']['compt'], 'inter':force_field.loc['chromosome']['inter']}
@@ -362,7 +362,7 @@ class OpenNucleome:
 
         Parameters
         ----------
-        platform_type (string, required) :
+        platform_type (string, required):
             The CPU platform is set as the default, while CUDA, OpenCL, and Reference are available as optional platforms.
         '''
         integrator = mm.LangevinIntegrator(self.temperature, self.gamma, self.timestep)

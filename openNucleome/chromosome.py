@@ -62,7 +62,7 @@ class Chromosome(object):
         force_group (int, required):
             labels the index of the current force.
 
-        r0c, kfb, r0, epsilon_fene, sigma_fene, cutoff_fene (float, required) :
+        r0c, kfb, r0, epsilon_fene, sigma_fene, cutoff_fene (float, required):
             fene bond coefficients
         '''
         bond = mm.CustomBondForce("- 0.5 * kfb * r0 * r0 * log(1-(r/r0)*(r/r0)) + (4 * epsilon_fene * ((sigma_fene/r)^12 - (sigma_fene/r)^6) + epsilon_fene) * step(cutoff_fene - r)")
@@ -88,7 +88,7 @@ class Chromosome(object):
         force_group (int, required):
             labels the index of the current force.
 
-        r0c, kc2, kc3, kc4 (float, required) :
+        r0c, kc2, kc3, kc4 (float, required):
             class2 bond coefficients
         '''
         class2_bond = mm.CustomBondForce("kc2 * (r-r0c) ^ 2 + kc3 * (r-r0c) ^ 3 + kc4 * (r-r0c) ^ 4")
@@ -110,7 +110,7 @@ class Chromosome(object):
 
         Parameters
         ----------
-        ka (float, required) :
+        ka (float, required):
             angle coefficients, default = 2.0
         '''
         angle = mm.CustomAngleForce("ka*(1 + cos(theta))")
@@ -143,16 +143,16 @@ class Chromosome(object):
         force_group (int, required):
             labels the index of the current force.
 
-        epsilon_sc (float, required) :
+        epsilon_sc (float, required):
             energy units (Default value = 1.0).
 
-        sigma_sc (float, required) :
+        sigma_sc (float, required):
             distance units, which represents the diameter of a 100KB-resolution bead (Default value = 0.5).
 
-        cutoff_sc (float, required) :
+        cutoff_sc (float, required):
             distance units, the cutoff (Default value = 0.5*1.12).
 
-        Ecut_sc (float, required) :
+        Ecut_sc (float, required):
             energy units, the energy cost for the chain passing (Default value = 4.0).
         '''
         Ecut_sc = Ecut_sc * epsilon_sc
@@ -200,19 +200,19 @@ class Chromosome(object):
 
         Parameters
         ----------
-        ideal_file (string, required) :
+        ideal_file (string, required):
             The path to the ideal potential scaling factor txt file.
 
         force_group (int, required):
             labels the index of the current force.
 
-        dend_ideal (int, required) :
+        dend_ideal (int, required):
             Cutoff of genomic separation (Default value = 1000 for the 100KB model).
 
-        rc_tanh_ideal (float, required) :
+        rc_tanh_ideal (float, required):
             :math:`r_c` in the equation, a good estimation of the bond length during the simulation (Default value = 0.54 for the 100KB model).
 
-        cutoff_ideal (float, required) :
+        cutoff_ideal (float, required):
             Cutoff of Ideal potential (Default value = 2.0 for the 100KB model).
         '''
         energy_ideal = ("ideal_list(d)*step(dend_ideal-d)*step(cutoff_ideal-r)*(tanh1_ideal+tanh2_ideal*(rc_tanh_ideal/r)^4-1/2*(1.+tanh((rc_tanh_ideal-cutoff_ideal)^(-5)+5*(rc_tanh_ideal-cutoff_ideal)))-1/2*(1.-tanh((rc_tanh_ideal-cutoff_ideal)^(-5)+5*(rc_tanh_ideal-cutoff_ideal)))*(rc_tanh_ideal/cutoff_ideal)^4);"
@@ -265,16 +265,16 @@ class Chromosome(object):
 
         Parameters
         ----------
-        types_file (string, required) :
+        types_file (string, required):
             The path to the type-to-type potential scaling factor txt file.
 
         force_group (int, required):
             labels the index of the current force.        
 
-        rc_tanh_type (float, required) :
+        rc_tanh_type (float, required):
             :math:`r_c` in the equation, a good estimation of the bond length during the simulation (Default value = 0.54 for the 100KB model).
 
-        cutoff_type (float, required) :
+        cutoff_type (float, required):
             Cutoff of Type-Type potential (Default value = 2.0 for the 100KB model).
         '''
 
@@ -332,16 +332,16 @@ class Chromosome(object):
 
         Parameters
         ----------
-        inter_file (string, required) :
+        inter_file (string, required):
             The path to the inter-chromosomal potential scaling factor txt file.
 
         force_group (int, required):
             labels the index of the current force.
 
-        rc_tanh_inter (float, required) :
+        rc_tanh_inter (float, required):
             :math:`r_c` in the equation, a good estimation of the bond length during the simulation (Default value = 0.54 for the 100KB model).
 
-        cutoff_inter (float, required) :
+        cutoff_inter (float, required):
             Cutoff of inter-chromosomal potential (Default value = 2.0 for the 100KB model).
         '''
         inter_energy = ("mapid(m1,m2)*(tanh1_inter+tanh2_inter*(rc_tanh_inter/r)^4-1/2*(1.+tanh((rc_tanh_inter-cutoff_inter)^(-5)+5*(rc_tanh_inter-cutoff_inter)))-1/2*(1.-tanh((rc_tanh_inter-cutoff_inter)^(-5)+5*(rc_tanh_inter-cutoff_inter)))*(rc_tanh_inter/cutoff_inter)^4)*step(cutoff_inter-r);"

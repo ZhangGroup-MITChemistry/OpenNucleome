@@ -1,36 +1,36 @@
-OpenNucleome
+openNucleome
 ===================================
 
-Chromosome
--------------------------
-.. automodule:: openNucleome.chromosome
-    :members:
-
-Speckle
--------------------------
-
-.. automodule:: openNucleome.speckle
-    :members:
-
-Nucleolus
--------------------------
-
-.. automodule:: openNucleome.nucleolus
-    :members:
-
-Lamina
--------------------------
-
-.. automodule:: openNucleome.lamina
-    :members:
-
-WholeNucleus
+openNucleome.whole_nucleus_model
 -------------------------
 
 .. automodule:: openNucleome.whole_nucleus_model
     :members:
 
-DamID_TSASeq_calculation
+openNucleome.chromosome
 -------------------------
-.. automodule:: openNucleome.utility.DamID_TSASeq_calculation
+.. automodule:: openNucleome.chromosome
+    :members:
+
+openNucleome.speckle
+-------------------------
+
+.. automodule:: openNucleome.speckle
+    :members:
+
+openNucleome.nucleolus
+-------------------------
+
+.. automodule:: openNucleome.nucleolus
+    :members:
+
+openNucleome.lamina
+-------------------------
+
+.. automodule:: openNucleome.lamina
+    :members:
+
+openNucleome.utils.DamID_TSASeq_calculation
+-------------------------
+.. automodule:: openNucleome.utils.DamID_TSASeq_calculation
     :members:

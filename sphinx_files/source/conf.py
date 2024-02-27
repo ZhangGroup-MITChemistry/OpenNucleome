@@ -36,14 +36,14 @@ release = version
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    "sphinx.ext.napoleon",
+#    "sphinx.ext.napoleon",
     "sphinx.ext.autodoc",
-    "sphinx.ext.mathjax",
-    "sphinx.ext.viewcode",
-    "sphinx.ext.todo",
-    "sphinx.ext.intersphinx",
-    "sphinx.ext.autosummary",
-    "sphinx.ext.autosectionlabel",
+#    "sphinx.ext.mathjax",
+#    "sphinx.ext.viewcode",
+#    "sphinx.ext.todo",
+#    "sphinx.ext.intersphinx",
+#    "sphinx.ext.autosummary",
+#    "sphinx.ext.autosectionlabel",
     "jupyter_sphinx",
     "nbsphinx",
 #    "sphinxcontrib.bibtex",
@@ -56,7 +56,7 @@ templates_path = ['_templates']
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
-
+autoclass_content = 'both'
 
 # -- Options for HTML output -------------------------------------------------
 

@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tutorials: Configuration Generation &mdash; openNucleome 1.0.15 documentation</title><link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/jupyter-sphinx.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/thebelab.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/thebelab-helper.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "tex2jax_ignore|mathjax_ignore|document", "processClass": "tex2jax_process|mathjax_process|math|output_area"}})</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Tutorials: Configuration Relaxation" href="ConfigsRelaxation.html" />
+    <link rel="prev" title="Ellipsoid Model: Nuclear Deformation" href="NuclearDeformation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            openNucleome
+          </a>
+              <div class="version">
+                1.0.15
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../GettingStarted/Installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../GettingStarted/Introduction.html">Introduction</a></li>
+</ul>
+<p class="caption"><span class="caption-text">OpenNucleome:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../OpenNucleome.html">openNucleome</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="LangevinSimulation.html">Sphere Model: Langevin Dynamics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="BrownianSimulation.html">Sphere Model: Brownian Dynamics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="NuclearDeformation.html">Ellipsoid Model: Nuclear Deformation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorials: Configuration Generation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Import-the-necessary-packages">Import the necessary packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Import-the-necessary-reference-files">Import the necessary reference files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Generate-the-raw-configs-of-chromosomes">Generate the raw configs of chromosomes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Generate-Speckle-and-Nucleolus-beads">Generate Speckle and Nucleolus beads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Generate-Lamina-beads">Generate Lamina beads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Generate-the-initial-configuration-files-used-in-the-simulation">Generate the initial configuration files used in the simulation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ConfigsRelaxation.html">Tutorials: Configuration Relaxation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ConfigsSelection.html">Tutorials: Configuration Selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ComputeContactProb.html">Tutorials: Contact Probability Computation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ChrChrOptimization.html">Tutorials: Chromosome Chromosome Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ChrNLOptimization.html">Tutorials: Chromosome Nuclear Landmarks Optimization</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">openNucleome</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Tutorials: Configuration Generation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/Tutorials/ConfigsGeneration.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt .copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="Tutorials:-Configuration-Generation">
+<h1>Tutorials: Configuration Generation<a class="headerlink" href="#Tutorials:-Configuration-Generation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="Import-the-necessary-packages">
+<h2>Import the necessary packages<a class="headerlink" href="#Import-the-necessary-packages" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">random</span>
+
+<span class="n">N_configs</span>         <span class="o">=</span> <span class="mi">10</span>      <span class="c1">#The number of configs that the users hope to generate</span>
+<span class="n">bond_length</span>       <span class="o">=</span> <span class="mf">0.5</span>     <span class="c1">#Bond length</span>
+<span class="n">lamina_prox_tol</span>   <span class="o">=</span> <span class="mf">1.0</span>     <span class="c1">#Extra proximity tolerance for lamina</span>
+<span class="n">R_small_sphere</span>    <span class="o">=</span> <span class="mf">4.0</span>     <span class="c1">#Radius of the small sphere in which each individual chromosome is collapsed</span>
+<span class="n">R_low_radial</span>      <span class="o">=</span> <span class="mf">0.5</span>     <span class="c1">#The lowest values for chrcom uniform position</span>
+<span class="n">N_chr_beads</span>       <span class="o">=</span> <span class="mi">60642</span>   <span class="c1">#The chromatin beads we have for the 100KB model</span>
+<span class="n">R_nucleus</span>         <span class="o">=</span> <span class="mf">13.0</span>    <span class="c1">#Radius of the nucleus (reduced unit)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Import-the-necessary-reference-files">
+<h2>Import the necessary reference files<a class="headerlink" href="#Import-the-necessary-reference-files" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">damid_average</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">&#39;averaged_damid.txt&#39;</span><span class="p">)</span> <span class="c1">#averaged DamID signals of homologous chromosomes</span>
+<span class="c1">### bead_info.txt: This file contains the information of each chromatin bead, and is necessary when creating the final configuration.</span>
+<span class="c1">### 1st column: the index of each bead; 2nd column: the index of belonging chromosome; 3rd column: the type of each chromatin bead.</span>
+<span class="n">mol_info</span>      <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s2">&quot;bead_info.txt&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Generate-the-raw-configs-of-chromosomes">
+<h2>Generate the raw configs of chromosomes<a class="headerlink" href="#Generate-the-raw-configs-of-chromosomes" title="Permalink to this headline">¶</a></h2>
+<p>As an example, we first created a total of 10 configurations for the genome by sequentially generating the conformation of each one of the 46 chromosomes as follows. For a given chromosome, we start by placing the first bead at the center (origin) of the nucleus. The positions of the following beads, <span class="math notranslate nohighlight">\(i\)</span>, were determined from the <span class="math notranslate nohighlight">\((i-1)\)</span>-th bead as <span class="math notranslate nohighlight">\(r_i= r_{i-1} + 0.5 v\)</span>. <span class="math notranslate nohighlight">\(v\)</span> is a normalized random vector, and 0.5 was selected as the bond length between neighboring beads.
+To produce globular chromosome conformations, we rejected vectors, <span class="math notranslate nohighlight">\(v\)</span>, that led to bead positions with distance from the center larger than <span class="math notranslate nohighlight">\(4\sigma\)</span>. Upon creating the conformation of a chromosome <span class="math notranslate nohighlight">\(i\)</span>, we shift its center of mass to a value <span class="math notranslate nohighlight">\(r^i_\text{com}\)</span> determined as follows. We first compute a mean radial distance, <span class="math notranslate nohighlight">\(r^i_\text{o}\)</span> with the following equation</p>
+<div class="math notranslate nohighlight">
+\[\frac{6\sigma - r^i_\text{o}}{r^i_\text{o}-2\sigma} = \frac{D_\text{hi}-D}{D-D_\text{lo}},\]</div>
+<p>where <span class="math notranslate nohighlight">\(D_i\)</span> is the average value of Lamin B DamID profile for chromosome <span class="math notranslate nohighlight">\(i\)</span>. <span class="math notranslate nohighlight">\(D_\text{hi}\)</span> and <span class="math notranslate nohighlight">\(D_\text{lo}\)</span> represent the highest and lowest average DamID values of all chromosomes, and <span class="math notranslate nohighlight">\(6\sigma\)</span> and <span class="math notranslate nohighlight">\(2\sigma\)</span> represent the upper and lower bound in radial positions for chromosomes. As shown in Fig. S6, the average Lamin B DamID profiles are highly correlated with normalized chromosome radial positions as reported by DNA MERFISH, supporting their use as a
+proxy for estimating normalized chromosome radial positions. We then select <span class="math notranslate nohighlight">\(r^i_\text{com}\)</span> as a uniformly distributed random variable within the range <span class="math notranslate nohighlight">\([r^i_\text{o}-2\sigma,r^i_\text{o}+2\sigma]\)</span>. Without loss of generality, we randomly chose the directions for shifting all 46 chromosomes.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ave_largest</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">damid_average</span><span class="p">)</span>
+<span class="n">ave_smallest</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">amin</span><span class="p">(</span><span class="n">damid_average</span><span class="p">)</span>
+
+<span class="n">rp_pos</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">damid_average</span><span class="p">:</span>
+    <span class="n">p1</span> <span class="o">=</span> <span class="n">k</span><span class="o">-</span><span class="n">ave_smallest</span>
+    <span class="n">p2</span> <span class="o">=</span> <span class="n">ave_largest</span><span class="o">-</span><span class="n">k</span>
+    <span class="n">rp_pos</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="mi">6</span><span class="o">*</span><span class="n">p1</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">p2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">p1</span><span class="o">+</span><span class="n">p2</span><span class="p">))</span>  <span class="c1"># Artificial estimated radial positions from the DamID</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N_configs</span><span class="p">):</span>
+    <span class="n">file_write</span>      <span class="o">=</span>   <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;raw_configs_txt/human_init_</span><span class="si">%d</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span><span class="s2">&quot;w&quot;</span><span class="p">)</span>
+
+    <span class="n">xyz_chr</span>      <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">N_chr_beads</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+    <span class="n">xyz_chr</span><span class="p">[:,:]</span> <span class="o">=</span> <span class="mf">100.0</span>
+    <span class="n">atom_index</span>   <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="nb">chr</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">47</span><span class="p">):</span>
+        <span class="c1">#Go chromosome by chromosome and initialize them randomly and save in xyz_chr</span>
+        <span class="k">for</span> <span class="n">beads_chr</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">mol_info</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="nb">chr</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">beads_chr</span><span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">while</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">xyz_chr</span><span class="p">[</span><span class="n">atom_index</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">&gt;</span> <span class="p">(</span><span class="n">R_small_sphere</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">):</span>
+                    <span class="c1">#Brute force but only needs to be done once</span>
+                    <span class="n">draw_norm</span>           <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span><span class="n">scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+                    <span class="n">draw_norm</span>          <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">draw_norm</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span><span class="o">**</span><span class="mf">0.5</span>
+                    <span class="n">xyz_chr</span><span class="p">[</span><span class="n">atom_index</span><span class="p">]</span> <span class="o">=</span> <span class="n">xyz_chr</span><span class="p">[</span><span class="n">atom_index</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">bond_length</span><span class="o">*</span><span class="n">draw_norm</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1">#First bead of the chr is at the origin</span>
+                <span class="n">xyz_chr</span><span class="p">[</span><span class="n">atom_index</span><span class="p">,:]</span> <span class="o">=</span> <span class="mf">0.</span>
+            <span class="n">atom_index</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="c1">#Push the COM of the chr to some random point in the nucleus by choosing the radial coordinate uniformly</span>
+        <span class="n">draw_norm</span>           <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span><span class="n">scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+        <span class="n">draw_norm</span>          <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">draw_norm</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span><span class="o">**</span><span class="mf">0.5</span>
+        <span class="k">if</span> <span class="nb">chr</span> <span class="o">&lt;</span> <span class="mi">45</span><span class="p">:</span> <span class="c1">## 1 - 44 chromosomes</span>
+            <span class="c1">## uniformly distributed random variable within the range [r-2sigma,r+2sigma]</span>
+            <span class="n">com_chr</span>             <span class="o">=</span> <span class="n">draw_norm</span><span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="n">rp_pos</span><span class="p">[(</span><span class="nb">chr</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span><span class="p">]</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="n">high</span><span class="o">=</span><span class="n">rp_pos</span><span class="p">[(</span><span class="nb">chr</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span><span class="p">]</span><span class="o">+</span><span class="mi">2</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span> <span class="c1"># sex chromosome</span>
+            <span class="n">com_chr</span>             <span class="o">=</span> <span class="n">draw_norm</span><span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span><span class="n">high</span><span class="o">=</span><span class="mf">8.0</span><span class="p">))</span>
+
+        <span class="n">chr_only</span> <span class="o">=</span>  <span class="p">(</span><span class="n">mol_info</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="nb">chr</span><span class="p">)</span>
+        <span class="n">xyz_chr</span><span class="p">[</span><span class="n">chr_only</span><span class="p">,:]</span> <span class="o">+=</span> <span class="n">com_chr</span>
+
+    <span class="c1">###</span>
+    <span class="n">atom_index</span>      <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">random_counter</span>  <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mol_info</span><span class="p">)):</span>
+        <span class="n">file_write</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2"> </span><span class="si">%d</span><span class="s2"> </span><span class="si">%d</span><span class="s2"> 0.0   </span><span class="si">%.6f</span><span class="s2">  </span><span class="si">%.6f</span><span class="s2">  </span><span class="si">%.6f</span><span class="se">\n</span><span class="s2">&quot;</span>  <span class="o">%</span><span class="p">(</span><span class="n">mol_info</span><span class="p">[</span><span class="n">atom_index</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="n">mol_info</span><span class="p">[</span><span class="n">atom_index</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span><span class="n">mol_info</span><span class="p">[</span><span class="n">atom_index</span><span class="p">][</span><span class="mi">2</span><span class="p">],</span>
+        <span class="n">xyz_chr</span><span class="p">[</span><span class="n">atom_index</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="n">xyz_chr</span><span class="p">[</span><span class="n">atom_index</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span><span class="n">xyz_chr</span><span class="p">[</span><span class="n">atom_index</span><span class="p">][</span><span class="mi">2</span><span class="p">]))</span>
+        <span class="n">atom_index</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="n">file_write</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Generate-Speckle-and-Nucleolus-beads">
+<h2>Generate Speckle and Nucleolus beads<a class="headerlink" href="#Generate-Speckle-and-Nucleolus-beads" title="Permalink to this headline">¶</a></h2>
+<p>All the beads are uniformly distributed within the cell nucleus in the initial configurations</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N_configs</span><span class="p">):</span>
+    <span class="n">beads</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s2">&quot;raw_configs_txt/human_init_</span><span class="si">%d</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">usecols</span><span class="o">=</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">])</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">while</span> <span class="p">(</span><span class="n">count</span> <span class="o">&lt;</span> <span class="mi">1900</span><span class="p">):</span> <span class="c1"># 300 Nucleolus beads and 1600 Speckle beads</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+        <span class="n">phi</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+        <span class="n">radial</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">12.25</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">())</span>
+        <span class="n">ran1</span> <span class="o">=</span> <span class="n">radial</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span>
+        <span class="n">ran2</span> <span class="o">=</span> <span class="n">radial</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span>
+        <span class="n">ran3</span> <span class="o">=</span> <span class="n">radial</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+        <span class="n">pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">ran1</span><span class="p">,</span><span class="n">ran2</span><span class="p">,</span><span class="n">ran3</span><span class="p">])</span>
+
+        <span class="n">m</span> <span class="o">=</span> <span class="n">beads</span><span class="o">-</span><span class="n">pos</span>
+        <span class="c1"># if there are beads within this cutoff, it will lead to a unstable system, so reject this sampling</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">m</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span><span class="o">&lt;</span><span class="mf">0.4</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="c1">#0.4 is the empirical cutoff</span>
+            <span class="n">beads</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">beads</span><span class="p">,</span> <span class="n">pos</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">))))</span>
+            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="s1">&#39;raw_configs_txt/with_Sp_No_</span><span class="si">%d</span><span class="s1">.txt&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">beads</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%.6f</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Generate-Lamina-beads">
+<h2>Generate Lamina beads<a class="headerlink" href="#Generate-Lamina-beads" title="Permalink to this headline">¶</a></h2>
+<p>The nuclear envelope provides an enclosure to confine DNA and a repressive environment to organize chromatin with specific interactions. To account for the role of the nuclear lamina while keeping our model simple, we approximate it with discrete particles uniformly placed on a sphere.</p>
+<p>We used the Fibonacci grid to initialize the lamina particles, which form a uniform and almost equidistant network of lamina particles on the surface of the nucleus. The Cartesian coordinates associated with the <span class="math notranslate nohighlight">\(i^{th}\)</span> lamina particles are defined as</p>
+<div class="math notranslate nohighlight">
+\[x_i = 2R_\text{N}\times(1 - \frac{i}{N_\text{La}-1}),   y_i = \sqrt{R_\text{N}^2-x^2}\times \cos[i\Phi],   z_i = \sqrt{R_\text{N}^2-x^2}\times \sin[i\Phi]\]</div>
+<p>where <span class="math notranslate nohighlight">\(N_\text{La} =8000\)</span> represents the number of lamina particles, <span class="math notranslate nohighlight">\(i\in \{0,1,\dots,N_\text{La}-2,N_\text{La}-1\}\)</span>, and <span class="math notranslate nohighlight">\(\Phi = \pi\times (3-\sqrt{5})\)</span> is the golden angle. We set <span class="math notranslate nohighlight">\(R_\text{N} = 5\mu m\)</span> as the radius of the human foreskin fibroblasts (HFF) cell nucleus.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">fibonacci_sphere</span><span class="p">(</span><span class="n">samples</span><span class="o">=</span><span class="mi">8000</span><span class="p">):</span>
+
+    <span class="n">points</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">phi</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="p">(</span><span class="mf">3.</span> <span class="o">-</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">5.</span><span class="p">))</span>  <span class="c1"># golden angle in radians</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">samples</span><span class="p">):</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">i</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">samples</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="mi">2</span>  <span class="c1"># y goes from 1 to -1</span>
+        <span class="n">radius</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">y</span> <span class="o">*</span> <span class="n">y</span><span class="p">)</span>  <span class="c1"># radius at y</span>
+
+        <span class="n">theta</span> <span class="o">=</span> <span class="n">phi</span> <span class="o">*</span> <span class="n">i</span>  <span class="c1"># golden angle increment</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">*</span> <span class="n">radius</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">*</span> <span class="n">radius</span>
+
+        <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">points</span>
+
+<span class="n">Lamina</span> <span class="o">=</span> <span class="n">R_nucleus</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">fibonacci_sphere</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Generate-the-initial-configuration-files-used-in-the-simulation">
+<h2>Generate the initial configuration files used in the simulation<a class="headerlink" href="#Generate-the-initial-configuration-files-used-in-the-simulation" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">index</span>         <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s2">&quot;bead_info.txt&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">X</span>             <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="s1">&#39;X&#39;</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">index</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">last</span>          <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.00</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">index</span><span class="p">))</span>
+
+<span class="n">n_chrom</span>       <span class="o">=</span> <span class="mi">46</span>
+<span class="n">n_chrom_beads</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+<span class="n">spe_type1</span>     <span class="o">=</span> <span class="mi">6</span>
+<span class="n">spe_type2</span>     <span class="o">=</span> <span class="mi">7</span>
+<span class="n">nuc_type</span>      <span class="o">=</span> <span class="mi">5</span>
+<span class="n">lam_type</span>      <span class="o">=</span> <span class="mi">8</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N_configs</span><span class="p">):</span>
+    <span class="n">beads</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">&#39;raw_configs_txt/with_Sp_No_</span><span class="si">%d</span><span class="s1">.txt&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">coor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">beads</span><span class="p">,</span> <span class="n">Lamina</span><span class="p">))</span>
+
+    <span class="n">file_write</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;init_config_pool/human_</span><span class="si">%d</span><span class="s1">.pdb&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">index</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">file_write</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;CRYST1   26.400   26.400   26.400  90.00  90.00  90.00 P 1           1</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">file_write</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;ATOM</span><span class="si">%7s%3s%8s%4s%12.3f%8.3f%8.3f%6.2f%6.2f</span><span class="s1">            </span><span class="se">\n</span><span class="s1">&#39;</span>
+                         <span class="o">%</span><span class="p">(</span><span class="n">index</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span><span class="n">index</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span><span class="n">index</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="n">coor</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span><span class="n">coor</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="n">coor</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span><span class="n">last</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">last</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">coor</span><span class="p">)</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">index</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">k</span><span class="o">&lt;=</span><span class="mi">300</span><span class="p">:</span>
+            <span class="n">file_write</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;ATOM</span><span class="si">%7s%3s%8s%4s%12.3f%8.3f%8.3f%6.2f%6.2f</span><span class="s1">            </span><span class="se">\n</span><span class="s1">&#39;</span>
+                             <span class="o">%</span><span class="p">(</span><span class="n">n_chrom_beads</span><span class="o">+</span><span class="n">k</span><span class="p">,</span><span class="n">nuc_type</span><span class="p">,</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span><span class="n">n_chrom</span><span class="o">+</span><span class="n">k</span><span class="p">,</span><span class="n">coor</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">index</span><span class="p">)</span><span class="o">+</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span><span class="n">coor</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">index</span><span class="p">)</span><span class="o">+</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="n">coor</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">index</span><span class="p">)</span><span class="o">+</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span><span class="n">last</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">last</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+        <span class="k">elif</span> <span class="n">k</span><span class="o">&lt;=</span><span class="mi">1900</span><span class="p">:</span>
+            <span class="n">file_write</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;ATOM</span><span class="si">%7s%3s%8s%4s%12.3f%8.3f%8.3f%6.2f%6.2f</span><span class="s1">            </span><span class="se">\n</span><span class="s1">&#39;</span>
+                             <span class="o">%</span><span class="p">(</span><span class="n">n_chrom_beads</span><span class="o">+</span><span class="n">k</span><span class="p">,</span><span class="n">spe_type1</span><span class="p">,</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span><span class="n">n_chrom</span><span class="o">+</span><span class="n">k</span><span class="p">,</span><span class="n">coor</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">index</span><span class="p">)</span><span class="o">+</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span><span class="n">coor</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">index</span><span class="p">)</span><span class="o">+</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="n">coor</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">index</span><span class="p">)</span><span class="o">+</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span><span class="n">last</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">last</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">file_write</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;ATOM</span><span class="si">%7s%3s%8s%4s%12.3f%8.3f%8.3f%6.2f%6.2f</span><span class="s1">            </span><span class="se">\n</span><span class="s1">&#39;</span>
+                             <span class="o">%</span><span class="p">(</span><span class="n">n_chrom_beads</span><span class="o">+</span><span class="n">k</span><span class="p">,</span><span class="n">lam_type</span><span class="p">,</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span><span class="n">n_chrom</span><span class="o">+</span><span class="n">k</span><span class="p">,</span><span class="n">coor</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">index</span><span class="p">)</span><span class="o">+</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span><span class="n">coor</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">index</span><span class="p">)</span><span class="o">+</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="n">coor</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">index</span><span class="p">)</span><span class="o">+</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span><span class="n">last</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">last</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+    <span class="n">file_write</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;END&quot;</span><span class="p">)</span>
+    <span class="n">file_write</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<p>Delete the unnecessary raw configs</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s2">&quot;rm -r raw_configs_txt&quot;</span><span class="p">],</span><span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0
+</pre></div></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="NuclearDeformation.html" class="btn btn-neutral float-left" title="Ellipsoid Model: Nuclear Deformation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ConfigsRelaxation.html" class="btn btn-neutral float-right" title="Tutorials: Configuration Relaxation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Zhuohan Lao.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

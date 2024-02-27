@@ -60,19 +60,19 @@ class Speckle(object):
         force_group (int, required):
             labels the index of the current force.
 
-        epsilon_dP_dP (float, required) :
+        epsilon_dP_dP (float, required):
             Epsilon of LJ between (dP,dP), energy units (Default value = 3.0).
 
-        sigma_spec (float, required) :
+        sigma_spec (float, required):
             Sigma of LJ between speckles and speckles, distance units (Default value = 0.5).
 
-        cutoff_dP_dP (float, required) :
+        cutoff_dP_dP (float, required):
             Cutoff of LJ between (dP,dP), distance units (Default value = 1.5).
 
-        epsilon_P (float, required) :
+        epsilon_P (float, required):
             Epsilon of LJ between (dP,P) and (P,P), energy units (Default value = 1.0).
 
-        cutoff_P (float, required) :
+        cutoff_P (float, required):
             Cutoff of LJ between (dP,P) and (P,P), distance units (Default value = 0.5*1.12).
         """
 
@@ -107,19 +107,19 @@ class Speckle(object):
 
         Parameters
         ----------
-        chr_spec_param (string, required) :
+        chr_spec_param (string, required):
             The path to the potential scaling factor txt file.
 
         force_group (int, required):
             labels the index of the current force.
 
-        sigma_tanh_chr_spec (float, required) :
+        sigma_tanh_chr_spec (float, required):
             Distance units (Default value = 4.0).
 
-        rc_tanh_chr_spec (float, required) :
+        rc_tanh_chr_spec (float, required):
             Distance units, where :math:`g(r_{i,j}) = 0.5` (Default value = 0.75).
 
-        cutoff_chr_spec (float, required) :
+        cutoff_chr_spec (float, required):
             The cutoff (Default value = 2.0)
         '''
         chr_spec_energy = ("chr_dP + chr_P;"

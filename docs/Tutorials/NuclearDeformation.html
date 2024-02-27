@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ellipsoid Model: Nuclear Deformation &mdash; openNucleome 1.0.15 documentation</title><link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/jupyter-sphinx.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/thebelab.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/thebelab-helper.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "tex2jax_ignore|mathjax_ignore|document", "processClass": "tex2jax_process|mathjax_process|math|output_area"}})</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Tutorials: Configuration Generation" href="ConfigsGeneration.html" />
+    <link rel="prev" title="Sphere Model: Brownian Dynamics" href="BrownianSimulation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            openNucleome
+          </a>
+              <div class="version">
+                1.0.15
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../GettingStarted/Installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../GettingStarted/Introduction.html">Introduction</a></li>
+</ul>
+<p class="caption"><span class="caption-text">OpenNucleome:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../OpenNucleome.html">openNucleome</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="LangevinSimulation.html">Sphere Model: Langevin Dynamics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="BrownianSimulation.html">Sphere Model: Brownian Dynamics</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Ellipsoid Model: Nuclear Deformation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Import-the-necessary-packages">Import the necessary packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Important-parameters">Important parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Initialize-the-system">Initialize the system</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Add-the-force-field">Add the force field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Perform-the-simulation">Perform the simulation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ConfigsGeneration.html">Tutorials: Configuration Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ConfigsRelaxation.html">Tutorials: Configuration Relaxation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ConfigsSelection.html">Tutorials: Configuration Selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ComputeContactProb.html">Tutorials: Contact Probability Computation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ChrChrOptimization.html">Tutorials: Chromosome Chromosome Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ChrNLOptimization.html">Tutorials: Chromosome Nuclear Landmarks Optimization</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">openNucleome</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Ellipsoid Model: Nuclear Deformation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/Tutorials/NuclearDeformation.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt .copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="Ellipsoid-Model:-Nuclear-Deformation">
+<h1>Ellipsoid Model: Nuclear Deformation<a class="headerlink" href="#Ellipsoid-Model:-Nuclear-Deformation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="Import-the-necessary-packages">
+<h2>Import the necessary packages<a class="headerlink" href="#Import-the-necessary-packages" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">parmed</span> <span class="k">as</span> <span class="nn">pmd</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">sys</span> <span class="kn">import</span> <span class="n">platform</span>
+<span class="kn">import</span> <span class="nn">mdtraj</span> <span class="k">as</span> <span class="nn">md</span>
+<span class="kn">import</span> <span class="nn">simtk.openmm.app</span> <span class="k">as</span> <span class="nn">mmapp</span>
+<span class="kn">import</span> <span class="nn">mdtraj.reporters</span>
+<span class="kn">import</span> <span class="nn">simtk.unit</span> <span class="k">as</span> <span class="nn">u</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">from</span> <span class="nn">openNucleome</span> <span class="kn">import</span> <span class="n">OpenNucleome</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Important-parameters">
+<h2>Important parameters<a class="headerlink" href="#Important-parameters" title="Permalink to this headline">¶</a></h2>
+<p>We defined the important parameters in the next block. First, we set the transition probability between dP particles and P particles as 0.2, and the transition frequency as 4000. When creating the system, we set type 6, 7 as the dP and P particles, respectively, so we kept using 6, 7 here. In this example, we ran a simulation with total length of 100,000 steps, and output one configuration and the energy every 2000 steps.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">prob_P_dP</span> <span class="o">=</span> <span class="mf">0.2</span> <span class="c1"># Transition probability from P to dP</span>
+<span class="n">prob_dP_P</span> <span class="o">=</span> <span class="mf">0.2</span> <span class="c1"># Transition probability from dP to P</span>
+<span class="n">transition_freq</span> <span class="o">=</span> <span class="mi">4000</span>
+<span class="n">sampling_freq</span> <span class="o">=</span> <span class="mi">2000</span>
+<span class="n">dP_type</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">P_type</span> <span class="o">=</span> <span class="mi">7</span>
+<span class="n">total_steps</span> <span class="o">=</span> <span class="mi">100000</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Initialize-the-system">
+<h2>Initialize the system<a class="headerlink" href="#Initialize-the-system" title="Permalink to this headline">¶</a></h2>
+<p>We first set up an example “model” of class “OpenNucleome” with the conserved temperature, damping coefficient, timestep, and the mass scale. In this folder, we also included the initial configuration “human.pdb” used for the simulation and created a system according to the initial configuration.</p>
+<p>In this example, we moved all the lamina beads, and would consider the dynamics of the membrane, and that is why we set “True” (on) for membrane dynamics. Consequently, we need to designate the bonds between specific lamina beads, so we included a text file, which logs all the pairs linked by the bonds, for the variable “membrane_bond”.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">OpenNucleome</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.005</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span> <span class="c1"># 1.0: temperature (LJ reduced unit);</span>
+                                           <span class="c1"># 0.1: damping coefficient (LJ reduced unit);</span>
+                                           <span class="c1"># 0.005: timestep (LJ reduced unit);</span>
+                                           <span class="c1"># 1.0: mass_scale</span>
+
+<span class="n">PDB_file</span> <span class="o">=</span> <span class="s2">&quot;human.pdb&quot;</span> <span class="c1">#The initial configuration</span>
+
+<span class="c1"># Generate new elements and construct topology as well</span>
+<span class="c1"># flag_membrane: True for including lamina dynamics, False for excluding lamina dynamics;</span>
+<span class="c1"># lam_bond: A file contains the lamina bond when membrane_dynamics is on.</span>
+
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">create_system</span><span class="p">(</span><span class="n">PDB_file</span><span class="p">,</span> <span class="n">flag_membrane</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">lam_bond</span> <span class="o">=</span> <span class="s1">&#39;lamina_bond.txt&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Add-the-force-field">
+<h2>Add the force field<a class="headerlink" href="#Add-the-force-field" title="Permalink to this headline">¶</a></h2>
+<p>Different from the sphere nucleus situation, we used a csv file to log all the flags of interactions between chromosomes and chromosomes, or chromosomes and nuclear landmarks.</p>
+<p>The column from “bond” to “lam_squeeze” is boolen, which means the switches of the corresponding interactions. For example, if the spec-chrom is True, it means in the simulation, the interaction between speckle and chromosome will be present; if the inter is False, it means we exclude the interchromosomal interactions between chromosome. Remember some potentials require the corresponding parameter files, such as ideal requires ideal_param_file and spec-chrom requires the chr_spec_param, so if
+you turn those potentials on, you should also include the corresponding parameter files.</p>
+<p>In this example, we turn every interaction on, and set the strength of force squeezing the nucleus as 1.0 (k) when loading the customized force field. The users can set their specific strengths.</p>
+<p>Because during the simulations, we would transit the dP speckle and P speckle particles, here, we logged the start index and end index of speckle particle, and computed the number of speckle particles.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add the default force field</span>
+<span class="c1"># Add the customized force field</span>
+<span class="c1"># In this customized setting, I logged all the flags for different interactions</span>
+<span class="c1"># (True means on, False means off, and NaN means N/A)</span>
+<span class="c1"># and all the corresponding files required for interactions.</span>
+<span class="n">force_field</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;input.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">load_customized_settings</span><span class="p">(</span><span class="n">force_field</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">)</span>
+
+<span class="n">index_spec_spec_potential</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">start_spec_index</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">N_chr_nuc</span><span class="o">+</span><span class="mi">1</span>
+<span class="n">end_spec_index</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">N_chr_nuc_spec</span><span class="o">+</span><span class="mi">1</span>
+<span class="n">N_spec</span> <span class="o">=</span> <span class="n">end_spec_index</span><span class="o">-</span><span class="n">start_spec_index</span>
+
+<span class="n">force_field</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>bond</th>
+      <th>angle</th>
+      <th>softcore</th>
+      <th>ideal</th>
+      <th>compt</th>
+      <th>inter</th>
+      <th>spec-spec</th>
+      <th>spec-chrom</th>
+      <th>nuc-nuc</th>
+      <th>nuc-spec</th>
+      <th>...</th>
+      <th>lam-chrom</th>
+      <th>hard-wall</th>
+      <th>lam-lam</th>
+      <th>lam_squeeze</th>
+      <th>ideal_param_file</th>
+      <th>compt_param_file</th>
+      <th>interchr_param_file</th>
+      <th>chr_spec_param</th>
+      <th>chr_nuc_param</th>
+      <th>chr_lam_param</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>chromosome</th>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>ideal_param_file.txt</td>
+      <td>compt_param_file.txt</td>
+      <td>interchr_param_file.txt</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>speckle</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>True</td>
+      <td>True</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>chr_spec_param.txt</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>nucleolus</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>True</td>
+      <td>True</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>chr_nuc_param.txt</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>lamina</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>chr_lam_param.txt</td>
+    </tr>
+  </tbody>
+</table>
+<p>4 rows × 21 columns</p>
+</div></div>
+</div>
+</div>
+<div class="section" id="Perform-the-simulation">
+<h2>Perform the simulation<a class="headerlink" href="#Perform-the-simulation" title="Permalink to this headline">¶</a></h2>
+<p>We first created the simulation with a specific Platform, and here, we used “CUDA” but users can also use “CPU”, “Reference”, and “OpenCL” according to their hardware. Before the simulation, we minimized the energy to make the system much more reasonable and stable. After randomly setting velocity, we started our simulation with a total length of 100,000 steps and output the configuration and energy every 2000 steps, and change the speckle types every 4000 steps as we mentioned in the previous
+blocks.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#model.save_system(&quot;model_before_simulation_0.xml&quot;)</span>
+
+<span class="n">simulation</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">create_simulation</span><span class="p">(</span><span class="n">platform_type</span> <span class="o">=</span> <span class="s2">&quot;CUDA&quot;</span><span class="p">)</span> <span class="c1"># Users can also use CPU, Reference, OpenCL.</span>
+<span class="n">simulation</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">setPositions</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">chr_positions</span><span class="p">)</span>
+
+<span class="n">simulation</span><span class="o">.</span><span class="n">minimizeEnergy</span><span class="p">()</span>
+
+<span class="n">simulation</span><span class="o">.</span><span class="n">reporters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mdtraj</span><span class="o">.</span><span class="n">reporters</span><span class="o">.</span><span class="n">DCDReporter</span><span class="p">(</span><span class="s1">&#39;step_100000.dcd&#39;</span><span class="p">,</span> <span class="n">sampling_freq</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">setVelocity</span><span class="p">(</span><span class="n">context</span><span class="p">):</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">1.0</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">kilojoule_per_mole</span> <span class="o">/</span> <span class="n">model</span><span class="o">.</span><span class="n">chr_system</span><span class="o">.</span><span class="n">getParticleMass</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">velocs</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">Quantity</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">chr_system</span><span class="o">.</span><span class="n">getNumParticles</span><span class="p">(),</span> <span class="mi">3</span><span class="p">)),</span>
+                        <span class="n">u</span><span class="o">.</span><span class="n">meter</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">sigma</span> <span class="o">/</span> <span class="n">u</span><span class="o">.</span><span class="n">meter</span><span class="p">)</span>
+    <span class="n">context</span><span class="o">.</span><span class="n">setVelocities</span><span class="p">(</span><span class="n">velocs</span><span class="p">)</span>
+<span class="n">setVelocity</span><span class="p">(</span><span class="n">simulation</span><span class="o">.</span><span class="n">context</span><span class="p">)</span>
+
+<span class="n">simulation</span><span class="o">.</span><span class="n">reporters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mmapp</span><span class="o">.</span><span class="n">statedatareporter</span><span class="o">.</span><span class="n">StateDataReporter</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span> <span class="n">sampling_freq</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">potentialEnergy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kineticEnergy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">temperature</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">progress</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">remainingTime</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">totalSteps</span> <span class="o">=</span> <span class="n">total_steps</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">total_steps</span><span class="o">//</span><span class="n">transition_freq</span><span class="p">):</span>
+    <span class="n">simulation</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">transition_freq</span><span class="p">)</span>
+    <span class="c1"># Change the type of speckles every 4000 steps, non-equilibrium scheme.</span>
+
+    <span class="c1"># Do the chemical modification, and change the spec-spec potential on the fly.</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">start_spec_index</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">end_spec_index</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">N_spec</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">compart_type</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="n">dP_type</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">model</span><span class="o">.</span><span class="n">compart_type</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">P_type</span><span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">prob_dP_P</span> <span class="k">else</span> <span class="n">dP_type</span><span class="o">-</span><span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">model</span><span class="o">.</span><span class="n">compart_type</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">dP_type</span><span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">prob_P_dP</span> <span class="k">else</span> <span class="n">P_type</span><span class="o">-</span><span class="mi">1</span>
+
+    <span class="c1"># Update the context after changing the type of speckles.</span>
+    <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">chr_system</span><span class="o">.</span><span class="n">getNumParticles</span><span class="p">()):</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">chr_system</span><span class="o">.</span><span class="n">getForce</span><span class="p">(</span><span class="n">index_spec_spec_potential</span><span class="p">)</span><span class="o">.</span><span class="n">setParticleParameters</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="p">[</span><span class="n">model</span><span class="o">.</span><span class="n">compart_type</span><span class="p">[</span><span class="n">m</span><span class="p">]])</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">chr_system</span><span class="o">.</span><span class="n">getForce</span><span class="p">(</span><span class="n">index_spec_spec_potential</span><span class="p">)</span><span class="o">.</span><span class="n">updateParametersInContext</span><span class="p">(</span><span class="n">simulation</span><span class="o">.</span><span class="n">context</span><span class="p">)</span>
+
+<span class="c1"># Keep the final result of spec types in case constructing the configuration for the continuous simulation.</span>
+<span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="s1">&#39;compt_final_frame.txt&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">compart_type</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)),</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+#&#34;Progress (%)&#34; &#34;Step&#34;  &#34;Potential Energy (kJ/mole)&#34;    &#34;Kinetic Energy (kJ/mole)&#34;      &#34;Temperature (K)&#34;       &#34;Time Remaining&#34;
+2.0%    2000    117616.47977582889      99839.74559860234       113.48285494230906      --
+4.0%    4000    134255.17869981972      98505.69644786902       111.96650786679427      9:10
+6.0%    6000    139626.5962219246       103363.05068186947      117.48761995132067      8:43
+8.0%    8000    138422.31900849155      106160.78815787584      120.66766848061837      8:26
+10.0%   10000   136876.3147479449       107124.04389536048      121.76255319285312      8:17
+12.0%   12000   135761.08125620737      106116.78953242837      120.61765743943052      8:07
+14.0%   14000   134950.05574804617      106592.04317908129      121.15785453549233      7:57
+16.0%   16000   135071.53483395698      105517.58794190043      119.93657490289775      7:46
+18.0%   18000   135336.79790046596      106493.16693579014      121.04546684552605      7:35
+20.0%   20000   135073.43377513258      106480.33326483476      121.03087945239244      7:24
+22.0%   22000   135995.87157752056      105568.72676501282      119.99470185034126      7:13
+24.0%   24000   134968.8553694152       106715.20231363198      121.29784337578074      7:02
+26.0%   26000   135548.8257316695       106233.87931914399      120.75074755500931      6:51
+28.0%   28000   135416.7301567195       105590.1363613937       120.01903706980619      6:39
+30.0%   30000   135459.97742399783      105556.62345403162      119.98094462093162      6:29
+32.0%   32000   135326.39527055767      105793.90759403387      120.25065365793424      6:17
+34.0%   34000   136114.85256771866      105887.10068992445      120.35658159794617      6:06
+36.0%   36000   135306.9146546221       105786.12578840624      120.24180846793564      5:55
+38.0%   38000   135822.1983962797       105544.54865488072      119.96721979949619      5:44
+40.0%   40000   135455.5810930714       105727.8793586577       120.17560265883196      5:33
+42.0%   42000   135513.74105806244      105275.94593041574      119.66191249092071      5:22
+44.0%   44000   135419.66422712884      105172.18501463122      119.54397263756816      5:11
+46.0%   46000   135666.6534070136       105767.22453918935      120.22032436147836      5:00
+48.0%   48000   135355.88947474648      105933.83831788144      120.40970592655889      4:48
+50.0%   50000   135932.10797529516      105438.66849259501      119.84687110443595      4:37
+52.0%   52000   136024.55835441878      105476.07532527938      119.88938958384433      4:26
+54.0%   54000   135589.48643476743      105901.41017328986      120.37284647337549      4:15
+56.0%   56000   135474.83120412444      106064.82464540712      120.55859154637793      4:04
+58.0%   58000   135966.78143004136      106200.32839153234      120.71261189041496      3:53
+60.0%   60000   136164.535022414        105912.90855783362      120.3859161131009       3:42
+62.0%   62000   135474.24310149613      105960.72110211673      120.440262245443        3:30
+64.0%   64000   135085.35981679964      105444.23041434481      119.85319306324453      3:19
+66.0%   66000   135320.41595140478      106061.02627608908      120.55427412958412      3:08
+68.0%   68000   135527.48051452375      105471.211801704        119.88386145937741      2:57
+70.0%   70000   135929.29511321377      105992.29374161572      120.47614928869343      2:46
+72.0%   72000   135880.911512187        105841.185666048        120.3043922823284       2:35
+74.0%   74000   136089.02945649484      106144.66086350978      120.64933739016755      2:24
+76.0%   76000   136020.11082802236      106329.84642875202      120.85982857793844      2:13
+78.0%   78000   136375.00752144557      105649.52596317437      120.08654226549302      2:02
+80.0%   80000   136403.72297112842      106524.24101177527      121.08078719651797      1:50
+82.0%   82000   136192.75954015323      105823.38315730357      120.28415705931835      1:39
+84.0%   84000   136176.92228594967      106082.85963821632      120.57909102241906      1:28
+86.0%   86000   135786.46343169894      105842.42926998399      120.30580582484322      1:17
+88.0%   88000   135472.29064079304      105516.81387057203      119.93569505465946      1:06
+90.0%   90000   135941.06197925174      106290.66210817888      120.81528971677695      0:55
+92.0%   92000   136281.15393019054      105655.63187968488      120.09348255599053      0:44
+94.0%   94000   136077.60105442748      106261.07545128607      120.78166004081712      0:33
+96.0%   96000   136144.83389322643      106074.20068039645      120.56924881730993      0:22
+98.0%   98000   136118.38704320946      106559.2246545185       121.12055135688297      0:11
+100.0%  100000  136981.71278016892      106225.44199384481      120.74115726852283      0:00
+</pre></div></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="BrownianSimulation.html" class="btn btn-neutral float-left" title="Sphere Model: Brownian Dynamics" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ConfigsGeneration.html" class="btn btn-neutral float-right" title="Tutorials: Configuration Generation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Zhuohan Lao.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

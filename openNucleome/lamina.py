@@ -61,13 +61,13 @@ class Lamina(object):
         force_group (int, required):
             labels the index of the current force.
 
-        epsilon_hw (float, required) :
+        epsilon_hw (float, required):
             energy units (Default value = 1.0).
 
-        sigma_hw (float, required) :
+        sigma_hw (float, required):
             distance units (Default value = 0.75).
 
-        cutoff_hw (float, required) :
+        cutoff_hw (float, required):
             The cutoff, distance units (Default value = 0.75*1.12).
         '''
 
@@ -102,19 +102,19 @@ class Lamina(object):
         Parameters
         ----------
 
-        chr_lam_param (string, required) :
+        chr_lam_param (string, required):
             The path to the potential scaling factor txt file.
 
         force_group (int, required):
             labels the index of the current force.
 
-        sigma_tanh_chr_lam (float, required) :
+        sigma_tanh_chr_lam (float, required):
             Distance units (Default value = 4.0).
 
-        rc_tanh_chr_lam (float, required) :
+        rc_tanh_chr_lam (float, required):
             Distance units, where :math:`g(r_{i,j}) = 0.5` (Default value = 0.75).
 
-        cutoff_chr_lam (float, required) :
+        cutoff_chr_lam (float, required):
             The cutoff (Default value = 2.0)
         '''
         chr_lam_energy = ("damid(min(idx_damid1,idx_damid2))*step(max(idx_damid1,idx_damid2)-N_chr_nuc_spec)*(f-0.5*(1.+tanh(sigma_tanh_chr_lam*(rc_tanh_chr_lam-cutoff_chr_lam))))*step(cutoff_chr_lam-r);"
@@ -153,16 +153,16 @@ class Lamina(object):
         Parameters
         ----------
 
-        force_group (int, required) :
+        force_group (int, required):
             labels the index of the current force.
 
-        epsilon_lam (float, required) :
+        epsilon_lam (float, required):
             energy units (Default value = 1.0).
 
-        sigma_lam (float, required) :
+        sigma_lam (float, required):
             Distance units (Default value = 0.5).
 
-        cutoff_lam (float, required) :
+        cutoff_lam (float, required):
             The cutoff (Default value = 0.5*1.12)
         '''
         #load the bead-specific rescaling factors
@@ -196,13 +196,13 @@ class Lamina(object):
         Parameters
         ----------
 
-        force_group (int, required) :
+        force_group (int, required):
             labels the index of the current force.
 
-        k (float, required) :
+        k (float, required):
             energy units (Default value = 1.0).
 
-        R (float, required) :
+        R (float, required):
             perfect sphere nucleus radius (Default value = 13.0)
         '''
         #load the bead-specific rescaling factors
