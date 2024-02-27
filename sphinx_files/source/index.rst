@@ -40,6 +40,7 @@ Other required packages: numpy, pandas, scikit-learn, MDAnalysis, mdtraj.
    Tutorials/ConfigsGeneration
    Tutorials/ConfigsRelaxation
    Tutorials/ConfigsSelection
+   Tutorials/ComputeContactProb
    Tutorials/ChrChrOptimization
    Tutorials/ChrNLOptimization
 

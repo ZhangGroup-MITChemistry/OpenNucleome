@@ -15,8 +15,6 @@ The code below will install **openNucleome** from `PyPI <https://pypi.org/projec
 
     pip install opennucleome
 
-.. note::
-
 The **openNucleome** library uses `OpenMM <http://openmm.org/>`_ API to run the whole nucleus simulations.
 These requirements can be met by installing the OpenMM package from the `conda-forge channel <https://conda-forge.org/>`__:
 
