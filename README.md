@@ -29,7 +29,13 @@ pip install opennucleome
 
 ## Tutorials 
 
-Detailed instructions for performing simulations of a human nucleus can be found at: tutorials/HFF_100KB. We also provide a tutorial for parameter optimization to develop new nucleus models at: tutorials/analysis_code.
+- Simulations with different setup (tutorials/HFF_100KB)
+
+- Contact probabilities computation (tutorials/compute_contact_prob)
+
+- Initial configurations (tutorials/init_config)
+
+- Model optimization (tutorials/optimization)
 
 ## Manual
 
