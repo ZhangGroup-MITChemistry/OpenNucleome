@@ -19,7 +19,7 @@ config_path = os.path.join(father_path, 'parameters', 'HFF_100KB')
 
 class OpenNucleome:
     '''
-    The OpenChrModel class performes the whole nucleus dynamics based on the compartment annotations sequence of chromosomes.
+    The OpenNucleome class performes the whole nucleus dynamics based on the compartment annotations sequence of chromosomes.
 
     The simulations can be performed using customed values for the type-to-type, intra, inter-chromosomal, chromosomes-nucleoli, and chromosomes-speckles parameters.
 

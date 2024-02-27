@@ -1,6 +1,12 @@
 OpenNucleome
 ===================================
 
+WholeNucleus
+-------------------------
+
+.. automodule:: openNucleome.whole_nucleus_model
+    :members:
+
 Chromosome
 -------------------------
 .. automodule:: openNucleome.chromosome
@@ -22,12 +28,6 @@ Lamina
 -------------------------
 
 .. automodule:: openNucleome.lamina
-    :members:
-
-WholeNucleus
--------------------------
-
-.. automodule:: openNucleome.whole_nucleus_model
     :members:
 
 DamID_TSASeq_calculation
