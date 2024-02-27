@@ -28,12 +28,17 @@ This folder provides tutorials for setting up and performing Langevin Dynamics s
 
 The pipeline is as follows:
 
-    1. Obtain the trajectories from Simulation_Langevin.ipynb
+(i) Obtain the trajectories from Simulation_Langevin.ipynb
 
-    2. Convert the trajectory with position in OpenMM default unit to reduced unit
 
-    python coordinate_transformation.py step_100000.dcd
+(ii) Convert the trajectory with position in OpenMM default unit to reduced unit
 
-    3. Create a configuration file with the last frame
+```
+python coordinate_transformation.py step_100000.dcd
+```
 
-    python coordinate_transformation.py reduced_traj.dcd
+(iii) Create a configuration file with the last frame
+
+```
+python coordinate_transformation.py reduced_traj.dcd
+```
