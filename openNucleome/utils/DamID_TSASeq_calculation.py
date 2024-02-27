@@ -16,22 +16,22 @@ def DamID_TSASeq_calculation(traj_data, gLength, maternalIdx, paternalIdx, start
 
     Parameters
     ----------
-    traj_data (string, required) :
+    traj_data (string, required):
         The trajectory file
 
-    gLength (string, required) :
+    gLength (string, required):
         The difference between each two neighboring values in the file represents the length of the chromosome
 
-    maternalIdx (string, required) :
+    maternalIdx (string, required):
         Index of each maternal chromosome
 
-    paternalIdx (string, required) :
+    paternalIdx (string, required):
         Index of each paternal chromosome
 
-    start_frame (int, required) :
+    start_frame (int, required):
         The starting analyzed frame
 
-    end_frame (int, required) :
+    end_frame (int, required):
         The ending analyzed frame
 
     """
