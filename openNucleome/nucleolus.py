@@ -25,6 +25,12 @@ class Nucleolus(object):
         N_type (int, required):
             the number of types in the system.
 
+        N_chr (int, required):
+            the number of chromosome beads in the system.
+
+        N_chr_nuc (int, required):
+            the number of chromosome and nucleolus beads in the system.
+
         bond_list (list, required):
             contains the corresponding atom indexes of all bonds.
 

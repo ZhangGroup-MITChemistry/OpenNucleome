@@ -25,6 +25,9 @@ class Lamina(object):
         N_type (int, required):
             the number of types in the system.
 
+        N_chr_nuc_spec (int, required):
+            the number of chromosome, nucleolus, and the speckle beads in the system.
+
         bond_list (list, required):
             contains the corresponding atom indexes of all bonds.
 
