@@ -9,3 +9,5 @@ This folder provides tutorials for the simulation and analysis with our model.
 - init_configs: Include the configuration generation, configuration relaxation, and configuration selection for the following parameter optimization and analysis.
 
 - optimization: Include the parameter optimization for ideal, compt-compt, inter-chromosomal interactions, and Chromosome-Speckle, Chromosome-Nucleolus interactions.
+
+- new_feature: Tutorials for how to include new features and new beads into the system

@@ -2,7 +2,7 @@
 
 This folder provides tutorials for relaxing the initial configurations from the folder "../configs_generation/init_config_pool"
 
-- ConfigsRelaxation.ipynb: The jupyter notebook showing how to relax the configurations, same as the OpenNucleome/tutorials/HFF_100KB/SphericalNucleus/LangevinDynamics/LangevinSimulation.ipynb. Make sure you put all the force field parameter files in the parameter folder.
+- ConfigsRelaxation.ipynb: The jupyter notebook shows how to relax the configurations, same as the OpenNucleome/tutorials/HFF_100KB/SphericalNucleus/LangevinDynamics/LangevinSimulation.ipynb. Make sure you put all the force field parameter files in the parameter folder.
 
 - parameters: The folder saves all the parameters that the simulation needs
 
