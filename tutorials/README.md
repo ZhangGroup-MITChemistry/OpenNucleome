@@ -1,13 +1,13 @@
 # Tutorials
 
-This folder provides tutorials for the simulation and analysis with our model.
+This folder provides tutorials using Jupyter Notebooks for various functionality supported by the software.
 
-- HFF_100KB: Set up and performing simulations of a human nucleus using existing parameters, with Langevin dynamics or Brownian dynamics, with default setup or customized setup, with nuclear deformation or not.
+- init_configs: Detailed instructions for generating, relaxing, and selecting initial configurations for MD simulations.
 
-- compute_contact_prob: Compute the contact probablities within chromosomes and chromosome-Nuclear landmarks (DamID, TSA-Seq).
+- HFF_100KB: Instructions for setting up and performing MD simulations of a human nucleus using optimized parameters. Two integrators, Langevin dynamics or Brownian dynamics, can be used to simulations. The model also supports deforming the nucleus from a perfect spherical geometry.
 
-- init_configs: Include the configuration generation, configuration relaxation, and configuration selection for the following parameter optimization and analysis.
+- compute_contact_prob: Instructions for computing contact probablities between chromosomes to compare with Hi-C data, and for computing chromosome-nuclear landmarks contact probabilities to compared with Lamin B DamID and SON TSA-Seq.
 
-- optimization: Include the parameter optimization for ideal, compt-compt, inter-chromosomal interactions, and Chromosome-Speckle, Chromosome-Nucleolus interactions.
+- optimization: Instructions for optimizing model parameters.
 
-- new_feature: Tutorials for how to include new features and new beads into the system
+- new_feature: Tutorial for expanding the software to introduce new features and components to the nucleus model. 
