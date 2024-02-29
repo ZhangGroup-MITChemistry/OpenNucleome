@@ -2,12 +2,14 @@
 
 OpenNucleome is an open-source software designed for conducting molecular dynamics (MD) simulations of the human nucleus. This software streamlines the process of setting up whole nucleus simulations through just a few lines of Python scripting. OpenNucleome can unveil intricate, high-resolution structural and dynamic chromosome arrangements at a 100 KB resolution. It empowers researchers to track the kinetics of condensate formation and fusion while also exploring the influence of chemical modifications on condensate stability. Furthermore, it facilitates the examination of nuclear envelope deformation's impact on genome organization. The software's modular architecture enhances its adaptability and extensibility. Leveraging the power of OpenMM, a GPU-accelerated MD engine, OpenNucleome ensures efficient simulations.
 
-<img src="./images/intro_figure.png" width="1000px"><img>
+<p align="center">
+<img src="./images/intro_figure.png" width="500px"><img>
+</p>
 
 ## Citation
 Please cite the following paper if you use opennucleome package: 
 
-    "OpenNucleome for high resolution nuclear structural and dynamical modeling", eLife (in press), doi: 10.1101/2023.10.16.562451
+    "OpenNucleome for high resolution nuclear structural and dynamical modeling", eLife (in press), https://doi.org/10.7554/eLife.93223.1
 
 ## Environment
 
@@ -29,13 +31,13 @@ pip install opennucleome
 
 ## Tutorials 
 
-- Simulations with different setup (tutorials/HFF_100KB)
+- Setting up and Performing Nucleus Simulations (tutorials/HFF_100KB)
 
-- Contact probabilities computation (tutorials/compute_contact_prob)
+- Analyzing Simulation Trajectories and Computing Various Genome Wide Properties (tutorials/compute_contact_prob)
 
-- Initial configurations (tutorials/init_config)
+- Preparing Initial Configurations for Simulations (tutorials/init_config)
 
-- Model optimization (tutorials/optimization)
+- Optimizing Model Parameters (tutorials/optimization)
 
 ## Manual
 
