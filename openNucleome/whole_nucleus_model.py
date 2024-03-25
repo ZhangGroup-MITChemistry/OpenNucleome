@@ -311,7 +311,7 @@ class OpenNucleome:
         self.add_nucleolus_potential(dict_nuc_ff, chr_nuc_param)
         self.add_lamina_potential(dict_lam_ff, chr_lam_param)
 
-    def load_customized_settings(self, force_field, k = 1.0):
+    def load_customized_settings(self, force_field, param_folder, k = 1.0):
         '''
         Load customized force field settings
 
@@ -319,6 +319,10 @@ class OpenNucleome:
         ----------
         force_field (Pandas Dataframe, required):
             Store the flag of all the potentials and the parameter file names
+
+        param_folder (string, required):
+            Save the customized parameters used in the simulations
+
         k (float, required):
             The strength of force squeezing the nucleus (Default: 1.0)
         '''
@@ -328,22 +332,22 @@ class OpenNucleome:
         dict_lam_ff = {'lam-chrom':force_field.loc['lamina']['lam-chrom'], 'hard-wall':force_field.loc['lamina']['hard-wall'], 'lam-lam':self.flag_membrane, 'squeeze_nucleus':self.flag_membrane, 'strength': k}
         ideal_param_file = force_field.loc['chromosome']['ideal_param_file']
         if ideal_param_file:
-            ideal_param_file = os.path.join('.', 'parameters', ideal_param_file)
+            ideal_param_file = os.path.join('.', param_folder, ideal_param_file)
         compt_param_file = force_field.loc['chromosome']['compt_param_file']
         if compt_param_file:
-            compt_param_file = os.path.join('.', 'parameters', compt_param_file)
+            compt_param_file = os.path.join('.', param_folder, compt_param_file)
         interchr_param_file = force_field.loc['chromosome']['interchr_param_file']
         if interchr_param_file:
-            interchr_param_file = os.path.join('.', 'parameters', interchr_param_file)
+            interchr_param_file = os.path.join('.', param_folder, interchr_param_file)
         chr_nuc_param = force_field.loc['nucleolus']['chr_nuc_param']
         if chr_nuc_param:
-            chr_nuc_param = os.path.join('.', 'parameters', chr_nuc_param)
+            chr_nuc_param = os.path.join('.', param_folder, chr_nuc_param)
         chr_spec_param = force_field.loc['speckle']['chr_spec_param']
         if chr_spec_param:
-            chr_spec_param = os.path.join('.', 'parameters', chr_spec_param)
+            chr_spec_param = os.path.join('.', param_folder, chr_spec_param)
         chr_lam_param = force_field.loc['lamina']['chr_lam_param']
         if chr_lam_param:
-            chr_lam_param = os.path.join('.', 'parameters', chr_lam_param)
+            chr_lam_param = os.path.join('.', param_folder, chr_lam_param)
         self.add_chromosome_potential(dict_chrom_ff, ideal_param_file, compt_param_file, interchr_param_file)
         self.add_speckle_potential(dict_spec_ff, chr_spec_param)
         self.add_nucleolus_potential(dict_nuc_ff, chr_nuc_param)

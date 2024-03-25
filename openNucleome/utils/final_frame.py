@@ -39,7 +39,7 @@ def final_frame(traj_data, type_final, output_config, n_chrom = 46, n_nuc = 300,
     """
 
     traj = mda.coordinates.LAMMPS.DCDReader(traj_data)
-    chr_info = np.loadtxt(os.path.join(config_path, 'chromatin_info.txt'))
+    chr_info = np.loadtxt(os.path.join(config_path, 'chromatin_info.txt'), dtype=int)
     X, zero = 'X', 0
     type_final = np.loadtxt(type_final, dtype=int)
     coor = traj.trajectory[-1].positions

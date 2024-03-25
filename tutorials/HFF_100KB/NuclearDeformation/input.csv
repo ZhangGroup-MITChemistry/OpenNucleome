@@ -1,5 +1,0 @@
- bond angle softcore ideal compt inter spec-spec spec-chrom nuc-nuc nuc-spec nuc-chrom lam-chrom hard-wall lam-lam lam_squeeze ideal_param_file compt_param_file interchr_param_file chr_spec_param chr_nuc_param chr_lam_param
-chromosome True True True True True True          ideal_param_file.txt compt_param_file.txt interchr_param_file.txt   
-speckle       True True           chr_spec_param.txt  
-nucleolus         True True True         chr_nuc_param.txt 
-lamina            True True True True      chr_lam_param.txt
