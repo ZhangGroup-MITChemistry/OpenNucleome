@@ -12,6 +12,8 @@ As an example, this folder provides tutorials for including new features into th
 
 Here, we show how to add new features.
 
-1. as
+ 1. Create the configurations with new beads, a comprehensive tutorial is included in the folder "./configs_generation"
 
-2. sag
+ 2. Modify the functions in the script "whole_nucleus_model.py"
+  2.1 ajsodg
+
