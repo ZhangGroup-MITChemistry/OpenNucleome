@@ -12,3 +12,5 @@ This folder includes all the parameter files needed for simulating a human nucle
 
 - types_param.txt: interaction parameters among various compartmental types
 
+- chromatin_info.txt: chromatin bead index (column 1), molecular info (column 2), and type info (column 3)
+

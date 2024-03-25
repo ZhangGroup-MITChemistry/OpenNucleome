@@ -12,4 +12,4 @@
 
 - lamina.py: All the interactions between lamina-other particles, and includes the nucleus deformation force when squeezing the model
 
-- utils: The folder contains two functions for calculating the contact prob between chromosome and nuclear landmarks (Lamina and Speckles), and the contact prob within chromosomes
+- utils: The folder contains functions for calculating the contact probabilities between chromosome and nuclear landmarks (Lamina and Speckles), and the contact probabilities among chromosomes. In addition, it also contains the coordinate transformation from OpenMM default unit to reduced unit, and the creation of the last configuration in one trajectory.
