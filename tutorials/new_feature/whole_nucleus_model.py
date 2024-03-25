@@ -321,12 +321,12 @@ class OpenNucleome:
         dict_new_ff = {'new-new':True}
         dict_lam_ff = {'lam-chrom':True, 'hard-wall':True, 'lam-lam':self.flag_membrane, 'squeeze_nucleus':self.flag_membrane}
 
-        ideal_param_file = os.path.join('.', 'parameters', 'HFF_100KB', "ideal_param_file.txt")
-        compt_param_file = os.path.join('.', 'parameters', 'HFF_100KB', "compt_param_file.txt")
-        interchr_param_file = os.path.join('.', 'parameters', 'HFF_100KB', "interchr_param_file.txt")
-        chr_nuc_param = os.path.join('.', 'parameters', 'HFF_100KB', "chr_nuc_param.txt")
-        chr_spec_param = os.path.join('.', 'parameters', 'HFF_100KB', "chr_spec_param.txt")
-        chr_lam_param = os.path.join('.', 'parameters', 'HFF_100KB', "chr_lam_param.txt")
+        ideal_param_file = os.path.join(config_path, "ideal_param_file.txt")
+        compt_param_file = os.path.join(config_path, "compt_param_file.txt")
+        interchr_param_file = os.path.join(config_path, "interchr_param_file.txt")
+        chr_nuc_param = os.path.join(config_path, "chr_nuc_param.txt")
+        chr_spec_param = os.path.join(config_path, "chr_spec_param.txt")
+        chr_lam_param = os.path.join(config_path, "chr_lam_param.txt")
 
         self.add_chromosome_potential(dict_chrom_ff, ideal_param_file, compt_param_file, interchr_param_file)
         self.add_speckle_potential(dict_spec_ff, chr_spec_param)
