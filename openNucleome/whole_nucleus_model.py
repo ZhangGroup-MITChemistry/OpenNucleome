@@ -88,7 +88,7 @@ class OpenNucleome:
         self.N_total = len(self.chr_positions) #total number of chr beads
         self.compart_type = [] #compartment type information
         self.mol_type = [] #mol type information
-        self.bead_groups = [[] for _ in range(8)] # group the indexes of atoms by their types; if you do not want to add some nuclear landmarks, then use the different value. compartment A: 1, compartment B: 2, regions around the centromeres: 3, centromeres: 4, nucleoli: 5, dP speckles: 6, P speckles: 7, lamina: 8
+        self.bead_groups = [[] for _ in range(self.N_type)] # group the indexes of atoms by their types; if you do not want to add some nuclear landmarks, then use the different value. compartment A: 1, compartment B: 2, regions around the centromeres: 3, centromeres: 4, nucleoli: 5, dP speckles: 6, P speckles: 7, lamina: 8
         self.chr_groups = [[] for _ in range(46)] # represent the 46 chromosomes of human
         prev_res_ID = -1
         self.chr_residues = [] #(start, end) index of the atoms for each residue
