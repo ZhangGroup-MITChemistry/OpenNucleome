@@ -164,7 +164,7 @@ class OpenNucleome:
         '''
         name_to_element = ['ASP', 'GLU', 'HIS', 'LYS', 'ARG', 'ASN', 'GLN', 'PRO', 'CYS']
         self.Elements = []
-        for i in range(9):
+        for i in range(self.N_type):
             if not flag_membrane:
                 m = 1. if i!= self.N_type-1 else 0.
             else:
