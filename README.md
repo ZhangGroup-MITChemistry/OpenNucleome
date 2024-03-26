@@ -19,7 +19,7 @@ We recommend using openmm 7.5.1 together with openNucleome, which can be install
 conda install -c conda-forge openmm=7.5.1
 ```
 
-Other required packages: numpy, pandas, scikit-learn, MDAnalysis, mdtraj.
+Other required packages: numpy, pandas, scipy, scikit-learn, MDAnalysis, mdtraj.
 
 ## Installation
 

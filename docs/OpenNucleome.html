@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>openNucleome &mdash; openNucleome 1.1.3 documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <title>openNucleome &mdash; openNucleome 1.1.9 documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/jupyter-sphinx.css" type="text/css" />
       <link rel="stylesheet" href="_static/thebelab.css" type="text/css" />
@@ -41,7 +41,7 @@
               <img src="_static/website_pic.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1.1.3
+                1.1.9
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -65,7 +65,10 @@
 <li class="toctree-l2"><a class="reference internal" href="#module-openNucleome.nucleolus">openNucleome.nucleolus</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-openNucleome.lamina">openNucleome.lamina</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#opennucleome-utils-damid-tsaseq-calculation">openNucleome.utils.DamID_TSASeq_calculation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#opennucleome-utils-coor-transformation">openNucleome.utils.coor_transformation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#opennucleome-utils-coor-transformation">openNucleome.utils.coor_transformation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#parameters">Parameters</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#opennucleome-utils-final-frame">openNucleome.utils.final_frame</a></li>
 </ul>
 </li>
@@ -252,10 +255,12 @@
 
 <dl class="py method">
 <dt id="openNucleome.whole_nucleus_model.OpenNucleome.load_customized_settings">
-<code class="sig-name descname"><span class="pre">load_customized_settings</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force_field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.whole_nucleus_model.OpenNucleome.load_customized_settings" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">load_customized_settings</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force_field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.whole_nucleus_model.OpenNucleome.load_customized_settings" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load customized force field settings</p>
 <dl class="simple">
 <dt>force_field (Pandas Dataframe, required):</dt><dd><p>Store the flag of all the potentials and the parameter file names</p>
+</dd>
+<dt>param_folder (string, required):</dt><dd><p>Save the customized parameters used in the simulations</p>
 </dd>
 <dt>k (float, required):</dt><dd><p>The strength of force squeezing the nucleus (Default: 1.0)</p>
 </dd>
@@ -684,9 +689,43 @@
 </div>
 <div class="section" id="opennucleome-utils-coor-transformation">
 <h2>openNucleome.utils.coor_transformation<a class="headerlink" href="#opennucleome-utils-coor-transformation" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-openNucleome.utils.coor_transformation"></span><p>The function converts the trajectory with position in OpenMM default unit to reduced unit</p>
+<div class="section" id="parameters">
+<h3>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h3>
+<dl class="simple">
+<dt>traj_data (string, required):</dt><dd><p>The trajectory file from a simulation</p>
+</dd>
+<dt>output_traj (string, required):</dt><dd><p>The trajectory with the reduced units</p>
+</dd>
+</dl>
+</div>
 </div>
 <div class="section" id="opennucleome-utils-final-frame">
 <h2>openNucleome.utils.final_frame<a class="headerlink" href="#opennucleome-utils-final-frame" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-openNucleome.utils.final_frame"></span><dl class="py function">
+<dt id="openNucleome.utils.final_frame.final_frame">
+<code class="sig-name descname"><span class="pre">final_frame</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">traj_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type_final</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_chrom</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">46</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_nuc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">300</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_spec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1600</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nuc_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lam_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openNucleome.utils.final_frame.final_frame" title="Permalink to this definition">¶</a></dt>
+<dd><p>The function extracts the final frame of the previous simulation to restart a new simulation.</p>
+<dl class="simple">
+<dt>traj_data (string, required):</dt><dd><p>The trajectory file from a simulation</p>
+</dd>
+<dt>type_final (string, required):</dt><dd><p>The file contains the type of each bead in the last frame</p>
+</dd>
+<dt>output_config (string, required):</dt><dd><p>The final frame of the trajectory</p>
+</dd>
+<dt>n_chrom (int, required):</dt><dd><p>The number of chromosomes (Default value = 46)</p>
+</dd>
+<dt>n_nuc (int, required):</dt><dd><p>The number of nucleolus (Default value = 300)</p>
+</dd>
+<dt>n_spec (int, required):</dt><dd><p>The number of speckles (Default value = 1600)</p>
+</dd>
+<dt>nuc_type (int, required):</dt><dd><p>The type index of nucleolus (Default value = 5)</p>
+</dd>
+<dt>lam_type (int, required):</dt><dd><p>The type index of lamina (Default value = 8)</p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 </div>
 

@@ -31,4 +31,5 @@ The following are libraries **required** for installing **openNucleome**:
 - `pandas <https://pandas.pydata.org/>`__ (>=1.1.5)
 - `scikit-learn <https://scikit-learn.org/>`__ (>=0.24.2)
 - `MDAnalysis <https://www.mdanalysis.org/>`__ (>=2.0.0)
+- `mdtraj <https://www.mdtraj.org/1.9.8.dev0/index.html>`__ (>=1.9.7)
 - `OpenMM <https://openmm.org/>`__ (>=7.5.1)
