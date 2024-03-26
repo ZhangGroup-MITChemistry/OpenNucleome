@@ -34,3 +34,13 @@ openNucleome.utils.DamID_TSASeq_calculation
 -------------------------
 .. automodule:: openNucleome.utils.DamID_TSASeq_calculation
     :members:
+
+openNucleome.utils.coor_transformation
+-------------------------
+.. automodule:: openNucleome.utils.coor_transformation
+    :members:
+
+openNucleome.utils.final_frame
+-------------------------
+.. automodule:: openNucleome.utils.final_frame
+    :members:
