@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sphere Model: Langevin Dynamics &mdash; openNucleome 1.1.0 documentation</title><link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <title>Sphere Model: Langevin Dynamics &mdash; openNucleome 1.1.3 documentation</title><link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/jupyter-sphinx.css" type="text/css" />
       <link rel="stylesheet" href="../_static/thebelab.css" type="text/css" />
@@ -41,7 +41,7 @@
               <img src="../_static/website_pic.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1.1.0
+                1.1.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -68,10 +68,11 @@
 <li class="toctree-l2"><a class="reference internal" href="#Initialize-the-system">Initialize the system</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#Add-the-force-field">Add the force field</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#Perform-the-simulation">Perform the simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Post-process-the-output-files">Post-process the output files</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="BrownianSimulation.html">Sphere Model: Brownian Dynamics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="NuclearDeformation.html">Ellipsoid Model: Nuclear Deformation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="NuclearDeformation.html">Nuclear Deformation Simulation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ConfigsGeneration.html">Tutorials: Configuration Generation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ConfigsRelaxation.html">Tutorials: Configuration Relaxation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ConfigsSelection.html">Tutorials: Configuration Selection</a></li>
@@ -392,6 +393,7 @@ div.rendered_html tbody tr:hover {
 <span class="kn">import</span> <span class="nn">simtk.unit</span> <span class="k">as</span> <span class="nn">u</span>
 <span class="kn">import</span> <span class="nn">random</span>
 <span class="kn">from</span> <span class="nn">openNucleome</span> <span class="kn">import</span> <span class="n">OpenNucleome</span>
+<span class="kn">from</span> <span class="nn">openNucleome.utils</span> <span class="kn">import</span> <span class="n">coor_transformation</span><span class="p">,</span> <span class="n">final_frame</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 </pre></div>
@@ -429,7 +431,7 @@ div.rendered_html tbody tr:hover {
                                            <span class="c1"># 0.005: timestep (LJ reduced unit);</span>
                                            <span class="c1"># 1.0: mass_scale</span>
 
-<span class="n">PDB_file</span> <span class="o">=</span> <span class="s2">&quot;human.pdb&quot;</span> <span class="c1">#The initial configuration</span>
+<span class="n">PDB_file</span> <span class="o">=</span> <span class="s2">&quot;initial_configs/human_1.pdb&quot;</span>   <span class="c1">#The initial configuration</span>
 
 <span class="c1"># Generate new elements and construct topology as well</span>
 <span class="c1"># flag_membrane: True for including lamina dynamics, False for excluding lamina dynamics;</span>
@@ -452,7 +454,7 @@ div.rendered_html tbody tr:hover {
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add the default force field</span>
 <span class="n">model</span><span class="o">.</span><span class="n">load_default_settings</span><span class="p">()</span>
 
-<span class="n">index_spec_spec_potential</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">index_spec_spec_potential</span> <span class="o">=</span> <span class="mi">6</span> <span class="c1">#The 6-th potential is speckle-speckle interaction in the default settings</span>
 <span class="n">start_spec_index</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">N_chr_nuc</span><span class="o">+</span><span class="mi">1</span>
 <span class="n">end_spec_index</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">N_chr_nuc_spec</span><span class="o">+</span><span class="mi">1</span>
 <span class="n">N_spec</span> <span class="o">=</span> <span class="n">end_spec_index</span><span class="o">-</span><span class="n">start_spec_index</span> <span class="c1">#Currently, the number of speckle is 1600.</span>
@@ -475,7 +477,7 @@ blocks.</p>
 
 <span class="n">simulation</span><span class="o">.</span><span class="n">minimizeEnergy</span><span class="p">()</span>
 
-<span class="n">simulation</span><span class="o">.</span><span class="n">reporters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mdtraj</span><span class="o">.</span><span class="n">reporters</span><span class="o">.</span><span class="n">DCDReporter</span><span class="p">(</span><span class="s1">&#39;step_100000.dcd&#39;</span><span class="p">,</span> <span class="n">sampling_freq</span><span class="p">))</span>
+<span class="n">simulation</span><span class="o">.</span><span class="n">reporters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mdtraj</span><span class="o">.</span><span class="n">reporters</span><span class="o">.</span><span class="n">DCDReporter</span><span class="p">(</span><span class="s1">&#39;results/step_100000.dcd&#39;</span><span class="p">,</span> <span class="n">sampling_freq</span><span class="p">))</span>
 
 <span class="k">def</span> <span class="nf">setVelocity</span><span class="p">(</span><span class="n">context</span><span class="p">):</span>
     <span class="n">sigma</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">1.0</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">kilojoule_per_mole</span> <span class="o">/</span> <span class="n">model</span><span class="o">.</span><span class="n">chr_system</span><span class="o">.</span><span class="n">getParticleMass</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
@@ -505,8 +507,8 @@ blocks.</p>
         <span class="n">model</span><span class="o">.</span><span class="n">chr_system</span><span class="o">.</span><span class="n">getForce</span><span class="p">(</span><span class="n">index_spec_spec_potential</span><span class="p">)</span><span class="o">.</span><span class="n">setParticleParameters</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="p">[</span><span class="n">model</span><span class="o">.</span><span class="n">compart_type</span><span class="p">[</span><span class="n">m</span><span class="p">]])</span>
     <span class="n">model</span><span class="o">.</span><span class="n">chr_system</span><span class="o">.</span><span class="n">getForce</span><span class="p">(</span><span class="n">index_spec_spec_potential</span><span class="p">)</span><span class="o">.</span><span class="n">updateParametersInContext</span><span class="p">(</span><span class="n">simulation</span><span class="o">.</span><span class="n">context</span><span class="p">)</span>
 
-<span class="c1"># Keep the final result of spec types in case constructing the configuration for the continuous simulation.</span>
-<span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="s1">&#39;compt_final_frame.txt&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">compart_type</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)),</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="c1"># Keep the final result of bead types in case constructing the configuration for the continuous simulation.</span>
+<span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="s1">&#39;results/compt_final_frame.txt&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">compart_type</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)),</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -516,57 +518,70 @@ blocks.</p>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 #&#34;Progress (%)&#34; &#34;Step&#34;  &#34;Potential Energy (kJ/mole)&#34;    &#34;Kinetic Energy (kJ/mole)&#34;      &#34;Temperature (K)&#34;       &#34;Time Remaining&#34;
-2.0%    2000    90812.88966909601       85246.95540730048       109.29031250528479      --
-4.0%    4000    96369.73678534562       90346.3031670411        115.82789859938532      12:13
-6.0%    6000    100456.93426599429      91971.57921827828       117.91157333824707      12:03
-8.0%    8000    100732.65725941051      93762.58229807776       120.20771735129706      11:47
-10.0%   10000   101912.06842220479      93909.8137293981        120.39647446365045      11:32
-12.0%   12000   102077.18352433582      93738.24269554764       120.17651291995918      11:16
-14.0%   14000   102507.6206253657       94352.85125386107       120.96446788076173      11:01
-16.0%   16000   102332.01644831526      94149.37679451951       120.70360475501099      10:45
-18.0%   18000   102843.58527859727      94155.95090951695       120.71203305698475      10:30
-20.0%   20000   102449.96785285501      94100.26429501935       120.64064038997716      10:14
-22.0%   22000   102498.62898707755      94249.76141954702       120.83230221977749      9:59
-24.0%   24000   102286.69917441542      94663.78843906405       121.36310290506242      9:44
-26.0%   26000   102116.82094245378      94126.77252159236       120.67462509186221      9:28
-28.0%   28000   102210.38392058914      94198.76316544907       120.76692023515459      9:13
-30.0%   30000   102444.99434194757      94141.08537367637       120.69297479209055      8:58
-32.0%   32000   101369.80611426407      93916.20412206341       120.4046672255865       8:42
-34.0%   34000   101195.19750581686      94443.45457452197       121.0806252869909       8:27
-36.0%   36000   101589.26893676126      94492.53249616487       121.14354532170458      8:11
-38.0%   38000   102490.88557426611      94455.77161551094       121.09641627040367      7:56
-40.0%   40000   101067.57946963378      94323.36750518181       120.92666842984191      7:41
-42.0%   42000   102087.54819468992      94186.89189098265       120.75170074385343      7:25
-44.0%   44000   101700.36719797965      93897.04821874206       120.38010852257698      7:10
-46.0%   46000   102256.0398421788       94219.53863438945       120.79355529187995      6:55
-48.0%   48000   101713.41069433642      94108.60494794801       120.65133347057711      6:39
-50.0%   50000   102673.74136143837      94425.21824506021       121.05724551775103      6:24
-52.0%   52000   101496.46447340891      94186.05071270696       120.75062231663942      6:09
-54.0%   54000   102122.03719513642      94067.71989351085       120.59891704872506      5:53
-56.0%   56000   101874.15041885676      94175.02776744928       120.73649042036016      5:38
-58.0%   58000   102127.79767299132      94232.26292001863       120.8098683806721       5:22
-60.0%   60000   101665.78202671639      93671.68642844183       120.0911848845305       5:07
-62.0%   62000   102164.7500196957       94243.36924920967       120.82410717878842      4:52
-64.0%   64000   102108.3451850054       93802.39389371427       120.25875755217766      4:36
-66.0%   66000   102574.0443947289       93506.06188753103       119.87884700397865      4:21
-68.0%   68000   101935.68749432208      94139.72225866799       120.69122721923549      4:06
-70.0%   70000   102873.96203351908      94061.45967238012       120.59089117237016      3:50
-72.0%   72000   101531.3523515871       93820.48873793057       120.28195593116592      3:35
-74.0%   74000   101920.2988555147       94119.40175443937       120.66517544710123      3:20
-76.0%   76000   101811.67162068147      93781.21118262374       120.23160039326528      3:04
-78.0%   78000   102013.57723869113      94235.08553613431       120.81348709756224      2:49
-80.0%   80000   102159.935065131        93554.08907752317       119.94041995491764      2:33
-82.0%   82000   101843.06801923522      94107.61660213096       120.65006636816047      2:18
-84.0%   84000   101765.51999383801      93592.74445402701       119.98997783247384      2:03
-86.0%   86000   101914.99518852914      94364.38269286383       120.97925168818601      1:47
-88.0%   88000   101836.68350284295      94289.90154824998       120.8837636143691       1:32
-90.0%   90000   102820.19363225954      94048.05181499594       120.57370171479315      1:16
-92.0%   92000   102608.9638866091       94669.78262093036       121.37078770748441      1:01
-94.0%   94000   102848.0309979431       94290.78449166741       120.88489558631525      0:46
-96.0%   96000   102535.834617305        94029.70655149731       120.55018228736988      0:30
-98.0%   98000   102926.54357112164      94282.41808870896       120.87416949305472      0:15
-100.0%  100000  102115.2321858303       93741.18779424898       120.1802886648628       0:00
+2.0%    2000    95731.85929571482       86345.68982083745       110.69893791415754      --
+4.0%    4000    99532.94729061538       91125.1333946349        116.82639289816234      12:18
+6.0%    6000    102489.94966086837      92875.1373802856        119.0699742854793       12:07
+8.0%    8000    101970.62104604443      93946.25490129643       120.44319363439149      11:51
+10.0%   10000   104080.58569641429      93895.10736796792       120.37762026728836      11:36
+12.0%   12000   102469.63879127387      94266.58652759668       120.85387274165592      11:20
+14.0%   14000   103107.25368497109      94476.86194657334       121.12345499409341      11:05
+16.0%   16000   101997.27652061332      93615.4220947793        120.01905155637233      10:49
+18.0%   18000   102695.14047996342      94293.17782819153       120.88796394805793      10:34
+20.0%   20000   102284.79145205846      94000.65665731127       120.51293905682084      10:18
+22.0%   22000   103181.19623978612      94092.67913100094       120.63091587908977      10:03
+24.0%   24000   102471.11959102858      93940.2788685578        120.43553209994224      9:47
+26.0%   26000   102967.84568309924      94193.30678616917       120.75992491908966      9:32
+28.0%   28000   102104.78401933674      94638.44177388668       121.33060737551574      9:16
+30.0%   30000   103145.97248266514      93784.43750129726       120.23573667443081      9:01
+32.0%   32000   102815.6439428291       93162.17754139185       119.43797228328442      8:45
+34.0%   34000   103375.09306618437      94517.692018082 121.17580092543459      8:30
+36.0%   36000   103472.25183194957      93685.96252558767       120.1094874633261       8:15
+38.0%   38000   104177.71982035965      94111.53321030273       120.65508763055053      7:59
+40.0%   40000   102929.15471019791      94273.22366385003       120.86238183962666      7:44
+42.0%   42000   103807.91912237357      93392.1141090396        119.73276098529199      7:28
+44.0%   44000   102317.0566719379       93764.79770755101       120.2105576028052       7:13
+46.0%   46000   103016.71835973949      93875.29215481882       120.35221630034223      6:57
+48.0%   48000   102693.02057004237      94267.37592089028       120.85488477826573      6:42
+50.0%   50000   104012.35688091657      94484.31101151256       121.13300502002912      6:26
+52.0%   52000   102642.30455152449      95044.68483915059       121.85142869216766      6:11
+54.0%   54000   103806.89709221238      94755.90310995904       121.48119792816715      5:55
+56.0%   56000   103170.73528723426      94183.26523600474       120.74705121409615      5:40
+58.0%   58000   103770.68482632717      94051.89853501321       120.57863337752292      5:24
+60.0%   60000   102732.78325580872      93822.51084952969       120.2845483663741       5:09
+62.0%   62000   103234.22757751837      93808.19539673388       120.26619533191987      4:53
+64.0%   64000   102881.23494367936      93540.57531709578       119.92309472502322      4:38
+66.0%   66000   102959.45930786872      94174.98848670874       120.73644006073863      4:23
+68.0%   68000   102207.69833765701      94185.86471289878       120.75038385677814      4:07
+70.0%   70000   103380.66204900964      94032.35585227858       120.55357880644698      3:52
+72.0%   72000   102557.51791599748      94209.38874932617       120.78054269682411      3:36
+74.0%   74000   103333.50519057558      93847.19960158567       120.31620042262259      3:21
+76.0%   76000   102915.37827298888      93417.95780964197       119.76589373591789      3:05
+78.0%   78000   103285.69125801143      93846.46844148931       120.31526304350987      2:50
+80.0%   80000   102317.42949138349      93657.30623426713       120.07274884880665      2:34
+82.0%   82000   103100.49753877813      93921.214984692 120.41109136988563      2:19
+84.0%   84000   102898.78388727782      93804.70340561948       120.26171844710522      2:03
+86.0%   86000   103186.26768478611      94014.1095649399        120.53018627077486      1:48
+88.0%   88000   102891.62793189581      94033.03357096677       120.55444767134507      1:32
+90.0%   90000   103181.6413625974       93624.9302086184        120.0312413727458       1:17
+92.0%   92000   102430.7777392424       94168.32895799648       120.72790225465954      1:01
+94.0%   94000   103673.4257128592       93934.5022553975        120.42812623008454      0:46
+96.0%   96000   102454.2311218296       94226.1241681962        120.80199823326495      0:30
+98.0%   98000   103528.39761667955      93969.1743303926        120.47257734148573      0:15
+100.0%  100000  102507.23206314092      94393.40130067056       121.0164548082331       0:00
 </pre></div></div>
+</div>
+</div>
+<div class="section" id="Post-process-the-output-files">
+<h2>Post-process the output files<a class="headerlink" href="#Post-process-the-output-files" title="Permalink to this headline">¶</a></h2>
+<p>We converted the trajectory with the default OpenMM unit to the nex trajectory with the reduced unit, and saved the final configuration according to the last frame.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">coor_transformation</span><span class="p">(</span><span class="s1">&#39;results/step_100000.dcd&#39;</span><span class="p">,</span> <span class="s1">&#39;results/reduced_traj.dcd&#39;</span><span class="p">)</span>
+<span class="n">final_frame</span><span class="p">(</span><span class="s1">&#39;results/step_100000.dcd&#39;</span><span class="p">,</span> <span class="s1">&#39;results/compt_final_frame.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;results/final_config.pdb&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
 </div>
 </div>
 </div>

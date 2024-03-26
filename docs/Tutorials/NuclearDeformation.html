@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ellipsoid Model: Nuclear Deformation &mdash; openNucleome 1.1.0 documentation</title><link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <title>Nuclear Deformation Simulation &mdash; openNucleome 1.1.3 documentation</title><link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/jupyter-sphinx.css" type="text/css" />
       <link rel="stylesheet" href="../_static/thebelab.css" type="text/css" />
@@ -41,7 +41,7 @@
               <img src="../_static/website_pic.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1.1.0
+                1.1.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -64,12 +64,13 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="LangevinSimulation.html">Sphere Model: Langevin Dynamics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="BrownianSimulation.html">Sphere Model: Brownian Dynamics</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Ellipsoid Model: Nuclear Deformation</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Nuclear Deformation Simulation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#Import-the-necessary-packages">Import the necessary packages</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#Important-parameters">Important parameters</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#Initialize-the-system">Initialize the system</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#Add-the-force-field">Add the force field</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#Perform-the-simulation">Perform the simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Post-process-the-output-files">Post-process the output files</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="ConfigsGeneration.html">Tutorials: Configuration Generation</a></li>
@@ -94,7 +95,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Ellipsoid Model: Nuclear Deformation</li>
+      <li class="breadcrumb-item active">Nuclear Deformation Simulation</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/Tutorials/NuclearDeformation.ipynb.txt" rel="nofollow"> View page source</a>
       </li>
@@ -374,8 +375,8 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<div class="section" id="Ellipsoid-Model:-Nuclear-Deformation">
-<h1>Ellipsoid Model: Nuclear Deformation<a class="headerlink" href="#Ellipsoid-Model:-Nuclear-Deformation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="Nuclear-Deformation-Simulation">
+<h1>Nuclear Deformation Simulation<a class="headerlink" href="#Nuclear-Deformation-Simulation" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="Import-the-necessary-packages">
 <h2>Import the necessary packages<a class="headerlink" href="#Import-the-necessary-packages" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
@@ -392,6 +393,7 @@ div.rendered_html tbody tr:hover {
 <span class="kn">import</span> <span class="nn">simtk.unit</span> <span class="k">as</span> <span class="nn">u</span>
 <span class="kn">import</span> <span class="nn">random</span>
 <span class="kn">from</span> <span class="nn">openNucleome</span> <span class="kn">import</span> <span class="n">OpenNucleome</span>
+<span class="kn">from</span> <span class="nn">openNucleome.utils</span> <span class="kn">import</span> <span class="n">coor_transformation</span><span class="p">,</span> <span class="n">final_frame</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -430,14 +432,14 @@ div.rendered_html tbody tr:hover {
                                            <span class="c1"># 0.005: timestep (LJ reduced unit);</span>
                                            <span class="c1"># 1.0: mass_scale</span>
 
-<span class="n">PDB_file</span> <span class="o">=</span> <span class="s2">&quot;human.pdb&quot;</span> <span class="c1">#The initial configuration</span>
+<span class="n">PDB_file</span> <span class="o">=</span> <span class="s2">&quot;strength_one/human.pdb&quot;</span> <span class="c1">#The initial configuration</span>
 
 <span class="c1"># Generate new elements and construct topology as well</span>
 <span class="c1"># flag_membrane: True for including lamina dynamics, False for excluding lamina dynamics;</span>
 <span class="c1"># lam_bond: A file contains the lamina bond when membrane_dynamics is on.</span>
 
 <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
-<span class="n">model</span><span class="o">.</span><span class="n">create_system</span><span class="p">(</span><span class="n">PDB_file</span><span class="p">,</span> <span class="n">flag_membrane</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">lam_bond</span> <span class="o">=</span> <span class="s1">&#39;lamina_bond.txt&#39;</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">create_system</span><span class="p">(</span><span class="n">PDB_file</span><span class="p">,</span> <span class="n">flag_membrane</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">lam_bond</span> <span class="o">=</span> <span class="s1">&#39;input_params/lamina_bond.txt&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -458,10 +460,10 @@ you turn those potentials on, you should also include the corresponding paramete
 <span class="c1"># In this customized setting, I logged all the flags for different interactions</span>
 <span class="c1"># (True means on, False means off, and NaN means N/A)</span>
 <span class="c1"># and all the corresponding files required for interactions.</span>
-<span class="n">force_field</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;input.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">model</span><span class="o">.</span><span class="n">load_customized_settings</span><span class="p">(</span><span class="n">force_field</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="n">force_field</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;input_params/input.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">load_customized_settings</span><span class="p">(</span><span class="n">force_field</span><span class="p">,</span> <span class="s1">&#39;input_params&#39;</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">)</span>
 
-<span class="n">index_spec_spec_potential</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">index_spec_spec_potential</span> <span class="o">=</span> <span class="mi">6</span> <span class="c1">#The 6-th potential is speckle-speckle interaction in the default settings</span>
 <span class="n">start_spec_index</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">N_chr_nuc</span><span class="o">+</span><span class="mi">1</span>
 <span class="n">end_spec_index</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">N_chr_nuc_spec</span><span class="o">+</span><span class="mi">1</span>
 <span class="n">N_spec</span> <span class="o">=</span> <span class="n">end_spec_index</span><span class="o">-</span><span class="n">start_spec_index</span>
@@ -634,7 +636,7 @@ blocks.</p>
 
 <span class="n">simulation</span><span class="o">.</span><span class="n">minimizeEnergy</span><span class="p">()</span>
 
-<span class="n">simulation</span><span class="o">.</span><span class="n">reporters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mdtraj</span><span class="o">.</span><span class="n">reporters</span><span class="o">.</span><span class="n">DCDReporter</span><span class="p">(</span><span class="s1">&#39;step_100000.dcd&#39;</span><span class="p">,</span> <span class="n">sampling_freq</span><span class="p">))</span>
+<span class="n">simulation</span><span class="o">.</span><span class="n">reporters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mdtraj</span><span class="o">.</span><span class="n">reporters</span><span class="o">.</span><span class="n">DCDReporter</span><span class="p">(</span><span class="s1">&#39;results/step_100000.dcd&#39;</span><span class="p">,</span> <span class="n">sampling_freq</span><span class="p">))</span>
 
 <span class="k">def</span> <span class="nf">setVelocity</span><span class="p">(</span><span class="n">context</span><span class="p">):</span>
     <span class="n">sigma</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">1.0</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">kilojoule_per_mole</span> <span class="o">/</span> <span class="n">model</span><span class="o">.</span><span class="n">chr_system</span><span class="o">.</span><span class="n">getParticleMass</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
@@ -664,8 +666,8 @@ blocks.</p>
         <span class="n">model</span><span class="o">.</span><span class="n">chr_system</span><span class="o">.</span><span class="n">getForce</span><span class="p">(</span><span class="n">index_spec_spec_potential</span><span class="p">)</span><span class="o">.</span><span class="n">setParticleParameters</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="p">[</span><span class="n">model</span><span class="o">.</span><span class="n">compart_type</span><span class="p">[</span><span class="n">m</span><span class="p">]])</span>
     <span class="n">model</span><span class="o">.</span><span class="n">chr_system</span><span class="o">.</span><span class="n">getForce</span><span class="p">(</span><span class="n">index_spec_spec_potential</span><span class="p">)</span><span class="o">.</span><span class="n">updateParametersInContext</span><span class="p">(</span><span class="n">simulation</span><span class="o">.</span><span class="n">context</span><span class="p">)</span>
 
-<span class="c1"># Keep the final result of spec types in case constructing the configuration for the continuous simulation.</span>
-<span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="s1">&#39;compt_final_frame.txt&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">compart_type</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)),</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="c1"># Keep the final result of bead types in case constructing the configuration for the continuous simulation.</span>
+<span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="s1">&#39;results/compt_final_frame.txt&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">compart_type</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)),</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -675,57 +677,70 @@ blocks.</p>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 #&#34;Progress (%)&#34; &#34;Step&#34;  &#34;Potential Energy (kJ/mole)&#34;    &#34;Kinetic Energy (kJ/mole)&#34;      &#34;Temperature (K)&#34;       &#34;Time Remaining&#34;
-2.0%    2000    117616.47977582889      99839.74559860234       113.48285494230906      --
-4.0%    4000    134255.17869981972      98505.69644786902       111.96650786679427      9:10
-6.0%    6000    139626.5962219246       103363.05068186947      117.48761995132067      8:43
-8.0%    8000    138422.31900849155      106160.78815787584      120.66766848061837      8:26
-10.0%   10000   136876.3147479449       107124.04389536048      121.76255319285312      8:17
-12.0%   12000   135761.08125620737      106116.78953242837      120.61765743943052      8:07
-14.0%   14000   134950.05574804617      106592.04317908129      121.15785453549233      7:57
-16.0%   16000   135071.53483395698      105517.58794190043      119.93657490289775      7:46
-18.0%   18000   135336.79790046596      106493.16693579014      121.04546684552605      7:35
-20.0%   20000   135073.43377513258      106480.33326483476      121.03087945239244      7:24
-22.0%   22000   135995.87157752056      105568.72676501282      119.99470185034126      7:13
-24.0%   24000   134968.8553694152       106715.20231363198      121.29784337578074      7:02
-26.0%   26000   135548.8257316695       106233.87931914399      120.75074755500931      6:51
-28.0%   28000   135416.7301567195       105590.1363613937       120.01903706980619      6:39
-30.0%   30000   135459.97742399783      105556.62345403162      119.98094462093162      6:29
-32.0%   32000   135326.39527055767      105793.90759403387      120.25065365793424      6:17
-34.0%   34000   136114.85256771866      105887.10068992445      120.35658159794617      6:06
-36.0%   36000   135306.9146546221       105786.12578840624      120.24180846793564      5:55
-38.0%   38000   135822.1983962797       105544.54865488072      119.96721979949619      5:44
-40.0%   40000   135455.5810930714       105727.8793586577       120.17560265883196      5:33
-42.0%   42000   135513.74105806244      105275.94593041574      119.66191249092071      5:22
-44.0%   44000   135419.66422712884      105172.18501463122      119.54397263756816      5:11
-46.0%   46000   135666.6534070136       105767.22453918935      120.22032436147836      5:00
-48.0%   48000   135355.88947474648      105933.83831788144      120.40970592655889      4:48
-50.0%   50000   135932.10797529516      105438.66849259501      119.84687110443595      4:37
-52.0%   52000   136024.55835441878      105476.07532527938      119.88938958384433      4:26
-54.0%   54000   135589.48643476743      105901.41017328986      120.37284647337549      4:15
-56.0%   56000   135474.83120412444      106064.82464540712      120.55859154637793      4:04
-58.0%   58000   135966.78143004136      106200.32839153234      120.71261189041496      3:53
-60.0%   60000   136164.535022414        105912.90855783362      120.3859161131009       3:42
-62.0%   62000   135474.24310149613      105960.72110211673      120.440262245443        3:30
-64.0%   64000   135085.35981679964      105444.23041434481      119.85319306324453      3:19
-66.0%   66000   135320.41595140478      106061.02627608908      120.55427412958412      3:08
-68.0%   68000   135527.48051452375      105471.211801704        119.88386145937741      2:57
-70.0%   70000   135929.29511321377      105992.29374161572      120.47614928869343      2:46
-72.0%   72000   135880.911512187        105841.185666048        120.3043922823284       2:35
-74.0%   74000   136089.02945649484      106144.66086350978      120.64933739016755      2:24
-76.0%   76000   136020.11082802236      106329.84642875202      120.85982857793844      2:13
-78.0%   78000   136375.00752144557      105649.52596317437      120.08654226549302      2:02
-80.0%   80000   136403.72297112842      106524.24101177527      121.08078719651797      1:50
-82.0%   82000   136192.75954015323      105823.38315730357      120.28415705931835      1:39
-84.0%   84000   136176.92228594967      106082.85963821632      120.57909102241906      1:28
-86.0%   86000   135786.46343169894      105842.42926998399      120.30580582484322      1:17
-88.0%   88000   135472.29064079304      105516.81387057203      119.93569505465946      1:06
-90.0%   90000   135941.06197925174      106290.66210817888      120.81528971677695      0:55
-92.0%   92000   136281.15393019054      105655.63187968488      120.09348255599053      0:44
-94.0%   94000   136077.60105442748      106261.07545128607      120.78166004081712      0:33
-96.0%   96000   136144.83389322643      106074.20068039645      120.56924881730993      0:22
-98.0%   98000   136118.38704320946      106559.2246545185       121.12055135688297      0:11
-100.0%  100000  136981.71278016892      106225.44199384481      120.74115726852283      0:00
+2.0%    2000    123136.44445905171      100752.69234185581      114.52055593216552      --
+4.0%    4000    138145.93252829043      99854.70038122084       113.4998532971868       9:06
+6.0%    6000    142575.6182367836       104465.90880812544      118.741183730089        8:38
+8.0%    8000    141094.42452352808      107327.50563145665      121.99381799170929      8:21
+10.0%   10000   139697.16552712512      107342.47070395519      122.01082804258003      8:13
+12.0%   12000   137654.04464475974      106994.70033531352      121.61553482482218      8:03
+14.0%   14000   138386.55393252496      105782.62134612219      120.2378251433289       7:53
+16.0%   16000   137409.19082230702      106199.98460544148      120.71222112592687      7:42
+18.0%   18000   138944.10917304258      106093.39691125305      120.59106821467195      7:32
+20.0%   20000   137593.22835381792      106262.0393691768       120.78275567816587      7:21
+22.0%   22000   138695.92867257126      105989.21260070454      120.47264710962654      7:10
+24.0%   24000   138082.96422167047      105636.71725733916      120.07198324896527      6:59
+26.0%   26000   138577.68014618923      105942.89960543014      120.42000543978695      6:48
+28.0%   28000   138547.97569732778      105614.2894846135       120.04649071927538      6:37
+30.0%   30000   139048.79707005448      105953.13915726854      120.43164422721559      6:26
+32.0%   32000   139369.4478256774       106096.93739319986      120.5950925037643       6:15
+34.0%   34000   139349.70734011347      105551.45826302844      119.9750736061584       6:04
+36.0%   36000   138652.69678783504      106307.39016938012      120.83430366889978      5:53
+38.0%   38000   138994.0196299976       105924.91785091767      120.39956647706012      5:42
+40.0%   40000   138711.95389602106      106045.77361075555      120.53693718629414      5:31
+42.0%   42000   139755.55680584465      106157.32762501454      120.66373506566056      5:20
+44.0%   44000   139418.1188406263       105861.9173488944       120.32795695131931      5:09
+46.0%   46000   139318.77307771594      106084.84309645879      120.58134552039144      4:58
+48.0%   48000   139156.1582248191       106000.44885852029      120.48541880298527      4:47
+50.0%   50000   139394.24871664512      106154.93144347834      120.66101144572286      4:36
+52.0%   52000   138976.02488041663      105917.33440921981      120.39094675743841      4:24
+54.0%   54000   139636.7751483859       105824.53815483821      120.2854698873599       4:13
+56.0%   56000   139109.49119912702      105962.1255783129       120.44185864342542      4:02
+58.0%   58000   139591.83060822415      105548.44699685683      119.9716508502199       3:51
+60.0%   60000   139158.00653002597      105773.10164969457      120.22700457961139      3:40
+62.0%   62000   139141.23690284294      106340.19938493858      120.87159626642863      3:29
+64.0%   64000   138657.07116640714      106162.69666414094      120.66983778441957      3:18
+66.0%   66000   138872.56066384647      105709.55038510424      120.154769029554        3:07
+68.0%   68000   139552.46901895298      106237.45014421445      120.75480633361563      2:56
+70.0%   70000   140314.6318439555       105998.06802734527      120.48271263103683      2:45
+72.0%   72000   139878.4964976344       105824.37540777247      120.28528490089441      2:34
+74.0%   74000   140049.54976571468      105978.09999204957      120.46001596209643      2:23
+76.0%   76000   139040.28804717027      105698.80343463195      120.14255350742695      2:12
+78.0%   78000   139441.61604379857      105796.50827126215      120.25360971791694      2:01
+80.0%   80000   139103.81283076043      105733.9975154245       120.1825568622178       1:50
+82.0%   82000   139735.49375639576      105520.89870734174      119.94033808470546      1:39
+84.0%   84000   139625.44875567633      105857.33796241746      120.32275179130842      1:28
+86.0%   86000   139302.36985220472      106414.25964148348      120.95577686304458      1:17
+88.0%   88000   139197.9629622838       105156.448308775        119.52608550957876      1:06
+90.0%   90000   138969.3590577207       105676.13902677708      120.1167920063982       0:55
+92.0%   92000   138261.92996336846      105622.26065619843      120.05555115210468      0:44
+94.0%   94000   138923.98136101887      106060.5908358773       120.55377918643204      0:33
+96.0%   96000   138863.37451388055      105655.18511185612      120.0929747373017       0:22
+98.0%   98000   138649.21396001056      106102.68049923926      120.60162040571038      0:11
+100.0%  100000  138531.91066385998      106315.62779116184      120.84366696236692      0:00
 </pre></div></div>
+</div>
+</div>
+<div class="section" id="Post-process-the-output-files">
+<h2>Post-process the output files<a class="headerlink" href="#Post-process-the-output-files" title="Permalink to this headline">¶</a></h2>
+<p>We converted the trajectory with the default OpenMM unit to the nex trajectory with the reduced unit, and saved the final configuration according to the last frame.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">coor_transformation</span><span class="p">(</span><span class="s1">&#39;results/step_100000.dcd&#39;</span><span class="p">,</span> <span class="s1">&#39;results/reduced_traj.dcd&#39;</span><span class="p">)</span>
+<span class="n">final_frame</span><span class="p">(</span><span class="s1">&#39;results/step_100000.dcd&#39;</span><span class="p">,</span> <span class="s1">&#39;results/compt_final_frame.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;results/final_config.pdb&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
 </div>
 </div>
 </div>
