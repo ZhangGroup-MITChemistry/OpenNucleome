@@ -1,3 +1,3 @@
-__version__ = '1.1.9'
+__version__ = '1.3.0'
 
 from .whole_nucleus_model import OpenNucleome
