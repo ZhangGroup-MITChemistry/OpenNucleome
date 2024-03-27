@@ -15,8 +15,6 @@ The optimization uses an iterative procedure as follows:
 
 - potential: save all the potentials used in chr-chr interactions
 
-- frame_10.dcd: trajectory file example which contains 10 frames
-
 - contact_prob: store all the chromosome-chromosome contact probabilities, the number of contacts, and the number of analyzed frames
 
 - expt_constraints_HFF_100KB.txt: experimental chromosome-chromosome contact probabilities, the first 2489 values are ideal contacts, the next 6 are compt-compt contacts, and the remaining 231 are interchromosomal contacts

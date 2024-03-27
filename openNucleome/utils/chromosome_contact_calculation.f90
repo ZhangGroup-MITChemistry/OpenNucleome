@@ -146,7 +146,7 @@ Program main
     allocate(domain(natom_chr))
     !open(unit=10, file=trim(domainFileName))
     open(unit=10, &
-    file='mol_info/tad_index_genome_100KB_diploid_cell_type-HFF.txt')
+    file='mol_info/haploid_index_cell_type-HFF.txt')
     do ib = 1, natom_chr
         read(10,*) gpos, domain(ib)
     enddo
